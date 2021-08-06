@@ -19,6 +19,39 @@ header.innerHTML = `<div id="header">
 
 </div>`
 
+// Type selection template
+const typeTemplate = (function() {
+    if (typeOptions) {
+        // Create "typesselection" div
+        const typesDiv = document.createElement("div");
+        for (let i=0; i<typeOptions.length; i++) {
+            // Create type input
+            const typesInput = document.createElement("input");
+            typesInput.type = "checkbox";
+            typesInput.id = typeOptions[i][1];
+            typesInput.name = typeOptions[i][1];
+            typesInput.value = typeOptions[i][1];
+
+            // Create type label (for input)
+            const typesLabel = document.createElement("label");
+            typesLabel.for = typeOptions[i][1];
+            typesLabel.innerText = typeOptions[i][0];
+
+            // Add input and label inside of "typesselection" div
+            typesDiv.appendChild(typesInput);
+            typesDiv.appendChild(typesLabel);
+
+
+            // typesDiv.appendChild(`<input type="checkbox" id="${typeOptions[i][1]}" name="${typeOptions[i][1]}" value="${typeOptions[i][1]}">
+            // <label for="${typeOptions[i][1]}">${typeOptions[i][0]}</label>`);
+        }
+        typesDiv.id = "typesselection";
+        return typesDiv;
+    } else {
+        return '';
+    }
+})();
+
 // Define selection options
 const releaseInput = `<input type="radio" id="release" name="order" value="release">
 <label for="release">Release Order</label>`
@@ -31,9 +64,7 @@ const narrativeInput = `<input type="radio" id="narrative" name="order" value="n
 main.innerHTML = `<div id="navbar"></div>
 <div id="selectionbar">
     <div id="types">
-        <h3>Types Desired:</h3>
-        <div id="typeselection">
-        </div>
+        ${typeOptions ? `<h3>Types Desired:</h3>` : ''}
     </div>
     <div id="order">
         <h3>Select Order:</h3>
@@ -64,3 +95,5 @@ main.innerHTML = `<div id="navbar"></div>
 <div id="content"></div>`
 
 const selectionBar = document.getElementById("selectionbar");
+
+document.getElementById("types").appendChild(typeTemplate);
