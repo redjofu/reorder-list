@@ -1,1 +1,1 @@
-Copyrighted. Not currently. available under a shareable license.
+Copyrighted. Not currently available under a shareable license.
