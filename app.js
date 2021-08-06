@@ -1,18 +1,33 @@
+// Build out main template elements
 const head = document.querySelector("head");
 const body = document.querySelector("body");
 const header = document.querySelector("header");
 const main = document.querySelector("main");
 
+// Head template
 head.innerHTML = `<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
 <link href="../app.css" rel="stylesheet" type="text/css">`
 
+// Use custom head details
 const title = document.querySelector("title");
+title.innerText = pageTitle
 
+
+// Header template
 header.innerHTML = `<div id="header">
 
 </div>`
 
+// Define selection options
+const releaseInput = `<input type="radio" id="release" name="order" value="release">
+<label for="release">Release Order</label>`
+const chronologicalInput = `<input type="radio" id="chronological" name="order" value="chronological">
+<label for="chronological">Chronological Order</label>`
+const narrativeInput = `<input type="radio" id="narrative" name="order" value="narrative">
+<label for="narrative">Narrative Order</label>`
+
+// Main template
 main.innerHTML = `<div id="navbar"></div>
 <div id="selectionbar">
     <div id="types">
@@ -23,12 +38,9 @@ main.innerHTML = `<div id="navbar"></div>
     <div id="order">
         <h3>Select Order:</h3>
         <div id="orderselection">
-            <input type="radio" id="release" name="order" value="release">
-            <label for="release">Release Order</label>
-            <input type="radio" id="chronological" name="order" value="chronological">
-            <label for="chronological">Chronological Order</label>
-            <input type="radio" id="narrative" name="order" value="narrative">
-            <label for="narrative">Narrative Order</label>
+            ${orderOptions.release ? releaseInput : ''}
+            ${orderOptions.chronological ? chronologicalInput : ''}
+            ${orderOptions.narrative ? narrativeInput : ''}
         </div>
     </div>
     <div id="spoilers">
