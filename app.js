@@ -34,16 +34,12 @@ const typeTemplate = (function() {
 
             // Create type label (for input)
             const typesLabel = document.createElement("label");
-            typesLabel.for = typeOptions[i][1];
+            typesLabel.setAttribute("for", typeOptions[i][1]);
             typesLabel.innerText = typeOptions[i][0];
 
             // Add input and label inside of "typesselection" div
             typesDiv.appendChild(typesInput);
             typesDiv.appendChild(typesLabel);
-
-
-            // typesDiv.appendChild(`<input type="checkbox" id="${typeOptions[i][1]}" name="${typeOptions[i][1]}" value="${typeOptions[i][1]}">
-            // <label for="${typeOptions[i][1]}">${typeOptions[i][0]}</label>`);
         }
         typesDiv.id = "typesselection";
         return typesDiv;
@@ -63,6 +59,7 @@ const narrativeInput = `<input type="radio" id="narrative" name="order" value="n
 // Main template
 main.innerHTML = `<div id="navbar"></div>
 <div id="selectionbar">
+    <div id="selectionexplanation"><p></p></div>
     <div id="types">
         ${typeOptions ? `<h3>Types Desired:</h3>` : ''}
     </div>
@@ -96,4 +93,32 @@ main.innerHTML = `<div id="navbar"></div>
 
 const selectionBar = document.getElementById("selectionbar");
 
+// Add the type inputs below the "Types Desired" H3.
 document.getElementById("types").appendChild(typeTemplate);
+
+// Fill out missing selectionOptionDescription keys and values.
+if (!selectionOptionDescription.release) {
+    selectionOptionDescription.release = `The order according to each entry's original release date.`
+}
+
+if (!selectionOptionDescription.chronological) {
+    selectionOptionDescription.chronological = `The order according to when the core events for each entry occur within the overarching story.`
+}
+
+if (!selectionOptionDescription.narrative) {
+    selectionOptionDescription.narrative = `The order we feel provides the best narrative structure for ${userType}, especially for those ${progressiveVerb} for the first time.`
+}
+
+// Make selection inputs add descriptive text to explanation paragraph.
+const inputs = document.querySelectorAll("#selectionbar input");
+const selectionParagraph = document.querySelector("#selectionexplanation p")
+
+function addSelectionDescription(){
+    const objectKey = this.value;
+    const objectName = "selectionOptionDescription."
+    selectionParagraph.innerHTML = eval(objectName+objectKey);
+}
+
+for (let i=0; i<inputs.length; i++) {
+    inputs[i].addEventListener("click", addSelectionDescription);
+}
