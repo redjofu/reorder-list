@@ -14,4 +14,9 @@ header.innerHTML = `<div id="header">
 </div>`
 
 main.innerHTML = `<div id="navbar"></div>
+<div id="selectionbar">
+    <h2>Select Order:</h2>
+</div>
 <div id="content"></div>`
+
+const selectionBar = document.getElementById("selectionbar");
