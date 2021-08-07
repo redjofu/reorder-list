@@ -106,7 +106,31 @@ if (!selectionOptionDescription.chronological) {
 }
 
 if (!selectionOptionDescription.narrative) {
-    selectionOptionDescription.narrative = `The order we feel provides the best narrative structure for ${userType}, especially for those ${progressiveVerb} for the first time.`
+    selectionOptionDescription.narrative = `The order I feel provides the best narrative structure for ${userType}, especially for those ${progressiveVerb} for the first time.`
+}
+
+if (!selectionOptionDescription.premisestory) {
+    selectionOptionDescription.premisestory = `Spoilers relating to the pitch of the that entry's story. These include only the sorts of details you might find out from ${blurbVerb}.`
+}
+
+if (!selectionOptionDescription.basicstory) {
+    selectionOptionDescription.basicstory = `Spoilers relating to basic events of the entry's story usually revealed early on. These include the sorts of details a friend might tell you after ${progressiveVerb} themselves.`
+}
+
+if (!selectionOptionDescription.fullstory) {
+    selectionOptionDescription.fullstory = `Spoilers relating to any details from the entry's story, including those typically revealed at the end. These include details typically referred to as "spoilers."`
+}
+
+if (!selectionOptionDescription.premiseseries) {
+    selectionOptionDescription.premiseseries = `Spoilers relating to the pitch of the series as a whole. These include only the sorts of details you might find out from ${blurbVerb} from a later entry in the series but which might not be revealed in that particular entry.`
+}
+
+if (!selectionOptionDescription.basicseries) {
+    selectionOptionDescription.basicseries = `Spoilers relating to basic events of the series. These include the sorts of details a friend might tell you after ${progressiveVerb} a later entry in the series but which might not be revealed in that particular entry.`
+}
+
+if (!selectionOptionDescription.fullseries) {
+    selectionOptionDescription.fullseries = `Spoilers relating to any details from any entry in the series, including those typically revealed at the end. These include details typically referred to as "spoilers" and may be significantly "spoilery" since they may include crucial details from later entries.`
 }
 
 // Make selection inputs add descriptive text to explanation paragraph.

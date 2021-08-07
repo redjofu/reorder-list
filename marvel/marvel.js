@@ -4,6 +4,9 @@ const pageTitle = "Best Order to Watch the Marvel Cinematic Universe";
 const userType = "viewers";
 const progressiveVerb = "watching";
 
+// How to describe how someone might view the media in "tailer" or "blurb" form
+const blurbVerb = "watching a trailer";
+
 const typeOptions = [
     ["Films", "films"],
     ["TV Series", "tvseries"]
