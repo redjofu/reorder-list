@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Fira+Sans:wght@400&display=swap');
+
 :root {
     --header-height: 100px;
     --screen-height: 100vh;
@@ -5,6 +7,16 @@
 
 body {
     margin: 0;
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 18px;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'DM Serif Display', serif;
+}
+
+h3 {
+    font-size: 22px;
 }
 
 #header {
@@ -14,9 +26,10 @@ body {
 }
 
 #navbar, #selectionbar {
-    background-color: purple;
-    width: 300px;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 270px;
     height: calc(var(--screen-height) - var(--header-height));
+    padding: 15px;
 }
 
 #navbar {
@@ -25,4 +38,22 @@ body {
 
 #selectionbar {
     float: right;
+}
+
+#selectionexplanation p {
+    margin: 0;
+    padding: 4px;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#selectionbar input {
+    display: list-item;
+    float: left;
+}
+
+#selectionbar label {
+    display: flex;
+    padding-left: 5px;
+    margin: 10px;
 }

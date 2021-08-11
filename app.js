@@ -59,7 +59,7 @@ const narrativeInput = `<input type="radio" id="narrative" name="order" value="n
 // Main template
 main.innerHTML = `<div id="navbar"></div>
 <div id="selectionbar">
-    <div id="selectionexplanation"><p></p></div>
+    <div id="selectionexplanation"><p>Select an option below for a description to appear here.</p></div>
     <div id="types">
         ${typeOptions ? `<h3>Types Desired:</h3>` : ''}
     </div>
