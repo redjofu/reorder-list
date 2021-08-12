@@ -58,7 +58,7 @@ h3 {
 }
 
 #selectionbar input {
-    display: list-item;
+    display: block;
     float: left;
     -webkit-appearance: none;
     appearance: none;
@@ -66,28 +66,57 @@ h3 {
 
 #selectionbar input[type="checkbox"] {
     position: relative;
-    width: 1em;
-    height: 1em;
-    border: 1px solid gray;
+    width: 1.15em;
+    height: 1.15em;
+    border: 2px solid var(--color-1);
     /* Adjusts the position of the checkboxes on the text baseline */
-    vertical-align: -2px;
+    /* vertical-align: -2px; */
     /* Set here so that Windows' High-Contrast Mode can override */
-    color: green;
+    color: var(--color-1);
 }
 
 #selectionbar input[type="checkbox"]::before {
-    content: "✔";
+    content: "\2714";
     position: absolute;
-    font-size: 1.2em;
-    right: -1px;
-    top: -0.3em;
+    font-size: 1.6em;
+    right: -6px;
+    top: -13px;
     visibility: hidden;
-  }
+}
 
 #selectionbar input[type="checkbox"]:checked::before {
-    /* Use `visibility` instead of `display` to avoid recalculating layout */
     visibility: visible;
-  }
+}
+
+#selectionbar input[type="radio"] {
+    position: relative;
+    width: 1.15em;
+    height: 1.15em;
+    border: 2px solid var(--color-1);
+    border-radius: 8px;
+    /* Adjusts the position of the checkboxes on the text baseline */
+    /* vertical-align: -2px; */
+    /* Set here so that Windows' High-Contrast Mode can override */
+    color: var(--color-1);
+}
+
+#selectionbar input[type="radio"]:checked {
+    background-color: var(--color-1);
+}
+
+/* If a full-filled circle is not desired: */
+/* #selectionbar input[type="radio"]::before {
+    content: "\002B24";
+    position: absolute;
+    font-size: 1.3em;
+    right: -1px;
+    top: -8px;
+    visibility: hidden;
+}
+
+#selectionbar input[type="radio"]:checked::before {
+    visibility: visible;
+} */
 
 #selectionbar label {
     display: flex;
