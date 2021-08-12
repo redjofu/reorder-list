@@ -7,11 +7,18 @@ const main = document.querySelector("main");
 // Head template
 head.innerHTML = `<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
-<link href="../app.css" rel="stylesheet" type="text/css">`
+<link href="../app.css" rel="stylesheet" type="text/css">
+<style id="extracss"></style>`
 
 // Use custom head details
 const title = document.querySelector("title");
 title.innerText = pageTitle
+
+// Find and set correct screen height
+const extraCSS = document.getElementById("extracss");
+extraCSS.textContent = `:root {
+    --screen-height: ${window.innerHeight}px;
+}`
 
 
 // Header template
@@ -60,32 +67,34 @@ const narrativeInput = `<input type="radio" id="narrative" name="order" value="n
 main.innerHTML = `<div id="navbar"></div>
 <div id="selectionbar">
     <div id="selectionexplanation"><p>Select an option below for a description to appear here.</p></div>
-    <div id="types">
-        ${typeOptions ? `<h3>Types Desired:</h3>` : ''}
-    </div>
-    <div id="order">
-        <h3>Select Order:</h3>
-        <div id="orderselection">
-            ${orderOptions.release ? releaseInput : ''}
-            ${orderOptions.chronological ? chronologicalInput : ''}
-            ${orderOptions.narrative ? narrativeInput : ''}
+    <div id="selectionscroll">
+        <div id="types">
+            ${typeOptions ? `<h3>Types Desired:</h3>` : ''}
         </div>
-    </div>
-    <div id="spoilers">
-        <h3>Spoiler Level:</h3>
-        <div id="spoilerselection">
-            <input type="checkbox" id="premisestory" name="premisestory" value="premisestory">
-            <label for="premisestory">Premise Story Level</label>
-            <input type="checkbox" id="basicstory" name="basicstory" value="basicstory">
-            <label for="basicstory">Basic Story Level</label>
-            <input type="checkbox" id="fullstory" name="fullstory" value="fullstory">
-            <label for="fullstory">Full Story Level</label>
-            <input type="checkbox" id="premiseseries" name="premiseseries" value="premiseseries">
-            <label for="premiseseries">Premise Series Level</label>
-            <input type="checkbox" id="basicseries" name="basicseries" value="basicseries">
-            <label for="basicseries">Basic Series Level</label>
-            <input type="checkbox" id="fullseries" name="fullseries" value="fullseries">
-            <label for="fullseries">Full Series Level</label>
+        <div id="order">
+            <h3>Select Order:</h3>
+            <div id="orderselection">
+                ${orderOptions.release ? releaseInput : ''}
+                ${orderOptions.chronological ? chronologicalInput : ''}
+                ${orderOptions.narrative ? narrativeInput : ''}
+            </div>
+        </div>
+        <div id="spoilers">
+            <h3>Spoiler Level:</h3>
+            <div id="spoilerselection">
+                <input type="checkbox" id="premisestory" name="premisestory" value="premisestory">
+                <label for="premisestory">Premise Story Level</label>
+                <input type="checkbox" id="basicstory" name="basicstory" value="basicstory">
+                <label for="basicstory">Basic Story Level</label>
+                <input type="checkbox" id="fullstory" name="fullstory" value="fullstory">
+                <label for="fullstory">Full Story Level</label>
+                <input type="checkbox" id="premiseseries" name="premiseseries" value="premiseseries">
+                <label for="premiseseries">Premise Series Level</label>
+                <input type="checkbox" id="basicseries" name="basicseries" value="basicseries">
+                <label for="basicseries">Basic Series Level</label>
+                <input type="checkbox" id="fullseries" name="fullseries" value="fullseries">
+                <label for="fullseries">Full Series Level</label>
+            </div>
         </div>
     </div>
 </div>

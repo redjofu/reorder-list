@@ -2,20 +2,25 @@
 
 :root {
     --header-height: 100px;
-    --screen-height: 100vh;
+    --screen-height: 100vh; /*Overridden by JavaScript to use screen height in pixels, useful for mobile devices and calculations.*/
+    /* --screen-height-unit: 1vh; */
     --color-1: #193B59;
     --color-2: #BACAC0;
     --color-3: #F2D2B6;
     --color-4: #F2AD94;
     --color-5: #F28972;
+    --sidebar-padding: 15px;
+    --explanation-padding: 4px;
+    --explanation-height: 200px;
 }
 
 body {
     margin: 0;
     font-family: 'Fira Sans', sans-serif;
     font-size: 18px;
-    color: var(--color-1);;
-    background-color: var(--color-3);;
+    color: var(--color-1);
+    background-color: var(--color-3);
+    height: var(--screen-height);
 }
 
 h1, h2, h3, h4 {
@@ -38,7 +43,7 @@ h3 {
     background-color: var(--color-4);
     width: 270px;
     height: calc(var(--screen-height) - var(--header-height));
-    padding: 15px;
+    /* padding: var(--sidebar-padding); */
 }
 
 #navbar {
@@ -51,8 +56,8 @@ h3 {
 
 #selectionexplanation p {
     margin: 0;
-    padding: 4px;
-    height: 200px;
+    padding: var(--explanation-padding);
+    height: var(--explanation-height);
     /* background-color: rgba(255, 255, 255, 0.5); */
     background-color: var(--color-5);
 }
@@ -122,4 +127,12 @@ h3 {
     display: flex;
     padding-left: 5px;
     margin: 10px;
+}
+
+#selectionscroll {
+    /* height: calc((var(--screen-height)/var(--screen-height-unit) - var(--header-height)/1px - var(--sidebar-padding)/1px * 2 - var(--explanation-padding)/1px * 2 - var(--explanation-height)/1px)*1px);
+    height: calc((625px/1px - var(--header-height)/1px - var(--sidebar-padding)/1px * 2 - var(--explanation-padding)/1px * 2 - var(--explanation-height)/1px)*1px); */
+    height: calc(var(--screen-height) - var(--header-height) - var(--sidebar-padding) - var(--explanation-padding) * 2 - var(--explanation-height));
+    /* height: calc(625px - 100px - 15px * 2 - 4px * 2 - 200px);  */
+    overflow-y: auto;
 }
