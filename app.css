@@ -151,18 +151,18 @@ h3 {
 #selectionscroll::-webkit-scrollbar-button:single-button:decrement {
     width: 20px;
     background-color: transparent;
-    border-right: 20px solid var(--color-1);
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
+    border-bottom: 20px solid var(--color-1);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
     cursor: pointer !important;
 }
 
 #selectionscroll::-webkit-scrollbar-button:single-button:increment {
     width: 20px;
     background-color: transparent;
-    border-left: 20px solid var(--color-1);
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
+    border-top: 20px solid var(--color-1);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
     cursor: pointer !important;
 }
 
