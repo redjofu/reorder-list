@@ -17,7 +17,7 @@ title.innerText = pageTitle
 // Find and set correct screen height
 const extraCSS = document.getElementById("extracss");
 extraCSS.textContent = `:root {
-    --screen-height: ${window.innerHeight}px;
+    --screen-height: ${window.innerHeight - 1}px;
 }`
 
 
