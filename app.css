@@ -167,10 +167,29 @@ h3 {
 }
 
 #selectionscroll::-webkit-scrollbar-track {
-    background-color: var(--color-1);
+    background-color: var(--color-2);
 }
 
 #selectionscroll::-webkit-scrollbar-thumb {
     background-color: var(--color-1);
     border-radius: 10px;
 }
+
+/* #selectionscroll:before, #selectionscroll:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    pointer-events: none;
+    width: 20px;
+    height: var(--card-height);
+}
+
+.listofcardsleft:before {
+    left: 0;
+    background-image: linear-gradient(to left, var(--main-bg-color-grad-off), var(--main-bg-color-grad-on) 85%);
+}
+
+.listofcardsright:after {
+    right: 0;
+    background-image: linear-gradient(to right, var(--main-bg-color-grad-off), var(--main-bg-color-grad-on) 85%);
+} */
