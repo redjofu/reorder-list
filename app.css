@@ -9,12 +9,12 @@
     --color-3: #F2D2B6;
     --color-4: #F2AD94;
     --color-5: #F28972;
-    --color-clear: rgba(95,68,58,0);
+    /* --color-clear: rgba(95,68,58,0); */
     --sidebar-padding: 15px;
     --sidebar-width: 270px;
     --explanation-padding: 4px;
     --explanation-height: 200px;
-    --scrollbar-width: 20px;
+    --scrollbar-width: 15px;
 }
 
 body {
@@ -151,24 +151,24 @@ h3 {
 
 /* Scrollbar styling */
 #selectionscroll::-webkit-scrollbar {
-    height: 15px;
+    width: var(--scrollbar-width);
 }
 
 #selectionscroll::-webkit-scrollbar-button:single-button:decrement {
-    width: var(--scrollbar-width);
+    width: 20px;
     background-color: transparent;
     border-bottom: 20px solid var(--color-1);
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
+    border-left: calc(var(--scrollbar-width)/2) solid transparent;
+    border-right: calc(var(--scrollbar-width)/2) solid transparent;
     cursor: pointer !important;
 }
 
 #selectionscroll::-webkit-scrollbar-button:single-button:increment {
-    width: var(--scrollbar-width);
+    width: 20px;
     background-color: transparent;
-    border-top: var(--scrollbar-width) solid var(--color-1);
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
+    border-top: 20px solid var(--color-1);
+    border-left: calc(var(--scrollbar-width)/2) solid transparent;
+    border-right: calc(var(--scrollbar-width)/2) solid transparent;
     cursor: pointer !important;
 }
 
@@ -198,11 +198,11 @@ h3 {
 
 .scrollhidetop:before {
     top: 0;
-    background-image: linear-gradient(to bottom, var(--color-4), var(--color-clear) 85%);
+    background-image: linear-gradient(to bottom, var(--color-4), transparent 85%);
 }
 
 .scrollhidebottom:after {
     bottom: 0;
-    background-image: linear-gradient(to top, var(--color-4), var(--color-clear) 85%);
+    background-image: linear-gradient(to top, var(--color-4), transparent 85%);
 }
 /* ------ */
