@@ -9,9 +9,12 @@
     --color-3: #F2D2B6;
     --color-4: #F2AD94;
     --color-5: #F28972;
+    --color-clear: rgba(95,68,58,0);
     --sidebar-padding: 15px;
+    --sidebar-width: 270px;
     --explanation-padding: 4px;
     --explanation-height: 200px;
+    --scrollbar-width: 20px;
 }
 
 body {
@@ -41,7 +44,7 @@ h3 {
 #navbar, #selectionbar {
     /* background-color: rgba(0, 0, 0, 0.2); */
     background-color: var(--color-4);
-    width: 270px;
+    width: var(--sidebar-width);
     height: calc(var(--screen-height) - var(--header-height));
     /* padding: var(--sidebar-padding); */
 }
@@ -66,6 +69,7 @@ h3 {
     background-color: var(--color-5);
 }
 
+/* Checkboxes and radio buttons */
 #selectionbar input {
     display: block;
     float: left;
@@ -88,7 +92,7 @@ h3 {
     content: "\2714";
     position: absolute;
     font-size: 1.6em;
-    right: -6px;
+    right: -4px;
     top: -13px;
     visibility: hidden;
 }
@@ -126,6 +130,7 @@ h3 {
 #selectionbar input[type="radio"]:checked::before {
     visibility: visible;
 } */
+/* ------ */
 
 #selectionbar label {
     display: flex;
@@ -144,12 +149,13 @@ h3 {
     scrollbar-width: thin;
 }
 
+/* Scrollbar styling */
 #selectionscroll::-webkit-scrollbar {
     height: 15px;
 }
 
 #selectionscroll::-webkit-scrollbar-button:single-button:decrement {
-    width: 20px;
+    width: var(--scrollbar-width);
     background-color: transparent;
     border-bottom: 20px solid var(--color-1);
     border-left: 8px solid transparent;
@@ -158,9 +164,9 @@ h3 {
 }
 
 #selectionscroll::-webkit-scrollbar-button:single-button:increment {
-    width: 20px;
+    width: var(--scrollbar-width);
     background-color: transparent;
-    border-top: 20px solid var(--color-1);
+    border-top: var(--scrollbar-width) solid var(--color-1);
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
     cursor: pointer !important;
@@ -174,22 +180,29 @@ h3 {
     background-color: var(--color-1);
     border-radius: 10px;
 }
+/* ------ */
 
-/* #selectionscroll:before, #selectionscroll:after {
+/* Scroll section gradient */
+.scrollhidetop, .scrollhidebottom {
+    position: relative;
+}
+
+.scrollhidetop:before, .scrollhidebottom:after {
     content: "";
     position: absolute;
-    top: 0;
-    pointer-events: none;
-    width: 20px;
-    height: var(--card-height);
-}
-
-.listofcardsleft:before {
     left: 0;
-    background-image: linear-gradient(to left, var(--main-bg-color-grad-off), var(--main-bg-color-grad-on) 85%);
+    pointer-events: none;
+    width: calc(var(--sidebar-width) - var(--scrollbar-width));
+    height: 50px;
 }
 
-.listofcardsright:after {
-    right: 0;
-    background-image: linear-gradient(to right, var(--main-bg-color-grad-off), var(--main-bg-color-grad-on) 85%);
-} */
+.scrollhidetop:before {
+    top: 0;
+    background-image: linear-gradient(to bottom, var(--color-4), var(--color-clear) 85%);
+}
+
+.scrollhidebottom:after {
+    bottom: 0;
+    background-image: linear-gradient(to top, var(--color-4), var(--color-clear) 85%);
+}
+/* ------ */
