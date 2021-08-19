@@ -29,3 +29,55 @@ const selectionOptionDescription = {
 
     // Spoiler inputs
 };
+
+
+////////////////////////////////////////
+/////////// Entry Content //////////////
+////////////////////////////////////////
+
+const entries = [
+    {
+        "name": "Iron Man",
+        "release year": 2008,
+        "release date": "May 2",
+        "release order": 2008-05,
+        "chronological order": 3,
+        "narrative order": 1,
+        "type": "films",
+        "image": undefined
+    },
+    {
+        "name": "The Incredible Hulk",
+        "release date": 2008-06,
+        "chronological order": 4,
+        "narrative order": 4,
+        "type": "films",
+        "image": undefined
+    },
+    {
+        "name": "Iron Man 2",
+        "release date": 2010-05,
+        "chronological order": 5,
+        "narrative order": 2,
+        "type": "films",
+        "image": undefined
+    },
+    {
+        "name": "Thor",
+        "release date": 2011-,
+        "chronological order": ,
+        "narrative order": ,
+        "type": "films",
+        "image": undefined
+    }
+    /*
+    {
+        "name": ,
+        "release date": ,
+        "chronological order": ,
+        "narrative order": ,
+        "type": ,
+        "image": 
+    }
+    */
+]
