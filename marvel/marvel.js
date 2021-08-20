@@ -50,7 +50,7 @@ const entries = [
         "chronological": 4,
         "narrative": 4,
         "type": "films",
-        "image": "the-incredible-hulk.png"
+        "image": "incredible-hulk.png"
     },
     {
         "name": "Iron Man 2",

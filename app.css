@@ -206,3 +206,24 @@ h3 {
     background-image: linear-gradient(to top, var(--color-4), transparent 85%);
 }
 /* ------ */
+
+
+/* Nav Bar Styling */
+#entrylist {
+    padding: 0;
+    margin: 15px;
+}
+
+#entrylist li {
+    list-style-type: none;
+    margin: 10px 0;
+}
+
+#entrylist img {
+    width: 100%;
+}
+
+.hid {
+    display: none;
+}
+/* ------ */

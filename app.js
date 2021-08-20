@@ -244,7 +244,7 @@ function buildNavBar() {
     for (let i=0; i<orderedEntries.length; i++) {
         const newLI = document.createElement("li");
         newLI.classList.add(orderedEntries[i].type);
-        newLI.innerHTML = `<img src="images/${orderedEntries[i].image}">`
+        newLI.innerHTML = `<img src="logos/${orderedEntries[i].image}">`
         entryList.appendChild(newLI);
     }
     
