@@ -102,7 +102,9 @@ main.innerHTML = `<div id="navbar">
         </div>
     </div>
 </div>
-<div id="content"></div>`
+<div id="content">
+    <h2 id="entrytitle">
+</div>`
 
 const selectionBar = document.getElementById("selectionbar");
 
@@ -218,6 +220,7 @@ function buildNavBar() {
     // Build HTML of navBar
     for (let i=0; i<orderedEntries.length; i++) {
         const newLI = document.createElement("li");
+        newLI.id = orderedEntries[i].code;
         newLI.classList.add(orderedEntries[i].type);
         newLI.innerHTML = `<img src="logos/${orderedEntries[i].image}">`
         entryList.appendChild(newLI);
@@ -233,5 +236,41 @@ for (let i=0; i<orderInputs.length; i++) {
 
 orderInputs[0].click();
 
+// Prep navbar list for interactivity
+const entryLogos = document.querySelectorAll("#entrylist li");
 
 // Mark all type checkboxes as checked
+const typeInputs = document.querySelectorAll("#typesselection input");
+
+for (let i=0; i<typeInputs.length; i++) {
+    typeInputs[i].checked=true;
+}
+
+function hideEntriesOfUncheckedType() {
+    for (let i=0; i<entryLogos.length; i++) {
+        if (entryLogos[i].classList.contains(this.value) && this.checked) {
+            entryLogos[i].classList.remove("hid");
+        } else if (entryLogos[i].classList.contains(this.value) && !this.checked) {
+            entryLogos[i].classList.add("hid");
+        }
+    }
+
+}
+
+for (let i=0; i<typeInputs.length; i++) {
+    typeInputs[i].addEventListener("click", hideEntriesOfUncheckedType);
+}
+
+
+// Set entry logos to be clickable elements to populate content area
+const entryTitle = document.getElementById("entrytitle");
+
+function populateContent() {
+    console.log(`this.id: ${this.id}`)
+
+    
+}
+
+for (let i=0; i<entryLogos.length; i++) {
+    entryLogos[i].addEventListener("click", populateContent);
+}

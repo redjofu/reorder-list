@@ -37,6 +37,7 @@ const selectionOptionDescription = {
 
 const entries = [
     {
+        "code": "iron-man",
         "name": "Iron Man",
         "release": "2008-05",
         "chronological": 3,
@@ -45,6 +46,7 @@ const entries = [
         "image": "iron-man.png"
     },
     {
+        "code": "incredible-hulk",
         "name": "The Incredible Hulk",
         "release": "2008-06",
         "chronological": 4,
@@ -53,6 +55,7 @@ const entries = [
         "image": "incredible-hulk.png"
     },
     {
+        "code": "iron-man-2",
         "name": "Iron Man 2",
         "release": "2010-05",
         "chronological": 5,
@@ -61,6 +64,7 @@ const entries = [
         "image": "iron-man-2.png"
     },
     {
+        "code": "thor",
         "name": "Thor",
         "release": "2011-05",
         "chronological": 6,
@@ -69,6 +73,7 @@ const entries = [
         "image": "thor.png"
     },
     {
+        "code": "captain-america-first-avenger",
         "name": "Captain America: The First Avenger",
         "release": "2011-07",
         "chronological": 1,
