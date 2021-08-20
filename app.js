@@ -185,30 +185,11 @@ selectionScroll.addEventListener("scroll", determineScrollGradient);
 
 
 // Prime order inputs to work with buildNavBar
-let releaseOrder;
-let chronologicalOrder;
-let narrativeOrder;
-
-if (orderOptions.release) {
-    releaseOrder = document.getElementById("release");
-}
-
-if (orderOptions.chronological) {
-    chronologicalOrder = document.getElementById("chronological");
-}
-
-if (orderOptions.narrative) {
-    narrativeOrder = document.getElementById("narrative");
-}
+const orderInputs = document.querySelectorAll("#orderselection input");
 
 // Build nav bar
 const navBar = document.getElementById("navbar");
 const entryList = document.getElementById("entrylist");
-
-// const entryOrder = [];
-// const entryOrderSorted = [];
-// const orderedEntries = [];
-// let orderDeterminer = "release";
 
 function buildNavBar() {
     // Reset navBar HTML
@@ -218,13 +199,7 @@ function buildNavBar() {
     const entryOrder = []; // Array of the entries' order
     const entryOrderSorted = []; // Array of the entries' order, sorted
     const orderedEntries = []; // Array of the entries in correct order
-
-    let orderDeterminer = "release";
-    if (orderOptions.chronological && chronologicalOrder.checked) {
-        orderDeterminer = "chronological";
-    } else if (orderOptions.narrative && narrativeOrder.checked) {
-        orderDeterminer = "narrative";
-    }
+    const orderDeterminer = this.value; // The "value" of the order input that has been selected
 
     for (let i=0; i<entries.length; i++) {
         const currentEntry = "entries[i].";
@@ -251,10 +226,12 @@ function buildNavBar() {
 }
 
 
-
 // Connect selection inputs to buildNavBar function
-releaseOrder.addEventListener("click", buildNavBar);
-chronologicalOrder.addEventListener("click", buildNavBar);
-narrativeOrder.addEventListener("click", buildNavBar);
+for (let i=0; i<orderInputs.length; i++) {
+    orderInputs[i].addEventListener("click", buildNavBar);
+}
 
-releaseOrder.click();
+orderInputs[0].click();
+
+
+// Mark all type checkboxes as checked
