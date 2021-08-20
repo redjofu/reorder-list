@@ -38,8 +38,6 @@ const selectionOptionDescription = {
 const entries = [
     {
         "name": "Iron Man",
-        "release year": 2008,
-        "release date": "May 2",
         "release order": 2008-05,
         "chronological order": 3,
         "narrative order": 1,
@@ -64,9 +62,17 @@ const entries = [
     },
     {
         "name": "Thor",
-        "release date": 2011-,
-        "chronological order": ,
-        "narrative order": ,
+        "release date": 2011-05,
+        "chronological order": 6,
+        "narrative order": 3,
+        "type": "films",
+        "image": undefined
+    },
+    {
+        "name": "Captain America: The First Avenger",
+        "release date": 2011-07,
+        "chronological order": 1,
+        "narrative order": 5,
         "type": "films",
         "image": undefined
     }
