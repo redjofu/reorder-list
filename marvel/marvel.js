@@ -38,50 +38,50 @@ const selectionOptionDescription = {
 const entries = [
     {
         "name": "Iron Man",
-        "release order": 2008-05,
-        "chronological order": 3,
-        "narrative order": 1,
+        "release": "2008-05",
+        "chronological": 3,
+        "narrative": 1,
         "type": "films",
         "image": "iron-man.png"
     },
     {
         "name": "The Incredible Hulk",
-        "release date": 2008-06,
-        "chronological order": 4,
-        "narrative order": 4,
+        "release": "2008-06",
+        "chronological": 4,
+        "narrative": 4,
         "type": "films",
         "image": "the-incredible-hulk.png"
     },
     {
         "name": "Iron Man 2",
-        "release date": 2010-05,
-        "chronological order": 5,
-        "narrative order": 2,
+        "release": "2010-05",
+        "chronological": 5,
+        "narrative": 2,
         "type": "films",
         "image": "iron-man-2.png"
     },
     {
         "name": "Thor",
-        "release date": 2011-05,
-        "chronological order": 6,
-        "narrative order": 3,
+        "release": "2011-05",
+        "chronological": 6,
+        "narrative": 3,
         "type": "films",
         "image": "thor.png"
     },
     {
         "name": "Captain America: The First Avenger",
-        "release date": 2011-07,
-        "chronological order": 1,
-        "narrative order": 5,
+        "release": "2011-07",
+        "chronological": 1,
+        "narrative": 5,
         "type": "films",
         "image": "captain-america-first-avenger.png"
     }
     /*
     {
         "name": ,
-        "release date": ,
-        "chronological order": ,
-        "narrative order": ,
+        "release": ,
+        "chronological": ,
+        "narrative": ,
         "type": ,
         "image": 
     }

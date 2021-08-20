@@ -64,7 +64,9 @@ const narrativeInput = `<input type="radio" id="narrative" name="order" value="n
 <label for="narrative">Narrative Order</label>`
 
 // Main template
-main.innerHTML = `<div id="navbar"></div>
+main.innerHTML = `<div id="navbar">
+    <ol id="entrylist"></ol>
+</div>
 <div id="selectionbar">
     <div id="selectionexplanation"><p>Select an option below for a description to appear here.</p></div>
     <div id="selectioncontent">
@@ -180,3 +182,79 @@ setTimeout(determineScrollGradient,100);
 // determineScrollGradient()
 
 selectionScroll.addEventListener("scroll", determineScrollGradient);
+
+
+// Prime order inputs to work with buildNavBar
+let releaseOrder;
+let chronologicalOrder;
+let narrativeOrder;
+
+if (orderOptions.release) {
+    releaseOrder = document.getElementById("release");
+}
+
+if (orderOptions.chronological) {
+    chronologicalOrder = document.getElementById("chronological");
+}
+
+if (orderOptions.narrative) {
+    narrativeOrder = document.getElementById("narrative");
+}
+
+// Build nav bar
+const navBar = document.getElementById("navbar");
+const entryList = document.getElementById("entrylist");
+
+// const entryOrder = [];
+// const entryOrderSorted = [];
+// const orderedEntries = [];
+// let orderDeterminer = "release";
+
+function buildNavBar() {
+    // Reset navBar HTML
+    entryList.innerHTML = '';
+    
+    // Determine order
+    const entryOrder = []; // Array of the entries' order
+    const entryOrderSorted = []; // Array of the entries' order, sorted
+    const orderedEntries = []; // Array of the entries in correct order
+
+    let orderDeterminer = "release";
+    if (orderOptions.chronological && chronologicalOrder.checked) {
+        orderDeterminer = "chronological";
+    } else if (orderOptions.narrative && narrativeOrder.checked) {
+        orderDeterminer = "narrative";
+    }
+
+    for (let i=0; i<entries.length; i++) {
+        const currentEntry = "entries[i].";
+        entryOrder.push(eval(currentEntry+orderDeterminer));
+    }
+
+    for (let i=0; i<entries.length; i++) {
+        entryOrderSorted.push(entryOrder[i]);
+    }
+    entryOrderSorted.sort();
+
+    for (let i=0; i<entries.length; i++) {
+        orderedEntries.push(entries[entryOrder.indexOf(entryOrderSorted[i])]);
+    }
+
+    // Build HTML of navBar
+    for (let i=0; i<orderedEntries.length; i++) {
+        const newLI = document.createElement("li");
+        newLI.classList.add(orderedEntries[i].type);
+        newLI.innerHTML = `<img src="images/${orderedEntries[i].image}">`
+        entryList.appendChild(newLI);
+    }
+    
+}
+
+
+
+// Connect selection inputs to buildNavBar function
+releaseOrder.addEventListener("click", buildNavBar);
+chronologicalOrder.addEventListener("click", buildNavBar);
+narrativeOrder.addEventListener("click", buildNavBar);
+
+releaseOrder.click();
