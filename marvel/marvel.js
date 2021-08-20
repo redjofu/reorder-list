@@ -42,7 +42,7 @@ const entries = [
         "chronological order": 3,
         "narrative order": 1,
         "type": "films",
-        "image": undefined
+        "image": "iron-man.png"
     },
     {
         "name": "The Incredible Hulk",
@@ -50,7 +50,7 @@ const entries = [
         "chronological order": 4,
         "narrative order": 4,
         "type": "films",
-        "image": undefined
+        "image": "the-incredible-hulk.png"
     },
     {
         "name": "Iron Man 2",
@@ -58,7 +58,7 @@ const entries = [
         "chronological order": 5,
         "narrative order": 2,
         "type": "films",
-        "image": undefined
+        "image": "iron-man-2.png"
     },
     {
         "name": "Thor",
@@ -66,7 +66,7 @@ const entries = [
         "chronological order": 6,
         "narrative order": 3,
         "type": "films",
-        "image": undefined
+        "image": "thor.png"
     },
     {
         "name": "Captain America: The First Avenger",
@@ -74,7 +74,7 @@ const entries = [
         "chronological order": 1,
         "narrative order": 5,
         "type": "films",
-        "image": undefined
+        "image": "captain-america-first-avenger.png"
     }
     /*
     {
