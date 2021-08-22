@@ -226,6 +226,7 @@ function buildNavBar() {
         entryList.appendChild(newLI);
     }
     
+    setEventListenersOnLogos();
 }
 
 
@@ -268,9 +269,13 @@ const entryTitle = document.getElementById("entrytitle");
 function populateContent() {
     console.log(`this.id: ${this.id}`)
 
-    
+
 }
 
-for (let i=0; i<entryLogos.length; i++) {
-    entryLogos[i].addEventListener("click", populateContent);
+function setEventListenersOnLogos() {
+    for (let i=0; i<entryLogos.length; i++) {
+        entryLogos[i].addEventListener("click", populateContent);
+    }
 }
+
+setEventListenersOnLogos();
