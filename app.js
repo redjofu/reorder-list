@@ -193,6 +193,9 @@ const orderInputs = document.querySelectorAll("#orderselection input");
 const navBar = document.getElementById("navbar");
 const entryList = document.getElementById("entrylist");
 
+// Prepare variable so it can be used and reused each time the nav bar is rebuilt
+let entryLogos; 
+
 function buildNavBar() {
     // Reset navBar HTML
     entryList.innerHTML = '';
@@ -225,8 +228,14 @@ function buildNavBar() {
         newLI.innerHTML = `<img src="logos/${orderedEntries[i].image}">`
         entryList.appendChild(newLI);
     }
+
+    // Prep navbar list for interactivity
+    entryLogos = document.querySelectorAll("#entrylist li");
     
-    setEventListenersOnLogos();
+    // Set event listeners but only if the "entrylogos" variable has been defined
+    if (typeof entryLogos !== 'undefined') {
+        setEventListenersOnLogos();
+    }
 }
 
 
@@ -237,8 +246,7 @@ for (let i=0; i<orderInputs.length; i++) {
 
 orderInputs[0].click();
 
-// Prep navbar list for interactivity
-const entryLogos = document.querySelectorAll("#entrylist li");
+
 
 // Mark all type checkboxes as checked
 const typeInputs = document.querySelectorAll("#typesselection input");
