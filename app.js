@@ -229,6 +229,7 @@ function buildNavBar() {
         entryList.appendChild(newLI);
     }
 
+    // Remove event listeners to prep for navbar rebuild (but only if the "entrylogos" variable has been defined)
     if (typeof entryLogos !== 'undefined') {
         removeEventListenersOnLogos();
     }
@@ -281,9 +282,14 @@ const entryTitle = document.getElementById("entrytitle");
 function populateContent() {
     console.log(`this.id: ${this.id}`)
 
+    // Thanks for some array/object searching help: https://stackoverflow.com/questions/7176908/how-can-i-get-the-index-of-an-object-by-its-property-in-javascript
+    const entryIndex = entries.findIndex(item => item.code === this.id);
+
+    entryTitle.textContent = entries[entryIndex].name;
 
 }
 
+// Function to set or remove event listeners on logos, called when building the navbar
 function setEventListenersOnLogos() {
     for (let i=0; i<entryLogos.length; i++) {
         entryLogos[i].addEventListener("click", populateContent);
