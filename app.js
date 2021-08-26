@@ -229,6 +229,10 @@ function buildNavBar() {
         entryList.appendChild(newLI);
     }
 
+    if (typeof entryLogos !== 'undefined') {
+        removeEventListenersOnLogos();
+    }
+
     // Prep navbar list for interactivity
     entryLogos = document.querySelectorAll("#entrylist li");
     
@@ -287,3 +291,9 @@ function setEventListenersOnLogos() {
 }
 
 setEventListenersOnLogos();
+
+function removeEventListenersOnLogos() {
+    for (let i=0; i<entryLogos.length; i++) {
+        entryLogos[i].removeEventListener("click", populateContent);
+    }
+}
