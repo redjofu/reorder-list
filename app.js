@@ -280,13 +280,13 @@ for (let i=0; i<typeInputs.length; i++) {
 const entryTitle = document.getElementById("entrytitle");
 
 function populateContent() {
-    console.log(`this.id: ${this.id}`)
-
     // Thanks for some array/object searching help: https://stackoverflow.com/questions/7176908/how-can-i-get-the-index-of-an-object-by-its-property-in-javascript
-    const entryIndex = entries.findIndex(item => item.code === this.id);
+    // const entryIndex = entries.findIndex(item => item.code === this.id);
 
-    entryTitle.textContent = entries[entryIndex].name;
+    // entryTitle.textContent = entries[entryIndex].name;
 
+    const entry = entries[entries.findIndex(item => item.code === this.id)];
+    entryTitle.textContent = entry.name;
 }
 
 // Function to set or remove event listeners on logos, called when building the navbar
