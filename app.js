@@ -104,7 +104,7 @@ main.innerHTML = `<div id="navbar">
 </div>
 <div id="content">
     <h2 id="entrytitle"></h2>
-    
+    <p id="whychron"></p>
 </div>`
 
 const selectionBar = document.getElementById("selectionbar");
@@ -279,6 +279,7 @@ for (let i=0; i<typeInputs.length; i++) {
 
 // Set entry logos to be clickable elements to populate content area
 const entryTitle = document.getElementById("entrytitle");
+const whyChron = document.getElementById("whychron");
 
 function populateContent() {
     // Thanks for some array/object searching help: https://stackoverflow.com/questions/7176908/how-can-i-get-the-index-of-an-object-by-its-property-in-javascript
@@ -288,6 +289,7 @@ function populateContent() {
 
     const entry = entries[entries.findIndex(item => item.code === this.id)];
     entryTitle.textContent = entry.name;
+    whyChron.innerHTML = entry.whychron;
 }
 
 // Function to set or remove event listeners on logos, called when building the navbar
