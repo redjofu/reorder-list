@@ -103,7 +103,8 @@ main.innerHTML = `<div id="navbar">
     </div>
 </div>
 <div id="content">
-    <h2 id="entrytitle">
+    <h2 id="entrytitle"></h2>
+    
 </div>`
 
 const selectionBar = document.getElementById("selectionbar");
