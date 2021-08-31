@@ -246,3 +246,7 @@ pse {
 bse {
     background-color: lime;
 }
+
+#content p {
+    margin: 0;
+}
