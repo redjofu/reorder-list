@@ -18,6 +18,9 @@ const orderOptions = {
     narrative: true
 };
 
+// Are subseries present?
+const subseries = true;
+
 // Text that appears when a selection input is clicked
 const selectionOptionDescription = {
     // Type inputs
@@ -45,7 +48,7 @@ const entries = [
         "type": "films",
         "image": "iron-man.png",
         "phase": 1,
-        "whychron": "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</bse>"
+        "whychron": "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</pse>"
     },
     {
         "code": "incredible-hulk",

@@ -8,11 +8,12 @@ const main = document.querySelector("main");
 head.innerHTML = `<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
 <link href="../app.css" rel="stylesheet" type="text/css">
-<style id="extracss"></style>`
+<style id="extracss"></style>
+<style =id="spoilercss"></style>`;
 
 // Use custom head details
 const title = document.querySelector("title");
-title.innerText = pageTitle
+title.innerText = pageTitle;
 
 // Find and set correct screen height
 const extraCSS = document.getElementById("extracss");
@@ -24,7 +25,7 @@ extraCSS.textContent = `:root {
 // Header template
 header.innerHTML = `<div id="header">
 
-</div>`
+</div>`;
 
 // Type selection template
 const typeTemplate = (function() {
@@ -57,11 +58,19 @@ const typeTemplate = (function() {
 
 // Define selection options
 const releaseInput = `<input type="radio" id="release" name="order" value="release">
-<label for="release">Release Order</label>`
+<label for="release">Release Order</label>`;
 const chronologicalInput = `<input type="radio" id="chronological" name="order" value="chronological">
-<label for="chronological">Chronological Order</label>`
+<label for="chronological">Chronological Order</label>`;
 const narrativeInput = `<input type="radio" id="narrative" name="order" value="narrative">
-<label for="narrative">Narrative Order</label>`
+<label for="narrative">Narrative Order</label>`;
+
+// Subseries spoiler checkboxes
+const subseriesCheckboxes = `<input type="checkbox" id="premisesubseries" name="premisesubseries" value="premisesubseries">
+<label for="premisesubseries">Premise Subseries Level</label>
+<input type="checkbox" id="basicsubseries" name="basicsubseries" value="basicsubseries">
+<label for="basicsubseries">Basic Subseries Level</label>
+<input type="checkbox" id="fullsubseries" name="fullsubseries" value="fullsubseries">
+<label for="fullsubseries">Full Subseries Level</label>`;
 
 // Main template
 main.innerHTML = `<div id="navbar">
@@ -91,6 +100,7 @@ main.innerHTML = `<div id="navbar">
                     <label for="basicstory">Basic Story Level</label>
                     <input type="checkbox" id="fullstory" name="fullstory" value="fullstory">
                     <label for="fullstory">Full Story Level</label>
+                    ${subseries ? subseriesCheckboxes : ''}
                     <input type="checkbox" id="premiseseries" name="premiseseries" value="premiseseries">
                     <label for="premiseseries">Premise Series Level</label>
                     <input type="checkbox" id="basicseries" name="basicseries" value="basicseries">
@@ -105,7 +115,7 @@ main.innerHTML = `<div id="navbar">
 <div id="content">
     <h2 id="entrytitle"></h2>
     <p id="whychron"></p>
-</div>`
+</div>`;
 
 const selectionBar = document.getElementById("selectionbar");
 
@@ -276,6 +286,52 @@ for (let i=0; i<typeInputs.length; i++) {
     typeInputs[i].addEventListener("click", hideEntriesOfUncheckedType);
 }
 
+// Set up spoiler checkboxes so checking a higher level also selects the lower level
+const spoilerInputs = document.querySelectorAll("#spoilerselection input");
+
+const pst = document.getElementById("#premisestory");
+const bst = document.getElementById("#basicstory");
+const fst = document.getElementById("#fullstory");
+const psu = subseries ? document.getElementById("#premisesubseries") : null;
+const bsu = subseries ? document.getElementById("#basicsubseries") : null;
+const fsu = subseries ? document.getElementById("#fullsubseries") : null;
+const pse = document.getElementById("#premiseseries");
+const bse = document.getElementById("#basicseries");
+const fse = document.getElementById("#fullseries");
+
+
+
+function markLowerLevelSpoilers(clickedInput) {
+    if (clickedInput.checked) {
+        if (spoilerInputs[2].checked) { spoilerInputs[1].checked = true };
+        if (spoilerInputs[1].checked) { spoilerInputs[0].checked = true };
+        if (spoilerInputs[5].checked) { spoilerInputs[4].checked = true };
+        if (spoilerInputs[4].checked) { spoilerInputs[3].checked = true };
+    } else {
+        if (!spoilerInputs[0].checked) { spoilerInputs[1].checked = false };
+        if (!spoilerInputs[1].checked) { spoilerInputs[2].checked = false };
+        if (!spoilerInputs[3].checked) { spoilerInputs[4].checked = false };
+        if (!spoilerInputs[4].checked) { spoilerInputs[5].checked = false };
+    }
+}
+
+// const markLowerLevelSpoilersBound = markLowerLevelSpoilers.bind(this);
+
+
+//  Configure CSS to reflect spoiler choice
+const spoilerCSS = document.getElementById("spoilercss");
+// spoilerCSS.textContent = `.pst {visibility: }`;
+
+// Set spoiler checkboxes to use correct functions
+function setUpSpoilerCheckboxes() {
+    markLowerLevelSpoilers(this);
+
+}
+
+for (let i=0; i<spoilerInputs.length; i++) {
+    spoilerInputs[i].addEventListener("click", setUpSpoilerCheckboxes);
+}
+
 
 // Set entry logos to be clickable elements to populate content area
 const entryTitle = document.getElementById("entrytitle");
@@ -290,6 +346,35 @@ function populateContent() {
     const entry = entries[entries.findIndex(item => item.code === this.id)];
     entryTitle.textContent = entry.name;
     whyChron.innerHTML = entry.whychron;
+
+    replaceSpoilerTags();
+}
+
+// Replace custom HTML spoiler tags with appropriate spans
+function replaceSpoilerTags() {
+    const content = document.getElementById("content");
+
+    const spoilerTags = document.querySelectorAll("#content p > *");
+
+    for (let i=0; i<spoilerTags.length; i++) {
+        const tagType = spoilerTags[i].nodeName.toLowerCase();
+        
+        let tagTypeWritten;
+        if (tagType == "pst") {tagTypeWritten = "premise story level "}
+        else if  (tagType == "bst") {tagTypeWritten = "basic story level "}
+        else if  (tagType == "fst") {tagTypeWritten = "full story level "}
+        else if  (tagType == "pse") {tagTypeWritten = "premise series level "}
+        else if  (tagType == "bse") {tagTypeWritten = "basic series level "}
+        else if  (tagType == "fse") {tagTypeWritten = "full series level "}
+        else if  (tagType == "psu") {tagTypeWritten = "premise subseries level "}
+        else if  (tagType == "bsu") {tagTypeWritten = "basic subseries level "}
+        else if  (tagType == "fsu") {tagTypeWritten = "full subseries level "}
+
+        const spoilerMessage = `Content contains ${tagTypeWritten}spoilers`;
+
+        spoilerTags[i].insertAdjacentHTML("afterend", `<span class="${tagType}" title="${spoilerMessage}"><span>${spoilerTags[i].innerHTML}</span></span>`);
+        spoilerTags[i].remove();
+    }
 }
 
 // Function to set or remove event listeners on logos, called when building the navbar
