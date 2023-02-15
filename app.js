@@ -289,29 +289,54 @@ for (let i=0; i<typeInputs.length; i++) {
 // Set up spoiler checkboxes so checking a higher level also selects the lower level
 const spoilerInputs = document.querySelectorAll("#spoilerselection input");
 
-const pst = document.getElementById("#premisestory");
-const bst = document.getElementById("#basicstory");
-const fst = document.getElementById("#fullstory");
-const psu = subseries ? document.getElementById("#premisesubseries") : null;
-const bsu = subseries ? document.getElementById("#basicsubseries") : null;
-const fsu = subseries ? document.getElementById("#fullsubseries") : null;
-const pse = document.getElementById("#premiseseries");
-const bse = document.getElementById("#basicseries");
-const fse = document.getElementById("#fullseries");
+const pst = document.getElementById("premisestory");
+const bst = document.getElementById("basicstory");
+const fst = document.getElementById("fullstory");
+const psu = subseries ? document.getElementById("premisesubseries") : null;
+const bsu = subseries ? document.getElementById("basicsubseries") : null;
+const fsu = subseries ? document.getElementById("fullsubseries") : null;
+const pse = document.getElementById("premiseseries");
+const bse = document.getElementById("basicseries");
+const fse = document.getElementById("fullseries");
 
 
 
 function markLowerLevelSpoilers(clickedInput) {
     if (clickedInput.checked) {
-        if (spoilerInputs[2].checked) { spoilerInputs[1].checked = true };
-        if (spoilerInputs[1].checked) { spoilerInputs[0].checked = true };
-        if (spoilerInputs[5].checked) { spoilerInputs[4].checked = true };
-        if (spoilerInputs[4].checked) { spoilerInputs[3].checked = true };
+        if (fse.checked) { bse.checked = true; fst.checked = true; if (fsu) { fsu.checked = true } };
+        if (bse.checked) { pse.checked = true };
+
+        if (subseries) {
+            if (fsu.checked) { bsu.checked = true; fst.checked = true; };
+            if (bsu.checked) { psu.checked = true };
+        }
+
+        if (fst.checked) { bst.checked = true };
+        if (bst.checked) { pst.checked = true };
+        
+        
+
+        // if (spoilerInputs[2].checked) { spoilerInputs[1].checked = true };
+        // if (spoilerInputs[1].checked) { spoilerInputs[0].checked = true };
+        // if (spoilerInputs[5].checked) { spoilerInputs[4].checked = true };
+        // if (spoilerInputs[4].checked) { spoilerInputs[3].checked = true };
     } else {
-        if (!spoilerInputs[0].checked) { spoilerInputs[1].checked = false };
-        if (!spoilerInputs[1].checked) { spoilerInputs[2].checked = false };
-        if (!spoilerInputs[3].checked) { spoilerInputs[4].checked = false };
-        if (!spoilerInputs[4].checked) { spoilerInputs[5].checked = false };
+        if (!pst.checked) { bst.checked = false; bse. checked = false; if (psu) { psu.checked = false } };
+        if (!bst.checked) { fst.checked = false };
+
+        if (subseries) {
+            if (!psu.checked) { bsu.checked = false; bse.checked = false; };
+            if (!bsu.checked) { fsu.checked = false };
+        }
+
+        if (!pse.checked) { bse.checked = false };
+        if (!bse.checked) { fse.checked = false };
+        
+        
+        // if (!spoilerInputs[0].checked) { spoilerInputs[1].checked = false };
+        // if (!spoilerInputs[1].checked) { spoilerInputs[2].checked = false };
+        // if (!spoilerInputs[3].checked) { spoilerInputs[4].checked = false };
+        // if (!spoilerInputs[4].checked) { spoilerInputs[5].checked = false };
     }
 }
 
