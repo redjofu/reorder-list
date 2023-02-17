@@ -94,6 +94,8 @@ main.innerHTML = `<div id="navbar">
             <div id="spoilers">
                 <h3>Spoiler Level:</h3>
                 <div id="spoilerselection">
+                    <button id="allspoilers">Show All</button>
+                    <button id="hidespoilers">Hide All</button>
                     <input type="checkbox" id="premisestory" name="premisestory" value="premisestory">
                     <label for="premisestory">Premise Story Level</label>
                     <input type="checkbox" id="basicstory" name="basicstory" value="basicstory">
@@ -289,6 +291,19 @@ for (let i=0; i<typeInputs.length; i++) {
 // Set up spoiler checkboxes so checking a higher level also selects the lower level
 const spoilerInputs = document.querySelectorAll("#spoilerselection input");
 
+const showSpoilersButton = document.getElementById("allspoilers");
+const hideSpoilersButton = document.getElementById("hidespoilers");
+
+function showAllSpoilers() {
+    spoilerInputs.forEach()
+}
+
+// function changeAllSpoilers(selectedInput) {
+//     selectedInput.checked = 
+// }
+
+
+
 const pst = document.getElementById("premisestory");
 const bst = document.getElementById("basicstory");
 const fst = document.getElementById("fullstory");
@@ -299,44 +314,34 @@ const pse = document.getElementById("premiseseries");
 const bse = document.getElementById("basicseries");
 const fse = document.getElementById("fullseries");
 
-
-
 function markLowerLevelSpoilers(clickedInput) {
     if (clickedInput.checked) {
         if (fse.checked) { bse.checked = true; fst.checked = true; if (fsu) { fsu.checked = true } };
-        if (bse.checked) { pse.checked = true };
+        if (bse.checked) { pse.checked = true; bst.checked = true; if (bsu) { bsu.checked = true } };
 
         if (subseries) {
             if (fsu.checked) { bsu.checked = true; fst.checked = true; };
-            if (bsu.checked) { psu.checked = true };
+            if (bsu.checked) { psu.checked = true; bst.checked = true; };
+            if (psu.checked) { pst.checked = true };
         }
 
         if (fst.checked) { bst.checked = true };
         if (bst.checked) { pst.checked = true };
-        
-        
 
-        // if (spoilerInputs[2].checked) { spoilerInputs[1].checked = true };
-        // if (spoilerInputs[1].checked) { spoilerInputs[0].checked = true };
-        // if (spoilerInputs[5].checked) { spoilerInputs[4].checked = true };
-        // if (spoilerInputs[4].checked) { spoilerInputs[3].checked = true };
     } else {
-        if (!pst.checked) { bst.checked = false; bse. checked = false; if (psu) { psu.checked = false } };
-        if (!bst.checked) { fst.checked = false };
+        if (!pst.checked) { bst.checked = false; if (psu) { psu.checked = false } };
+        if (!bst.checked) { fst.checked = false; bse.checked = false; if (bsu) { bsu.checked = false } };
+        if (!fst.checked) { fse.checked = false; if (fsu) { fsu.checked = false } }
 
         if (subseries) {
             if (!psu.checked) { bsu.checked = false; bse.checked = false; };
-            if (!bsu.checked) { fsu.checked = false };
+            if (!bsu.checked) { fsu.checked = false; bse.checked = false; };
+            if (!fsu.checked) { fse.checked = false; }
         }
 
         if (!pse.checked) { bse.checked = false };
         if (!bse.checked) { fse.checked = false };
-        
-        
-        // if (!spoilerInputs[0].checked) { spoilerInputs[1].checked = false };
-        // if (!spoilerInputs[1].checked) { spoilerInputs[2].checked = false };
-        // if (!spoilerInputs[3].checked) { spoilerInputs[4].checked = false };
-        // if (!spoilerInputs[4].checked) { spoilerInputs[5].checked = false };
+
     }
 }
 
