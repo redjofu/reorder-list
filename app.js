@@ -119,6 +119,8 @@ main.innerHTML = `<div id="navbar">
     ${phasesExist ? '<p>Phase: <span id="phasenum"></span></p>' : ''}
     ${sagaNames ? '<p>Saga: <span id="saganame"></span></p>' : ''}
     ${subseriesExist ? '<p>Subseries: <span id="subseriesname"></span></p>' : ''}
+    <h3 id="wheretofindheading"></h3>
+    <p id="wheretofind"></p>
     <h3 id="whyplacementheading"></h3>
     <p id="whyplacement"></p>
     <p id="whychron"></p>
@@ -229,7 +231,7 @@ const entryList = document.getElementById("entrylist");
 // Prepare variable so it can be used and reused each time the nav bar is rebuilt
 let entryLogos; 
 
-function buildNavBar() {
+function buildNavBar(selectedOrderInput) {
     // Reset navBar HTML
     entryList.innerHTML = '';
     
@@ -237,7 +239,7 @@ function buildNavBar() {
     const entryOrder = []; // Array of the entries' order
     const entryOrderSorted = []; // Array of the entries' order, sorted
     const orderedEntries = []; // Array of the entries in correct order
-    const orderDeterminer = this.value; // The "value" of the order input that has been selected
+    const orderDeterminer = selectedOrderInput.value; // The "value" of the order input that has been selected
 
     for (let i=0; i<entries.length; i++) {
         const currentEntry = "entries[i].";
@@ -276,13 +278,17 @@ function buildNavBar() {
     }
 }
 
+function reflectOrderChange() {
+    buildNavBar(this);
+    adjustWhyContent();
+}
+
 // Connect selection inputs to buildNavBar function
 for (let i=0; i<orderInputs.length; i++) {
-    orderInputs[i].addEventListener("click", buildNavBar);
+    orderInputs[i].addEventListener("click", reflectOrderChange);
 }
 
 orderInputs[0].click();
-
 
 
 // Mark all type checkboxes as checked
@@ -416,6 +422,7 @@ for (let i=0; i<spoilerInputs.length; i++) {
 const entryTitle = document.getElementById("entrytitle");
 const releaseDate = document.getElementById("releasedate");
 // const phaseNum = phasesExist ? document.getElementById("phasenum") : null;
+const whereToFind = document.getElementById("wheretofind");
 const whyPlacementHeading = document.getElementById("whyplacementheading");
 const whyPlacement = document.getElementById("whyplacement");
 const whyChron = document.getElementById("whychron");
@@ -435,6 +442,7 @@ function populateContent() {
     if (sagaNames) { document.getElementById("saganame").textContent = entry.phase ? sagaNames[entry.phase] : "?" }
     if (subseriesExist) { document.getElementById("subseriesname").textContent = entry.subseries ? entry.subseries + (entry.subsubseries ? " (" + entry.subsubseries + ")" : "") : "?"}
     
+    populateWhereToFind(entry);
     populateWhyContent(entry);
 
     document.getElementById("content").classList.remove("hid");
@@ -470,6 +478,10 @@ function parseDate(dateString) {
     }
 }
 
+function populateWhereToFind(entry) {
+    whereToFind.innerHTML = `${entry.disneyplus ? '<a href="https://www.disneyplus.com' + entry.disneyplus + '">Disney+</a>' : ''}`
+}
+
 function populateWhyContent(entry) {
     const noInfo = "Information not available."
     let whyPlacementContent = noInfo;
@@ -503,9 +515,17 @@ function populateWhyContent(entry) {
     changeSpoilerStyling();
 }
 
+function adjustWhyContent() {
+    if (!content.classList.contains("hid")) {
+        const currentEntryTitle = entryTitle.textContent;
+        const entry = entries[entries.findIndex(item => item.name === currentEntryTitle)];
+        populateWhyContent(entry);
+    }
+}
+
 // Replace custom HTML spoiler tags with appropriate spans
 function replaceSpoilerTags() {
-    const spoilerTags = document.querySelectorAll("#content p > *:not(span, strong, em)");
+    const spoilerTags = document.querySelectorAll("#content p > *:not(span, strong, em, a)");
 
     for (let i=0; i<spoilerTags.length; i++) {
         const tagType = spoilerTags[i].nodeName.toLowerCase();
