@@ -21,8 +21,20 @@ const orderOptions = {
     narrative: true
 };
 
-// Are subseries present?
-const subseries = true;
+// Are different elements present?
+const subseriesExist = true;
+const phasesExist = true;
+
+// Names of sagas
+const sagaInfinity = "The Infinity Saga";
+const sagaMultiverse = "The Multiverse Saga";
+
+const sagaNames = [
+    "", // 0
+    sagaInfinity, sagaInfinity, sagaInfinity, // 1-3
+    sagaMultiverse, sagaMultiverse, sagaMultiverse, // 4-6
+    "" // 7
+]
 
 // Text that appears when a selection input is clicked
 const selectionOptionDescription = {
@@ -51,6 +63,8 @@ const entries = [
         "type": "films",
         "image": "iron-man.png",
         "phase": 1,
+        "subseries": "Iron Man",
+        "subsubseries" : "Iron Man trilogy",
         "whychron": "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</pse>"
     },
     {
@@ -61,6 +75,7 @@ const entries = [
         "narrative": 4,
         "type": "films",
         "image": "incredible-hulk.png",
+        "phase": 1,
         "whychron": "hello <pst>pst</pst> <bst>bst</bst> <fst>fst</fst> <psu>psu</psu> <bsu>bsu</bsu> <fsu>fsu</fsu> <pse>pse</pse> <bse>bse</bse> <fse>fse</fse> hello"
     },
     {

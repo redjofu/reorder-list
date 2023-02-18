@@ -37,6 +37,10 @@ h3 {
     margin: 15px 0;
 }
 
+.hid {
+    display: none;
+}
+
 #header {
     background-color: var(--color-2);
     width: 100%;

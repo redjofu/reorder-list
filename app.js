@@ -101,7 +101,7 @@ main.innerHTML = `<div id="navbar">
                     <label for="basicstory">Basic Story Level</label>
                     <input type="checkbox" id="fullstory" name="fullstory" value="fullstory">
                     <label for="fullstory">Full Story Level</label>
-                    ${subseries ? subseriesCheckboxes : ''}
+                    ${subseriesExist ? subseriesCheckboxes : ''}
                     <input type="checkbox" id="premiseseries" name="premiseseries" value="premiseseries">
                     <label for="premiseseries">Premise Series Level</label>
                     <input type="checkbox" id="basicseries" name="basicseries" value="basicseries">
@@ -113,8 +113,14 @@ main.innerHTML = `<div id="navbar">
         </div>
     </div>
 </div>
-<div id="content">
+<div id="content" class="hid">
     <h2 id="entrytitle"></h2>
+    <p>Release date: <span id="releasedate"></span></p>
+    ${phasesExist ? '<p>Phase: <span id="phasenum"></span></p>' : ''}
+    ${sagaNames ? '<p>Saga: <span id="saganame"></span></p>' : ''}
+    ${subseriesExist ? '<p>Subseries: <span id="subseriesname"></span></p>' : ''}
+    <h3 id="whyplacementheading"></h3>
+    <p id="whyplacement"></p>
     <p id="whychron"></p>
 </div>`;
 
@@ -148,7 +154,7 @@ if (!selectionOptionDescription.fullstory) {
     selectionOptionDescription.fullstory = `Spoilers relating to any details from the entry's story, including those typically revealed at the end. These include details typically referred to as "spoilers."`
 }
 
-if (subseries) {
+if (subseriesExist) {
     if (!selectionOptionDescription.premisesubseries) {
         selectionOptionDescription.premisesubseries = `Spoilers relating to the pitch of the subseries (e.g. all ${subseriesExample} entries). These include only the sorts of details you might find out from ${blurbVerb} from a later entry in the subseries but which might not be revealed in that particular entry.`
     }
@@ -270,7 +276,6 @@ function buildNavBar() {
     }
 }
 
-
 // Connect selection inputs to buildNavBar function
 for (let i=0; i<orderInputs.length; i++) {
     orderInputs[i].addEventListener("click", buildNavBar);
@@ -324,9 +329,9 @@ hideSpoilersButton.addEventListener("click", hideAllSpoilers);
 const pst = document.getElementById("premisestory");
 const bst = document.getElementById("basicstory");
 const fst = document.getElementById("fullstory");
-const psu = subseries ? document.getElementById("premisesubseries") : null;
-const bsu = subseries ? document.getElementById("basicsubseries") : null;
-const fsu = subseries ? document.getElementById("fullsubseries") : null;
+const psu = subseriesExist ? document.getElementById("premisesubseries") : null;
+const bsu = subseriesExist ? document.getElementById("basicsubseries") : null;
+const fsu = subseriesExist ? document.getElementById("fullsubseries") : null;
 const pse = document.getElementById("premiseseries");
 const bse = document.getElementById("basicseries");
 const fse = document.getElementById("fullseries");
@@ -336,7 +341,7 @@ function markLowerLevelSpoilers(clickedInput) {
         if (fse.checked) { bse.checked = true; fst.checked = true; if (fsu) { fsu.checked = true } };
         if (bse.checked) { pse.checked = true; bst.checked = true; if (bsu) { bsu.checked = true } };
 
-        if (subseries) {
+        if (subseriesExist) {
             if (fsu.checked) { bsu.checked = true; fst.checked = true; };
             if (bsu.checked) { psu.checked = true; bst.checked = true; };
             if (psu.checked) { pst.checked = true };
@@ -350,7 +355,7 @@ function markLowerLevelSpoilers(clickedInput) {
         if (!bst.checked) { fst.checked = false; bse.checked = false; if (bsu) { bsu.checked = false } };
         if (!fst.checked) { fse.checked = false; if (fsu) { fsu.checked = false } }
 
-        if (subseries) {
+        if (subseriesExist) {
             if (!psu.checked) { bsu.checked = false; bse.checked = false; };
             if (!bsu.checked) { fsu.checked = false; bse.checked = false; };
             if (!fsu.checked) { fse.checked = false; }
@@ -375,7 +380,7 @@ function setCorrectSpoilerStyling(spoilerSpan) {
     addOrRemoveHiddenSpoiler(spoilerSpan, "pst", pst);
     addOrRemoveHiddenSpoiler(spoilerSpan, "bst", bst);
     addOrRemoveHiddenSpoiler(spoilerSpan, "fst", fst);
-    if (subseries) {
+    if (subseriesExist) {
         addOrRemoveHiddenSpoiler(spoilerSpan, "psu", psu);
         addOrRemoveHiddenSpoiler(spoilerSpan, "bsu", bsu);
         addOrRemoveHiddenSpoiler(spoilerSpan, "fsu", fsu);
@@ -409,7 +414,12 @@ for (let i=0; i<spoilerInputs.length; i++) {
 
 // Set entry logos to be clickable elements to populate content area
 const entryTitle = document.getElementById("entrytitle");
+const releaseDate = document.getElementById("releasedate");
+// const phaseNum = phasesExist ? document.getElementById("phasenum") : null;
+const whyPlacementHeading = document.getElementById("whyplacementheading");
+const whyPlacement = document.getElementById("whyplacement");
 const whyChron = document.getElementById("whychron");
+
 
 function populateContent() {
     // Thanks for some array/object searching help: https://stackoverflow.com/questions/7176908/how-can-i-get-the-index-of-an-object-by-its-property-in-javascript
@@ -419,7 +429,75 @@ function populateContent() {
 
     const entry = entries[entries.findIndex(item => item.code === this.id)];
     entryTitle.textContent = entry.name;
-    whyChron.innerHTML = entry.whychron;
+    releaseDate.textContent = parseDate(entry.release);
+
+    if (phasesExist) { document.getElementById("phasenum").textContent = entry.phase ? entry.phase : "?" }
+    if (sagaNames) { document.getElementById("saganame").textContent = entry.phase ? sagaNames[entry.phase] : "?" }
+    if (subseriesExist) { document.getElementById("subseriesname").textContent = entry.subseries ? entry.subseries + (entry.subsubseries ? " (" + entry.subsubseries + ")" : "") : "?"}
+    
+    populateWhyContent(entry);
+
+    document.getElementById("content").classList.remove("hid");
+}
+
+// Format date correctly
+function parseDate(dateString) {
+    let formattedDate = dateString;
+
+    try {
+        const dateArray = dateString.split("-");
+        
+        let formattedMonth;
+        if (dateArray[1] == "01") { formattedMonth = "Jan" }
+            else if (dateArray[1] == "02") { formattedMonth = "Feb" }
+            else if (dateArray[1] == "03") { formattedMonth = "Mar" }
+            else if (dateArray[1] == "04") { formattedMonth = "Apr" }
+            else if (dateArray[1] == "05") { formattedMonth = "May" }
+            else if (dateArray[1] == "06") { formattedMonth = "Jun" }
+            else if (dateArray[1] == "07") { formattedMonth = "Jul" }
+            else if (dateArray[1] == "08") { formattedMonth = "Aug" }
+            else if (dateArray[1] == "09") { formattedMonth = "Sep" }
+            else if (dateArray[1] == "10") { formattedMonth = "Oct" }
+            else if (dateArray[1] == "11") { formattedMonth = "Nov" }
+            else if (dateArray[1] == "12") { formattedMonth = "Dec" }
+            else { throw new Error("Couldn't identify entry month") }
+        
+        formattedDate = formattedMonth + " " + dateArray[0];
+    } catch (error) {
+        console.error(error);
+    } finally {
+        return formattedDate;
+    }
+}
+
+function populateWhyContent(entry) {
+    const noInfo = "Information not available."
+    let whyPlacementContent = noInfo;
+    let setHeading = false;
+    let whyPlacementType = "This";
+
+    if (release.checked) {
+        whyPlacementHeading.classList.add("hid");
+        whyPlacement.classList.add("hid");
+    } else {
+        whyPlacementHeading.classList.remove("hid");
+        whyPlacement.classList.remove("hid");
+
+        if (chronological.checked) {
+            setHeading = true;
+            whyPlacementType = chronological.value;
+            whyPlacementContent = entry.whychron ? entry.whychron : noInfo;
+        } else if (narrative.checked) {
+            setHeading = true;
+            whyPlacementType = narrative.value;
+            whyPlacementContent = entry.whynar ? entry.whynar : noInfo;
+        }
+    }
+
+    whyPlacementHeading.textContent = `Why this is placed here in ${whyPlacementType} order:`;
+    whyPlacement.innerHTML = whyPlacementContent;
+
+    // whyChron.innerHTML = entry.whychron;
 
     replaceSpoilerTags();
     changeSpoilerStyling();
@@ -427,9 +505,7 @@ function populateContent() {
 
 // Replace custom HTML spoiler tags with appropriate spans
 function replaceSpoilerTags() {
-    const content = document.getElementById("content");
-
-    const spoilerTags = document.querySelectorAll("#content p > *");
+    const spoilerTags = document.querySelectorAll("#content p > *:not(span, strong, em)");
 
     for (let i=0; i<spoilerTags.length; i++) {
         const tagType = spoilerTags[i].nodeName.toLowerCase();
