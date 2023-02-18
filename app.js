@@ -8,8 +8,7 @@ const main = document.querySelector("main");
 head.innerHTML = `<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
 <link href="../app.css" rel="stylesheet" type="text/css">
-<style id="extracss"></style>
-<style =id="spoilercss"></style>`;
+<style id="extracss"></style>`;
 
 // Use custom head details
 const title = document.querySelector("title");
@@ -148,6 +147,21 @@ if (!selectionOptionDescription.basicstory) {
 if (!selectionOptionDescription.fullstory) {
     selectionOptionDescription.fullstory = `Spoilers relating to any details from the entry's story, including those typically revealed at the end. These include details typically referred to as "spoilers."`
 }
+
+if (subseries) {
+    if (!selectionOptionDescription.premisesubseries) {
+        selectionOptionDescription.premisesubseries = `Spoilers relating to the pitch of the subseries (e.g. all ${subseriesExample} entries). These include only the sorts of details you might find out from ${blurbVerb} from a later entry in the subseries but which might not be revealed in that particular entry.`
+    }
+
+    if (!selectionOptionDescription.basicsubseries) {
+        selectionOptionDescription.basicsubseries = `Spoilers relating to basic events of the subseries (e.g. all ${subseriesExample} entries). These include the sorts of details a friend might tell you after ${progressiveVerb} a later entry in the subseries but which might not be revealed in that particular entry.`
+    }
+    
+    if (!selectionOptionDescription.fullsubseries) {
+        selectionOptionDescription.fullsubseries = `Spoilers relating to any details from any entry in the subseries (e.g. all ${subseriesExample} entries), including those typically revealed at the end. These include details typically referred to as "spoilers" and may be significantly "spoilery" since they may include crucial details from later entries.`
+    }
+}
+
 
 if (!selectionOptionDescription.premiseseries) {
     selectionOptionDescription.premiseseries = `Spoilers relating to the pitch of the series as a whole. These include only the sorts of details you might find out from ${blurbVerb} from a later entry in the series but which might not be revealed in that particular entry.`
@@ -295,14 +309,17 @@ const showSpoilersButton = document.getElementById("allspoilers");
 const hideSpoilersButton = document.getElementById("hidespoilers");
 
 function showAllSpoilers() {
-    spoilerInputs.forEach()
+    spoilerInputs.forEach(checkbox => checkbox.checked = true);
+    setUpSpoilerCheckboxes();
 }
 
-// function changeAllSpoilers(selectedInput) {
-//     selectedInput.checked = 
-// }
+function hideAllSpoilers() {
+    spoilerInputs.forEach(checkbox => checkbox.checked = false);
+    setUpSpoilerCheckboxes();
+}
 
-
+showSpoilersButton.addEventListener("click", showAllSpoilers);
+hideSpoilersButton.addEventListener("click", hideAllSpoilers);
 
 const pst = document.getElementById("premisestory");
 const bst = document.getElementById("basicstory");
@@ -348,14 +365,41 @@ function markLowerLevelSpoilers(clickedInput) {
 // const markLowerLevelSpoilersBound = markLowerLevelSpoilers.bind(this);
 
 
-//  Configure CSS to reflect spoiler choice
-const spoilerCSS = document.getElementById("spoilercss");
-// spoilerCSS.textContent = `.pst {visibility: }`;
+//  Add/remove "hiddenspoiler" class to spoiler spans as applicable
+function changeSpoilerStyling() {
+    const spoilerSpans = document.querySelectorAll(".spoiler");
+    spoilerSpans.forEach(setCorrectSpoilerStyling)
+}
+
+function setCorrectSpoilerStyling(spoilerSpan) {
+    addOrRemoveHiddenSpoiler(spoilerSpan, "pst", pst);
+    addOrRemoveHiddenSpoiler(spoilerSpan, "bst", bst);
+    addOrRemoveHiddenSpoiler(spoilerSpan, "fst", fst);
+    if (subseries) {
+        addOrRemoveHiddenSpoiler(spoilerSpan, "psu", psu);
+        addOrRemoveHiddenSpoiler(spoilerSpan, "bsu", bsu);
+        addOrRemoveHiddenSpoiler(spoilerSpan, "fsu", fsu);
+    }
+    addOrRemoveHiddenSpoiler(spoilerSpan, "pse", pse);
+    addOrRemoveHiddenSpoiler(spoilerSpan, "bse", bse);
+    addOrRemoveHiddenSpoiler(spoilerSpan, "fse", fse);
+}
+
+function addOrRemoveHiddenSpoiler(spoilerSpan, className, checkboxName) {
+    if (spoilerSpan.classList.contains(className)) { 
+        if (checkboxName.checked) {
+            spoilerSpan.classList.remove("hiddenspoiler");
+        } else {
+            spoilerSpan.classList.add("hiddenspoiler");
+            spoilerSpan.addEventListener("click", () => {spoilerSpan.classList.remove("hiddenspoiler")});
+        }
+    }
+}
 
 // Set spoiler checkboxes to use correct functions
 function setUpSpoilerCheckboxes() {
     markLowerLevelSpoilers(this);
-
+    changeSpoilerStyling();
 }
 
 for (let i=0; i<spoilerInputs.length; i++) {
@@ -378,6 +422,7 @@ function populateContent() {
     whyChron.innerHTML = entry.whychron;
 
     replaceSpoilerTags();
+    changeSpoilerStyling();
 }
 
 // Replace custom HTML spoiler tags with appropriate spans
@@ -390,19 +435,19 @@ function replaceSpoilerTags() {
         const tagType = spoilerTags[i].nodeName.toLowerCase();
         
         let tagTypeWritten;
-        if (tagType == "pst") {tagTypeWritten = "premise story level "}
-        else if  (tagType == "bst") {tagTypeWritten = "basic story level "}
-        else if  (tagType == "fst") {tagTypeWritten = "full story level "}
-        else if  (tagType == "pse") {tagTypeWritten = "premise series level "}
-        else if  (tagType == "bse") {tagTypeWritten = "basic series level "}
-        else if  (tagType == "fse") {tagTypeWritten = "full series level "}
-        else if  (tagType == "psu") {tagTypeWritten = "premise subseries level "}
-        else if  (tagType == "bsu") {tagTypeWritten = "basic subseries level "}
-        else if  (tagType == "fsu") {tagTypeWritten = "full subseries level "}
+        if (tagType == "pst") {tagTypeWritten = "Premise story level"}
+        else if  (tagType == "bst") {tagTypeWritten = "Basic story level"}
+        else if  (tagType == "fst") {tagTypeWritten = "Full story level"}
+        else if  (tagType == "pse") {tagTypeWritten = "Premise series level"}
+        else if  (tagType == "bse") {tagTypeWritten = "Basic series level"}
+        else if  (tagType == "fse") {tagTypeWritten = "Full series level"}
+        else if  (tagType == "psu") {tagTypeWritten = "Premise subseries level"}
+        else if  (tagType == "bsu") {tagTypeWritten = "Basic subseries level"}
+        else if  (tagType == "fsu") {tagTypeWritten = "Full subseries level"}
 
-        const spoilerMessage = `Content contains ${tagTypeWritten}spoilers`;
+        const spoilerMessage = `${tagTypeWritten} spoilers`;
 
-        spoilerTags[i].insertAdjacentHTML("afterend", `<span class="${tagType}" title="${spoilerMessage}"><span>${spoilerTags[i].innerHTML}</span></span>`);
+        spoilerTags[i].insertAdjacentHTML("afterend", `<span class="${tagType} spoiler" title="${spoilerMessage}"><span>${spoilerTags[i].innerHTML}</span></span>`);
         spoilerTags[i].remove();
     }
 }

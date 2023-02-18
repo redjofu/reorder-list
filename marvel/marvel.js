@@ -7,6 +7,9 @@ const progressiveVerb = "watching";
 // How to describe how someone might view the media in "tailer" or "blurb" form
 const blurbVerb = "watching a trailer";
 
+// Example of a subseries
+const subseriesExample = "Thor";
+
 const typeOptions = [
     ["Films", "films"],
     ["TV Series", "tvseries"]
@@ -57,7 +60,8 @@ const entries = [
         "chronological": 4,
         "narrative": 4,
         "type": "films",
-        "image": "incredible-hulk.png"
+        "image": "incredible-hulk.png",
+        "whychron": "hello <pst>pst</pst> <bst>bst</bst> <fst>fst</fst> <psu>psu</psu> <bsu>bsu</bsu> <fsu>fsu</fsu> <pse>pse</pse> <bse>bse</bse> <fse>fse</fse> hello"
     },
     {
         "code": "iron-man-2",

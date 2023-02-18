@@ -173,19 +173,21 @@ input, label, button, #entrylist img {
     /* height: calc((var(--screen-height)/var(--screen-height-unit) - var(--header-height)/1px - var(--sidebar-padding)/1px * 2 - var(--explanation-padding)/1px * 2 - var(--explanation-height)/1px)*1px);
     height: calc((625px/1px - var(--header-height)/1px - var(--sidebar-padding)/1px * 2 - var(--explanation-padding)/1px * 2 - var(--explanation-height)/1px)*1px); */
     height: calc(var(--screen-height) - var(--header-height) - var(--sidebar-padding) * 2 - var(--explanation-padding) * 2 - var(--explanation-height));
-    /* height: calc(625px - 100px - 15px * 2 - 4px * 2 - 200px);  */
-    overflow-y: auto;
+    /* height: calc(625px - 100px - 15px * 2 - 4px * 2 - 200px);  */ 
     margin: 0 0 var(--sidebar-padding) var(--sidebar-padding);
+}
+#selectionscroll, #selectionexplanation p{
+    overflow-y: auto;
     scrollbar-color: var(--color-5) var(--color-1);
     scrollbar-width: thin;
 }
 
 /* Scrollbar styling */
-#selectionscroll::-webkit-scrollbar {
+#selectionscroll::-webkit-scrollbar, #selectionexplanation p::-webkit-scrollbar {
     width: var(--scrollbar-width);
 }
 
-#selectionscroll::-webkit-scrollbar-button:single-button:decrement {
+#selectionscroll::-webkit-scrollbar-button:single-button:decrement, #selectionexplanation p::-webkit-scrollbar-button:single-button:decrement {
     width: 20px;
     background-color: transparent;
     border-bottom: 20px solid var(--color-1);
@@ -194,7 +196,7 @@ input, label, button, #entrylist img {
     cursor: pointer !important;
 }
 
-#selectionscroll::-webkit-scrollbar-button:single-button:increment {
+#selectionscroll::-webkit-scrollbar-button:single-button:increment, #selectionexplanation p::-webkit-scrollbar-button:single-button:increment {
     width: 20px;
     background-color: transparent;
     border-top: 20px solid var(--color-1);
@@ -203,11 +205,11 @@ input, label, button, #entrylist img {
     cursor: pointer !important;
 }
 
-#selectionscroll::-webkit-scrollbar-track {
+#selectionscroll::-webkit-scrollbar-track, #selectionexplanation p::-webkit-scrollbar-track {
     background-color: var(--color-2);
 }
 
-#selectionscroll::-webkit-scrollbar-thumb {
+#selectionscroll::-webkit-scrollbar-thumb, #selectionexplanation p::-webkit-scrollbar-thumb {
     background-color: var(--color-1);
     border-radius: 10px;
 }
@@ -266,7 +268,7 @@ input, label, button, #entrylist img {
 }
 /* ------ */
 
-.fst {
+/* .fst {
     background-color: orange;
 }
 
@@ -280,8 +282,28 @@ input, label, button, #entrylist img {
 
 .bse {
     background-color: lime;
-}
+} */
 
 #content p {
     margin: 0;
+    line-height: 1.4em;
+}
+
+.hiddenspoiler {
+    background-color: var(--color-1);
+    /* box-shadow: inset 0 0 0 3px var(--color-5); */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hiddenspoiler:hover {
+    background-color: var(--color-2);
+}
+
+.hiddenspoiler:active {
+    background-color: transparent;
+}
+
+.hiddenspoiler span {
+    visibility: hidden;
 }
