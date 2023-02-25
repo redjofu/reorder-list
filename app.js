@@ -479,25 +479,30 @@ function parseDate(dateString) {
     }
 }
 
+const iconFilePath = "../icons/";
+const disneyPlusIcon = "disneyplus.png";
+const primeVideoIcon = "primevideo.jpeg";
+const vuduIcon = "vudu.jpeg";
+const appleTVIcon = "appletv.png";
+const googlePlayIcon = "googleplay.png";
+
 function populateWhereToFind(entry) {
     whereToFindHeading.textContent = `Where to ${infinitiveVerb ? capitalizeFirstLetter(infinitiveVerb) : 'Find'}`
     whereToFind.innerHTML = `<p>Purchase or Subscription Required</p>
     <ul>
-    ${entry.disneyplus ? '<li><a href="https://www.disneyplus.com' + entry.disneyplus + '"><img src="https://asset.brandfetch.io/idhQlYRiX2/idRXC5mxqs.png" alt="Disney+"></a></li>' : ''}
-    ${entry.primevideo ? '<li><a href="https://www.amazon.com/gp/video/detail/' + entry.primevideo + '">Prime Video</a></li>' : ''}
+    ${entry.disneyplus ? '<li><a href="https://www.disneyplus.com/' + entry.disneyplus + '"><img src="' + iconFilePath + disneyPlusIcon + '" alt="Disney+"></a></li>' : ''}
+    ${entry.primevideo ? '<li><a href="https://www.amazon.com/gp/video/detail/' + entry.primevideo + '"><img src="' + iconFilePath + primeVideoIcon + '" alt="Prime Video"></a></li>' : ''}
+    ${entry.vudu ? '<li><a href="https://www.vudu.com/content/movies/details/' + entry.vudu + '"><img src="' + iconFilePath + vuduIcon + '" alt="Vudu Fandango"></a></li>' : ''}
+    ${entry.appletv ? '<li><a href="https://tv.apple.com/' + entry.appletv + '"><img src="' + iconFilePath + appleTVIcon + '" alt="Apple TV"></a></li>' : ''}
+    ${entry.googleplay ? '<li><a href="https://play.google.com/store/' + entry.googleplay + '"><img src="' + iconFilePath + googlePlayIcon + '" alt="Apple TV"></a></li>' : ''}
     </ul>`
-}
-
-// Helpful function provided here: https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function populateWhyContent(entry) {
     const noInfo = "Information not available."
     let whyPlacementContent = noInfo;
     let setHeading = false;
-    let whyPlacementType = "This";
+    let whyPlacementType = "this";
 
     if (release.checked) {
         whyPlacementHeading.classList.add("hid");
@@ -517,7 +522,7 @@ function populateWhyContent(entry) {
         }
     }
 
-    whyPlacementHeading.textContent = `Why this is placed here in ${whyPlacementType} order:`;
+    whyPlacementHeading.textContent = `${capitalizeFirstLetter(whyPlacementType)} Order Reasoning`;
     whyPlacement.innerHTML = whyPlacementContent;
 
     // whyChron.innerHTML = entry.whychron;
@@ -572,4 +577,14 @@ function removeEventListenersOnLogos() {
     for (let i=0; i<entryLogos.length; i++) {
         entryLogos[i].removeEventListener("click", populateContent);
     }
+}
+
+
+////////////////////////////////////////////////
+// Utility Functions
+////////////////////////////////////////////////
+
+// Helpful function provided here: https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
