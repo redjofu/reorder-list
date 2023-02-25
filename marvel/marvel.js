@@ -3,6 +3,7 @@ const pageTitle = "Best Order to Watch the Marvel Cinematic Universe";
 // How to describe the people who consume the media in question (e.g. "viewers," "readers," "gamers")
 const userType = "viewers";
 const progressiveVerb = "watching";
+const infinitiveVerb = "watch";
 
 // How to describe how someone might view the media in "tailer" or "blurb" form
 const blurbVerb = "watching a trailer";
@@ -66,7 +67,8 @@ const entries = [
         "subseries": "Iron Man",
         "subsubseries" : "Iron Man trilogy",
         "disneyplus" : "/movies/iron-man/6aM2a8mZATiu",
-        "whychron": "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</pse>"
+        "privevideo" : "B001FD5KJM",
+        "whychron" : "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</pse>"
     },
     {
         "code": "incredible-hulk",

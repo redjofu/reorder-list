@@ -260,7 +260,7 @@ function buildNavBar(selectedOrderInput) {
         const newLI = document.createElement("li");
         newLI.id = orderedEntries[i].code;
         newLI.classList.add(orderedEntries[i].type);
-        newLI.innerHTML = `<img src="logos/${orderedEntries[i].image}">`
+        newLI.innerHTML = `<img src="logos/${orderedEntries[i].image}" alt="${orderedEntries[i].name}">`
         entryList.appendChild(newLI);
     }
 
@@ -422,6 +422,7 @@ for (let i=0; i<spoilerInputs.length; i++) {
 const entryTitle = document.getElementById("entrytitle");
 const releaseDate = document.getElementById("releasedate");
 // const phaseNum = phasesExist ? document.getElementById("phasenum") : null;
+const whereToFindHeading = document.getElementById("wheretofindheading");
 const whereToFind = document.getElementById("wheretofind");
 const whyPlacementHeading = document.getElementById("whyplacementheading");
 const whyPlacement = document.getElementById("whyplacement");
@@ -479,7 +480,17 @@ function parseDate(dateString) {
 }
 
 function populateWhereToFind(entry) {
-    whereToFind.innerHTML = `${entry.disneyplus ? '<a href="https://www.disneyplus.com' + entry.disneyplus + '">Disney+</a>' : ''}`
+    whereToFindHeading.textContent = `Where to ${infinitiveVerb ? capitalizeFirstLetter(infinitiveVerb) : 'Find'}`
+    whereToFind.innerHTML = `<p>Purchase or Subscription Required</p>
+    <ul>
+    ${entry.disneyplus ? '<li><a href="https://www.disneyplus.com' + entry.disneyplus + '"><img src="https://asset.brandfetch.io/idhQlYRiX2/idRXC5mxqs.png" alt="Disney+"></a></li>' : ''}
+    ${entry.primevideo ? '<li><a href="https://www.amazon.com/gp/video/detail/' + entry.primevideo + '">Prime Video</a></li>' : ''}
+    </ul>`
+}
+
+// Helpful function provided here: https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function populateWhyContent(entry) {
@@ -525,7 +536,7 @@ function adjustWhyContent() {
 
 // Replace custom HTML spoiler tags with appropriate spans
 function replaceSpoilerTags() {
-    const spoilerTags = document.querySelectorAll("#content p > *:not(span, strong, em, a)");
+    const spoilerTags = document.querySelectorAll("#content p > *:not(span, strong, em, a, img, ul, li, p)");
 
     for (let i=0; i<spoilerTags.length; i++) {
         const tagType = spoilerTags[i].nodeName.toLowerCase();
