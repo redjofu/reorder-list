@@ -73,6 +73,10 @@ const entries = [
         "appletv" : "movie/iron-man/umc.cmc.219lnb4s678o8roez3o905h7r",
         "googleplay" : "movies/details/Iron_Man?id=gOe5jcSmQT4",
         "disc" : true,
+        "commonsense" : "movie-reviews/iron-man",
+        "imdb" : "tt0371746",
+        "kim" : "i/ironman.htm",
+        "clearplay" : "3003",
         "whychron" : "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</pse>"
     },
     {

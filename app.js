@@ -496,6 +496,7 @@ const amazonIcon = "amazon.png";
 const walmartIcon = "walmart.png";
 const targetIcon = "target.jpeg";
 const bestBuyIcon = "bestbuy.jpeg";
+const ebayIcon = "ebay.png";
 
 function populateWhereToFind(entry) {
     whereToFindHeading.textContent = `Where to ${infinitiveVerb ? capitalizeFirstLetter(infinitiveVerb) : 'Find'}`;
@@ -511,9 +512,11 @@ function populateWhereToFind(entry) {
     ${entry.disc ? '<li><a href="https://www.walmart.com/search?q=' + prepForURL(entry.name) + '+blu-ray&catId=4096"><img src="' + iconFilePath + walmartIcon + '" alt="Search Walmart"></a></li>' : ''}
     ${entry.disc ? '<li><a href="https://www.target.com/s?searchTerm=' + prepForURL(entry.name) + '&category=5xsxe&facetedValue=cz41e"><img src="' + iconFilePath + targetIcon + '" alt="Search Target"></a></li>' : ''}
     ${entry.disc ? '<li><a href="https://www.bestbuy.com/site/searchpage.jsp?id=pcat17071&qp=category_facet%3DMovies%20%26%20TV%20Shows~cat02015&st=' + prepForURL(entry.name) + '"><img src="' + iconFilePath + bestBuyIcon + '" alt="Search Best Buy"></a></li>' : ''}
+    ${entry.disc ? '<li><a href="https://www.ebay.com/sch/617/i.html?_from=R40&_nkw=' + prepForURL(entry.name) + '"><img src="' + iconFilePath + ebayIcon + '" alt="Search eBay"></a></li>' : ''}
     </ul>`;
 }
 // Other services to check: HBO Max, Hulu, Fubo, Tubi, Paramount+, Freevee, Peacock
+// Add eBay?
 
 function prepForURL(string) {
     return string.toLowerCase().replaceAll(" ","+");
@@ -526,10 +529,19 @@ function prepForURL(string) {
 // https://kids-in-mind.com/i/ironman.htm
 // https://www.clearplay.com/MovieDash.aspx?id=3003
 
+const commonSenseIcon = "commonsense.jpeg";
+const imdbIcon = "imdb.jpg";
+const kimIcon = "kim.jpg";
+const clearPlayIcon = "clearplay.jpg";
+
 function populateContentGuide(entry) {
     contentGuideHeading.textContent = "Content Guide for Parents";
-    contentGuide.innerHTML = `<p>Not all content may be appropriate for children or concerned individuals. These services may help.
+    contentGuide.innerHTML = `<p>Not all content may be appropriate for children or concerned individuals. These services may help.</p>
     <ul class="iconlist">
+    ${entry.commonsense ? '<li><a href="https://www.commonsensemedia.org/' + entry.commonsense + '"><img src="' + iconFilePath + commonSenseIcon + '" alt="Common Sense Media"></a></li>' : ''}
+    ${entry.imdb ? '<li><a href="https://www.imdb.com/title/' + entry.imdb + '/parentalguide"><img src="' + iconFilePath + imdbIcon + '" alt="IMDb Parental Guide"></a></li>' : ''}
+    ${entry.kim ? '<li><a href="https://kids-in-mind.com/' + entry.kim + '"><img src="' + iconFilePath + kimIcon + '" alt="Kids-In-Mind"></a></li>' : ''}
+    ${entry.clearplay ? '<li><a href="https://www.clearplay.com/MovieDash.aspx?id=' + entry.clearplay + '"><img src="' + iconFilePath + clearPlayIcon + '" alt="ClearPlay"></a></li>' : ''}
     </ul>`;
 }
 
