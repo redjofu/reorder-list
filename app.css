@@ -79,11 +79,11 @@ input, label, button, #entrylist img {
     cursor: pointer;
 }
 
-#entrylist img:hover, #wheretofind li img:hover {
+#entrylist img:hover, .iconlist li img:hover {
     filter: brightness(120%) saturate(120%);
 }
 
-#entrylist img:active, #wheretofind li img:active {
+#entrylist img:active, .iconlist li img:active {
     filter: brightness(90%) saturate(70%);
 }
 
@@ -300,26 +300,26 @@ input, label, button, #entrylist img {
     line-height: 1.4em;
 }
 
-#wheretofind ul {
+ul.iconlist {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-#wheretofind li {
+.iconlist li {
     display: inline-flex;
     padding: 3px;
 }
 
-#wheretofind li:first-of-type {
+/* .iconlist li:first-of-type {
     padding-left: 0;
-}
+} */
 
-#wheretofind li a {
+.iconlist li a {
     height: 0;
 }
 
-#wheretofind li img {
+.iconlist li img {
     width: 80px;
 }
 

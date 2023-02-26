@@ -67,10 +67,12 @@ const entries = [
         "subseries": "Iron Man",
         "subsubseries" : "Iron Man trilogy",
         "disneyplus" : "movies/iron-man/6aM2a8mZATiu",
+        "netflix" : "70080038",
         "primevideo" : "B001FD5KJM",
         "vudu" : "Iron-Man/141479",
         "appletv" : "movie/iron-man/umc.cmc.219lnb4s678o8roez3o905h7r",
         "googleplay" : "movies/details/Iron_Man?id=gOe5jcSmQT4",
+        "disc" : true,
         "whychron" : "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</pse>"
     },
     {

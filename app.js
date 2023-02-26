@@ -121,6 +121,8 @@ main.innerHTML = `<div id="navbar">
     ${subseriesExist ? '<p>Subseries: <span id="subseriesname"></span></p>' : ''}
     <h3 id="wheretofindheading"></h3>
     <p id="wheretofind"></p>
+    <h3 id="contentguideheading"></h3>
+    <p id="contentguide"></p>
     <h3 id="whyplacementheading"></h3>
     <p id="whyplacement"></p>
     <p id="whychron"></p>
@@ -424,6 +426,8 @@ const releaseDate = document.getElementById("releasedate");
 // const phaseNum = phasesExist ? document.getElementById("phasenum") : null;
 const whereToFindHeading = document.getElementById("wheretofindheading");
 const whereToFind = document.getElementById("wheretofind");
+const contentGuideHeading = document.getElementById("contentguideheading");
+const contentGuide = document.getElementById("contentguide");
 const whyPlacementHeading = document.getElementById("whyplacementheading");
 const whyPlacement = document.getElementById("whyplacement");
 const whyChron = document.getElementById("whychron");
@@ -444,6 +448,7 @@ function populateContent() {
     if (subseriesExist) { document.getElementById("subseriesname").textContent = entry.subseries ? entry.subseries + (entry.subsubseries ? " (" + entry.subsubseries + ")" : "") : "?"}
     
     populateWhereToFind(entry);
+    populateContentGuide(entry);
     populateWhyContent(entry);
 
     document.getElementById("content").classList.remove("hid");
@@ -479,27 +484,59 @@ function parseDate(dateString) {
     }
 }
 
+// "Where to Find" Section
 const iconFilePath = "../icons/";
 const disneyPlusIcon = "disneyplus.png";
+const netflixIcon = "netflix.jpeg";
 const primeVideoIcon = "primevideo.jpeg";
 const vuduIcon = "vudu.jpeg";
 const appleTVIcon = "appletv.png";
 const googlePlayIcon = "googleplay.png";
+const amazonIcon = "amazon.png";
+const walmartIcon = "walmart.png";
+const targetIcon = "target.jpeg";
+const bestBuyIcon = "bestbuy.jpeg";
 
 function populateWhereToFind(entry) {
-    whereToFindHeading.textContent = `Where to ${infinitiveVerb ? capitalizeFirstLetter(infinitiveVerb) : 'Find'}`
-    whereToFind.innerHTML = `<p>Purchase or Subscription Required</p>
-    <ul>
+    whereToFindHeading.textContent = `Where to ${infinitiveVerb ? capitalizeFirstLetter(infinitiveVerb) : 'Find'}`;
+    whereToFind.innerHTML = `<p>Purchase or subscription required. Title may not be available in your region.</p>
+    <ul class="iconlist">
     ${entry.disneyplus ? '<li><a href="https://www.disneyplus.com/' + entry.disneyplus + '"><img src="' + iconFilePath + disneyPlusIcon + '" alt="Disney+"></a></li>' : ''}
+    ${entry.netflix ? '<li><a href="https://www.netflix.com/title/' + entry.netflix + '"><img src="' + iconFilePath + netflixIcon + '" alt="Netflix"></a></li>' : ''}
     ${entry.primevideo ? '<li><a href="https://www.amazon.com/gp/video/detail/' + entry.primevideo + '"><img src="' + iconFilePath + primeVideoIcon + '" alt="Prime Video"></a></li>' : ''}
     ${entry.vudu ? '<li><a href="https://www.vudu.com/content/movies/details/' + entry.vudu + '"><img src="' + iconFilePath + vuduIcon + '" alt="Vudu Fandango"></a></li>' : ''}
     ${entry.appletv ? '<li><a href="https://tv.apple.com/' + entry.appletv + '"><img src="' + iconFilePath + appleTVIcon + '" alt="Apple TV"></a></li>' : ''}
-    ${entry.googleplay ? '<li><a href="https://play.google.com/store/' + entry.googleplay + '"><img src="' + iconFilePath + googlePlayIcon + '" alt="Apple TV"></a></li>' : ''}
-    </ul>`
+    ${entry.googleplay ? '<li><a href="https://play.google.com/store/' + entry.googleplay + '"><img src="' + iconFilePath + googlePlayIcon + '" alt="Google Play"></a></li>' : ''}
+    ${entry.disc ? '<li><a href="https://www.amazon.com/s?k=' + prepForURL(entry.name) + '&i=movies-tv&rh=n%3A2625373011%2Cp_n_format_browse-bin%3A2650304011%7C2650305011%7C9397930011"><img src="' + iconFilePath + amazonIcon + '" alt="Search Amazon"></a></li>' : ''}
+    ${entry.disc ? '<li><a href="https://www.walmart.com/search?q=' + prepForURL(entry.name) + '+blu-ray&catId=4096"><img src="' + iconFilePath + walmartIcon + '" alt="Search Walmart"></a></li>' : ''}
+    ${entry.disc ? '<li><a href="https://www.target.com/s?searchTerm=' + prepForURL(entry.name) + '&category=5xsxe&facetedValue=cz41e"><img src="' + iconFilePath + targetIcon + '" alt="Search Target"></a></li>' : ''}
+    ${entry.disc ? '<li><a href="https://www.bestbuy.com/site/searchpage.jsp?id=pcat17071&qp=category_facet%3DMovies%20%26%20TV%20Shows~cat02015&st=' + prepForURL(entry.name) + '"><img src="' + iconFilePath + bestBuyIcon + '" alt="Search Best Buy"></a></li>' : ''}
+    </ul>`;
+}
+// Other services to check: HBO Max, Hulu, Fubo, Tubi, Paramount+, Freevee, Peacock
+
+function prepForURL(string) {
+    return string.toLowerCase().replaceAll(" ","+");
 }
 
+
+// "Content Guide" Section
+// https://www.commonsensemedia.org/movie-reviews/iron-man
+// https://www.imdb.com/title/tt0371746/parentalguide
+// https://kids-in-mind.com/i/ironman.htm
+// https://www.clearplay.com/MovieDash.aspx?id=3003
+
+function populateContentGuide(entry) {
+    contentGuideHeading.textContent = "Content Guide for Parents";
+    contentGuide.innerHTML = `<p>Not all content may be appropriate for children or concerned individuals. These services may help.
+    <ul class="iconlist">
+    </ul>`;
+}
+
+// Other services to check: VidAngel
+
 function populateWhyContent(entry) {
-    const noInfo = "Information not available."
+    const noInfo = "Information not available.";
     let whyPlacementContent = noInfo;
     let setHeading = false;
     let whyPlacementType = "this";
