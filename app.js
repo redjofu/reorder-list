@@ -121,6 +121,8 @@ main.innerHTML = `<div id="navbar">
     ${subseriesExist ? '<p>Subseries: <span id="subseriesname"></span></p>' : ''}
     <h3 id="wheretofindheading"></h3>
     <p id="wheretofind"></p>
+    <h3 id="additionalinfoheading"></h3>
+    <p id="additionalinfo"></p>
     <h3 id="contentguideheading"></h3>
     <p id="contentguide"></p>
     <h3 id="whyplacementheading"></h3>
@@ -426,6 +428,8 @@ const releaseDate = document.getElementById("releasedate");
 // const phaseNum = phasesExist ? document.getElementById("phasenum") : null;
 const whereToFindHeading = document.getElementById("wheretofindheading");
 const whereToFind = document.getElementById("wheretofind");
+const additionalInfoHeading = document.getElementById("additionalinfoheading");
+const additionalInfo = document.getElementById("additionalinfo");
 const contentGuideHeading = document.getElementById("contentguideheading");
 const contentGuide = document.getElementById("contentguide");
 const whyPlacementHeading = document.getElementById("whyplacementheading");
@@ -448,6 +452,7 @@ function populateContent() {
     if (subseriesExist) { document.getElementById("subseriesname").textContent = entry.subseries ? entry.subseries + (entry.subsubseries ? " (" + entry.subsubseries + ")" : "") : "?"}
     
     populateWhereToFind(entry);
+    populateAdditionalInfo(entry);
     populateContentGuide(entry);
     populateWhyContent(entry);
 
@@ -523,14 +528,31 @@ function prepForURL(string) {
 }
 
 
+// "Additional Info" Section
+const wikipediaIcon = "wikipedia.jpeg";
+const rottenTomatoesIcon = "rottentomatoes.png";
+const imdbIcon = "imdb.jpg";
+const youtubeIcon = "youtube.jpeg";
+
+
+function populateAdditionalInfo(entry) {
+    additionalInfoHeading.textContent = "Additional Information";
+    additionalInfo.innerHTML = `<p>Looking for more details or reviews for ${entry.name}? Check out these resources.</p>
+    <ul class="iconlist">
+    ${entry.official ? '<li><a href="' + officialSite.url + entry.official + '"><img src="' + iconFilePath + officialSite.icon + '" alt="' + officialSite.description + '"></a></li>' : ''}
+    ${entry.wiki ? '<li><a href="' + wiki.url + entry.wiki + '"><img src="' + iconFilePath + wiki.icon + '" alt="' + wiki.description + '"></a></li>' : ''}
+    ${entry.wikipedia ? '<li><a href="https://en.wikipedia.org/wiki/' + entry.wikipedia + '"><img src="' + iconFilePath + wikipediaIcon + '" alt="Wikipedia"></a></li>' : ''}
+    ${entry.rottentomatoes ? '<li><a href="https://www.rottentomatoes.com/' + entry.rottentomatoes + '"><img src="' + iconFilePath + rottenTomatoesIcon + '" alt="Rotten Tomatoes"></a></li>' : ''}
+    ${entry.imdb ? '<li><a href="https://www.imdb.com/title/' + entry.imdb + '"><img src="' + iconFilePath + imdbIcon + '" alt="IMDb"></a></li>' : ''}
+    ${entry.youtube ? '<li><a href="https://www.youtube.com/watch?v=' + entry.youtube + '"><img src="' + iconFilePath + youtubeIcon + '" alt="YouTube"></a></li>' : ''}
+    </ul>`;
+}
+
+
+
 // "Content Guide" Section
-// https://www.commonsensemedia.org/movie-reviews/iron-man
-// https://www.imdb.com/title/tt0371746/parentalguide
-// https://kids-in-mind.com/i/ironman.htm
-// https://www.clearplay.com/MovieDash.aspx?id=3003
 
 const commonSenseIcon = "commonsense.jpeg";
-const imdbIcon = "imdb.jpg";
 const kimIcon = "kim.jpg";
 const clearPlayIcon = "clearplay.jpg";
 

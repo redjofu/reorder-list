@@ -50,6 +50,20 @@ const selectionOptionDescription = {
 };
 
 
+// Series-specific details
+const officialSite = {
+    url: "https://www.marvel.com/",
+    icon: "marvel.png",
+    description: "Official Marvel Website"
+}
+
+const wiki = {
+    url: "https://marvelcinematicuniverse.fandom.com/wiki/",
+    icon: "fandom.png",
+    description: "Marvel Cinimatic Universe Wiki"
+}
+
+
 ////////////////////////////////////////
 /////////// Entry Content //////////////
 ////////////////////////////////////////
@@ -73,8 +87,13 @@ const entries = [
         "appletv" : "movie/iron-man/umc.cmc.219lnb4s678o8roez3o905h7r",
         "googleplay" : "movies/details/Iron_Man?id=gOe5jcSmQT4",
         "disc" : true,
-        "commonsense" : "movie-reviews/iron-man",
+        "official" : "movies/iron-man",
+        "wikipedia" : "Iron_Man_(2008_film)",
+        "wiki" : "Iron_Man_(film)",
+        "rottentomatoes" : "m/iron_man",
         "imdb" : "tt0371746",
+        "youtube" : "8ugaeA-nMTc",
+        "commonsense" : "movie-reviews/iron-man",
         "kim" : "i/ironman.htm",
         "clearplay" : "3003",
         "whychron" : "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</pse>"
@@ -128,3 +147,7 @@ const entries = [
     }
     */
 ]
+
+const characters = {
+    "Tony Stark" : {"alias" : "Iron Man"}
+}
