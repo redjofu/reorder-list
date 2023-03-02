@@ -116,6 +116,8 @@ main.innerHTML = `<div id="navbar">
 <div id="content" class="hid">
     <h2 id="entrytitle"></h2>
     <p>Release date: <span id="releasedate"></span></p>
+    <p>Type: <span id="classification"></span></p>
+    ${lengthExists ? '<p>Length: <span id="entrylength"></span></p>' : ''}
     ${phasesExist ? '<p>Phase: <span id="phasenum"></span></p>' : ''}
     ${sagaNames ? '<p>Saga: <span id="saganame"></span></p>' : ''}
     ${subseriesExist ? '<p>Subseries: <span id="subseriesname"></span></p>' : ''}
@@ -425,6 +427,7 @@ for (let i=0; i<spoilerInputs.length; i++) {
 // Set entry logos to be clickable elements to populate content area
 const entryTitle = document.getElementById("entrytitle");
 const releaseDate = document.getElementById("releasedate");
+const classification = document.getElementById("classification");
 // const phaseNum = phasesExist ? document.getElementById("phasenum") : null;
 const whereToFindHeading = document.getElementById("wheretofindheading");
 const whereToFind = document.getElementById("wheretofind");
@@ -444,19 +447,27 @@ function populateContent() {
     // entryTitle.textContent = entries[entryIndex].name;
 
     const entry = entries[entries.findIndex(item => item.code === this.id)];
-    entryTitle.textContent = entry.name;
-    releaseDate.textContent = parseDate(entry.release);
 
-    if (phasesExist) { document.getElementById("phasenum").textContent = entry.phase ? entry.phase : "?" }
-    if (sagaNames) { document.getElementById("saganame").textContent = entry.phase ? sagaNames[entry.phase] : "?" }
-    if (subseriesExist) { document.getElementById("subseriesname").textContent = entry.subseries ? entry.subseries + (entry.subsubseries ? " (" + entry.subsubseries + ")" : "") : "?"}
-    
+    populateQuickFacts(entry);
     populateWhereToFind(entry);
     populateAdditionalInfo(entry);
     populateContentGuide(entry);
     populateWhyContent(entry);
 
     document.getElementById("content").classList.remove("hid");
+}
+
+// Quick facts section
+function populateQuickFacts(entry) {
+    entryTitle.textContent = entry.name;
+    releaseDate.textContent = parseDate(entry.release);
+    classification.textContent = entry.classification;
+
+    if (lengthExists) { document.getElementById("entrylength").textContent = entry.length ? parseLength(entry) : "?" }
+
+    if (phasesExist) { document.getElementById("phasenum").textContent = entry.phase ? entry.phase : "?" }
+    if (sagaNames) { document.getElementById("saganame").textContent = entry.phase ? sagaNames[entry.phase] : "?" }
+    if (subseriesExist) { document.getElementById("subseriesname").textContent = entry.subseries ? entry.subseries + (entry.subsubseries ? " (" + entry.subsubseries + ")" : "") : "?"}
 }
 
 // Format date correctly
@@ -487,6 +498,18 @@ function parseDate(dateString) {
     } finally {
         return formattedDate;
     }
+}
+
+function parseLength(entry) {
+    let friendlyLength;
+
+    if (entry.lengthtype == "minutes") {
+        let hours = Math.floor(entry.length / 60);
+        let minutes = entry.length - (hours * 60);
+        friendlyLength = `${hours}h ${minutes}m`
+    }
+
+    return friendlyLength;
 }
 
 // "Where to Find" Section
@@ -532,6 +555,7 @@ function prepForURL(string) {
 const wikipediaIcon = "wikipedia.jpeg";
 const rottenTomatoesIcon = "rottentomatoes.png";
 const imdbIcon = "imdb.jpg";
+const wikiquoteIcon = "wikiquote.png";
 const youtubeIcon = "youtube.jpeg";
 
 
@@ -544,6 +568,7 @@ function populateAdditionalInfo(entry) {
     ${entry.wikipedia ? '<li><a href="https://en.wikipedia.org/wiki/' + entry.wikipedia + '"><img src="' + iconFilePath + wikipediaIcon + '" alt="Wikipedia"></a></li>' : ''}
     ${entry.rottentomatoes ? '<li><a href="https://www.rottentomatoes.com/' + entry.rottentomatoes + '"><img src="' + iconFilePath + rottenTomatoesIcon + '" alt="Rotten Tomatoes"></a></li>' : ''}
     ${entry.imdb ? '<li><a href="https://www.imdb.com/title/' + entry.imdb + '"><img src="' + iconFilePath + imdbIcon + '" alt="IMDb"></a></li>' : ''}
+    ${entry.wikiquote ? '<li><a href="https://en.wikiquote.org/wiki/' + entry.wikiquote + '"><img src="' + iconFilePath + wikiquoteIcon + '" alt="Wikiquote"></a></li>' : ''}
     ${entry.youtube ? '<li><a href="https://www.youtube.com/watch?v=' + entry.youtube + '"><img src="' + iconFilePath + youtubeIcon + '" alt="YouTube"></a></li>' : ''}
     </ul>`;
 }

@@ -23,6 +23,7 @@ const orderOptions = {
 };
 
 // Are different elements present?
+const lengthExists = true;
 const subseriesExist = true;
 const phasesExist = true;
 
@@ -65,18 +66,32 @@ const wiki = {
 
 
 ////////////////////////////////////////
+///////////// Characters ///////////////
+////////////////////////////////////////
+
+const characters = {
+    "tonystark" : {
+        "name" : "Tony Stark",
+        "alias" : "Iron Man"
+    }
+}
+
+////////////////////////////////////////
 /////////// Entry Content //////////////
 ////////////////////////////////////////
 
 const entries = [
     {
-        "code": "iron-man",
-        "name": "Iron Man",
-        "release": "2008-05",
-        "chronological": 3,
-        "narrative": 1,
-        "type": "films",
-        "image": "iron-man.png",
+        "code" : "iron-man",
+        "name" : "Iron Man",
+        "release" : "2008-05",
+        "chronological" : 3,
+        "narrative" : 1,
+        "type" : "films",
+        "classification" : "Film",
+        "image" : "iron-man.png",
+        "length" : 127,
+        "lengthtype" : "minutes",
         "phase": 1,
         "subseries": "Iron Man",
         "subsubseries" : "Iron Man trilogy",
@@ -92,10 +107,14 @@ const entries = [
         "wiki" : "Iron_Man_(film)",
         "rottentomatoes" : "m/iron_man",
         "imdb" : "tt0371746",
+        "wikiquote" : "Iron_Man_(2008_film)",
         "youtube" : "8ugaeA-nMTc",
         "commonsense" : "movie-reviews/iron-man",
         "kim" : "i/ironman.htm",
         "clearplay" : "3003",
+        "characters" : [
+            [characters.tonystark.name, characters.tonystark.alias, pst]
+        ],
         "whychron" : "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</pse>"
     },
     {
@@ -147,7 +166,3 @@ const entries = [
     }
     */
 ]
-
-const characters = {
-    "Tony Stark" : {"alias" : "Iron Man"}
-}
