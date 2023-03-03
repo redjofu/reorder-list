@@ -123,8 +123,12 @@ main.innerHTML = `<div id="navbar">
     ${sagaNames ? '<p>Saga: <span id="saganame"></span></p>' : ''}
     ${subseries ? '<p>Subseries: <span id="subseriesname"></span></p>' : ''}
 
+    <h3 id="reviewsheading"></h3>
+    <div id="reviews"></div>
+
     ${characters ? `<h3 id="notablecharactersheading"></h3>
     <div id="notablecharacters"></div>` : '' }
+
     <h3 id="whyplacementheading"></h3>
     <p id="whyplacement"></p>
 
@@ -391,8 +395,12 @@ function markLowerLevelSpoilers(clickedInput) {
 
 
 //  Add/remove "hiddenspoiler" class to spoiler spans as applicable
-function changeSpoilerStyling() {
-    const spoilerSpans = document.querySelectorAll(".spoiler");
+function changeAllSpoilerStyling() {
+    changeSpoilerStyling("");
+}
+
+function changeSpoilerStyling(extraSelector) {
+    const spoilerSpans = document.querySelectorAll(extraSelector + " .spoiler");
     spoilerSpans.forEach(setCorrectSpoilerStyling)
 }
 
@@ -414,6 +422,7 @@ function addOrRemoveHiddenSpoiler(spoilerSpan, className, checkboxName) {
     if (spoilerSpan.classList.contains(className)) { 
         if (checkboxName.checked) {
             spoilerSpan.classList.remove("hiddenspoiler");
+            spoilerSpan.removeAttribute("title");
         } else {
             spoilerSpan.classList.add("hiddenspoiler");
             spoilerSpan.addEventListener("click", () => {spoilerSpan.classList.remove("hiddenspoiler")});
@@ -424,7 +433,7 @@ function addOrRemoveHiddenSpoiler(spoilerSpan, className, checkboxName) {
 // Set spoiler checkboxes to use correct functions
 function setUpSpoilerCheckboxes() {
     markLowerLevelSpoilers(this);
-    changeSpoilerStyling();
+    changeAllSpoilerStyling();
 }
 
 for (let i=0; i<spoilerInputs.length; i++) {
@@ -444,6 +453,8 @@ const additionalInfo = document.getElementById("additionalinfo");
 const contentGuideHeading = document.getElementById("contentguideheading");
 const contentGuide = document.getElementById("contentguide");
 
+const reviewsHeading = document.getElementById("reviewsheading");
+const reviews = document.getElementById("reviews");
 const notableCharactersHeading = document.getElementById("notablecharactersheading");
 const notableCharacters = document.getElementById("notablecharacters");
 const whyPlacementHeading = document.getElementById("whyplacementheading");
@@ -463,14 +474,17 @@ function populateContent() {
 
     populateWhereToFind(entry);
 
-    populateWhyContent(entry);
+    populateReviews(entry);
     populateCharacters(entry);
+    populateWhyContent(entry);
 
     populateAdditionalInfo(entry);
     populateContentGuide(entry);
 
-    replaceSpoilerTags();
-    changeSpoilerStyling();
+    replaceAllSpoilerTags();
+    changeAllSpoilerStyling();
+
+    hideEmptyElements();
 
     document.getElementById("content").classList.remove("hid");
 }
@@ -612,7 +626,28 @@ function populateContentGuide(entry) {
 
 // Other services to check: VidAngel
 
+function populateReviews(entry) {
+    let reviewsList = '';
+
+    if (entry.rottencritics || entry.rottenaudience) {
+        reviewsList = reviewsList + `<p>${entry.rottentomatoes ? '<a href="https://www.rottentomatoes.com/' + entry.rottentomatoes + '">' : ''}
+            Rotten Tomatoes: ${entry.rottencritics ? entry.rottencritics + '%<span class="reviewDescriptor"> (Tomatometer)</span>' : ''}
+            ${entry.rottencritics && entry.rottenaudience ? ' | ' : ''}
+            ${entry.rottenaudience ? entry.rottenaudience + '%<span class="reviewDescriptor"> (Audience Score)</span>' : ''}
+            ${entry.rottentomatoes ? '</a>' : ''}</p>`;
+    }
+    
+    reviewsHeading.textContent = `${reviewsList != '' ? 'Reviews' : ''}`;
+    reviews.innerHTML = reviewsList;
+}
+
 function populateCharacters(entry) {
+    if (!entry.characters) {
+        notableCharactersHeading.innerHTML = "";
+        notableCharacters.innerHTML = "";
+        return;
+    }
+
     notableCharactersHeading.textContent = "Notable Characters";
 
     function buildCharacterListItem(listOfCharacters) {
@@ -636,7 +671,6 @@ function populateCharacters(entry) {
             return `<h4>${characterType} ${characterType != 'Cameo' ? 'Character' + (listOfCharacters.length > 1 ? 's' : '') : ''}</h4>` + buildCharacterListItem(listOfCharacters);
         }
     }
-
     let main = buildCharacterLists("Main", entry.characters.main);
     let major = buildCharacterLists("Major", entry.characters.major);
     let minor = buildCharacterLists("Minor", entry.characters.minor);
@@ -652,13 +686,7 @@ function populateWhyContent(entry) {
     let setHeading = false;
     let whyPlacementType = "this";
 
-    if (release.checked) {
-        whyPlacementHeading.classList.add("hid");
-        whyPlacement.classList.add("hid");
-    } else {
-        whyPlacementHeading.classList.remove("hid");
-        whyPlacement.classList.remove("hid");
-
+    if (!release.checked) {
         if (chronological.checked) {
             setHeading = true;
             whyPlacementType = chronological.value;
@@ -670,8 +698,14 @@ function populateWhyContent(entry) {
         }
     }
 
-    whyPlacementHeading.textContent = `${capitalizeFirstLetter(whyPlacementType)} Order Reasoning`;
-    whyPlacement.innerHTML = whyPlacementContent;
+    if (release.checked) {
+        whyPlacementHeading.textContent = '';
+        whyPlacement.innerHTML = '';
+    } else {
+        whyPlacementHeading.textContent = `${capitalizeFirstLetter(whyPlacementType)} Order Reasoning`;
+        whyPlacement.innerHTML = whyPlacementContent;
+    }
+    
 
     // whyChron.innerHTML = entry.whychron;
 }
@@ -681,12 +715,19 @@ function adjustWhyContent() {
         const currentEntryTitle = entryTitle.textContent;
         const entry = entries[entries.findIndex(item => item.name === currentEntryTitle)];
         populateWhyContent(entry);
+        replaceSpoilerTags("#whyplacement");
+        changeSpoilerStyling("#whyplacement");
+        hideEmptyElements();
     }
 }
 
 // Replace custom HTML spoiler tags with appropriate spans
-function replaceSpoilerTags() {
-    const spoilerTags = document.querySelectorAll("#content *:is(pst, bst, fst, psu, bsu, fsu, pse, bse, fse)");
+function replaceAllSpoilerTags() {
+    replaceSpoilerTags("");
+}
+
+function replaceSpoilerTags(extraSelector) {
+    const spoilerTags = document.querySelectorAll(`#content ${extraSelector} *:is(pst, bst, fst, psu, bsu, fsu, pse, bse, fse)`);
 
     for (let i=0; i<spoilerTags.length; i++) {
         const tagType = spoilerTags[i].nodeName.toLowerCase();
@@ -706,6 +747,18 @@ function replaceSpoilerTags() {
 
         spoilerTags[i].insertAdjacentHTML("afterend", `<span class="${tagType} spoiler" title="${spoilerMessage}"><span>${spoilerTags[i].innerHTML}</span></span>`);
         spoilerTags[i].remove();
+    }
+}
+
+function hideEmptyElements() {
+    const containerElements = document.querySelectorAll("*:is(h2, h3, h4, h5, h6, p, ul, ol, li, div, span");
+    
+    for (let i=0; i<containerElements.length; i++) {
+        if (containerElements[i].innerHTML == '') {
+            containerElements[i].classList.add("hid");
+        } else {
+            containerElements[i].classList.remove("hid");
+        }
     }
 }
 

@@ -141,6 +141,8 @@ const entries = [
         "wikipedia" : "Iron_Man_(2008_film)",
         "wiki" : "Iron_Man_(film)",
         "rottentomatoes" : "m/iron_man",
+        "rottencritics" : 94,
+        "rottenaudience" : 91,
         "imdb" : "tt0371746",
         "wikiquote" : "Iron_Man_(2008_film)",
         "youtube" : "8ugaeA-nMTc",

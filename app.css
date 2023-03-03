@@ -364,3 +364,17 @@ ul.iconlist {
     visibility: hidden;
 }
 /* ------ */
+
+
+#content {
+    container-type: inline-size;
+}
+
+/* Responsive Adjustments */
+@container (max-width: 500px) {
+    .reviewDescriptor {
+        display: none;
+    }
+}
+
+/* ------ */
