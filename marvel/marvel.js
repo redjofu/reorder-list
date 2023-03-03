@@ -72,7 +72,42 @@ const wiki = {
 const characters = {
     "tonystark" : {
         "name" : "Tony Stark",
-        "alias" : "Iron Man"
+        "fullname" : "Anthony Stark",
+        "alias" : "Iron Man",
+        "gender" : "m",
+        "nationality" : "american",
+        "species" : "human",
+        "race" : "white"
+    },
+    "rhodey" : {
+        "name" : "James Rhodes"
+    },
+    "pepperpotts" : {
+        "name" : "Pepper Potts",
+        "fullname" : "Virginia Potts",
+        "gender" : "f",
+        "nationality" : "american",
+        "species" : "human",
+        "race" : "white"
+    },
+    "philcoulson" : {
+        "name" : "Phil Coulson"
+    },
+    "nickfury" : {
+        "name" : "Nick Fury"
+    }
+}
+
+////////////////////////////////////////
+///////////// Subseries ////////////////
+////////////////////////////////////////
+
+const subseries = {
+    "ironman" : {
+        "name" : "Iron Man",
+        "subsubseries" : {
+            "trilogy" : "Iron Man trilogy"
+        }
     }
 }
 
@@ -93,8 +128,8 @@ const entries = [
         "length" : 127,
         "lengthtype" : "minutes",
         "phase": 1,
-        "subseries": "Iron Man",
-        "subsubseries" : "Iron Man trilogy",
+        "subseries": subseries.ironman.name,
+        "subsubseries" : subseries.ironman.subsubseries.trilogy,
         "disneyplus" : "movies/iron-man/6aM2a8mZATiu",
         "netflix" : "70080038",
         "primevideo" : "B001FD5KJM",
@@ -112,9 +147,21 @@ const entries = [
         "commonsense" : "movie-reviews/iron-man",
         "kim" : "i/ironman.htm",
         "clearplay" : "3003",
-        "characters" : [
-            [characters.tonystark.name, characters.tonystark.alias, pst]
-        ],
+        "characters" : {
+            "main" : [
+                [characters.tonystark.name, characters.tonystark.alias, "pst"]
+            ],
+            "major" : [
+                [characters.pepperpotts.name, null, "bst"],
+                [characters.rhodey.name, null, "bst"]
+            ],
+            "minor" : [
+                [characters.philcoulson.name, null, "bst"]
+            ],
+            "cameo" : [
+                [characters.nickfury.name, null, "fst"]
+            ]
+        },
         "whychron" : "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</pse>"
     },
     {

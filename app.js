@@ -101,7 +101,7 @@ main.innerHTML = `<div id="navbar">
                     <label for="basicstory">Basic Story Level</label>
                     <input type="checkbox" id="fullstory" name="fullstory" value="fullstory">
                     <label for="fullstory">Full Story Level</label>
-                    ${subseriesExist ? subseriesCheckboxes : ''}
+                    ${subseries ? subseriesCheckboxes : ''}
                     <input type="checkbox" id="premiseseries" name="premiseseries" value="premiseseries">
                     <label for="premiseseries">Premise Series Level</label>
                     <input type="checkbox" id="basicseries" name="basicseries" value="basicseries">
@@ -115,20 +115,28 @@ main.innerHTML = `<div id="navbar">
 </div>
 <div id="content" class="hid">
     <h2 id="entrytitle"></h2>
+
     <p>Release date: <span id="releasedate"></span></p>
     <p>Type: <span id="classification"></span></p>
     ${lengthExists ? '<p>Length: <span id="entrylength"></span></p>' : ''}
     ${phasesExist ? '<p>Phase: <span id="phasenum"></span></p>' : ''}
     ${sagaNames ? '<p>Saga: <span id="saganame"></span></p>' : ''}
-    ${subseriesExist ? '<p>Subseries: <span id="subseriesname"></span></p>' : ''}
-    <h3 id="wheretofindheading"></h3>
-    <p id="wheretofind"></p>
-    <h3 id="additionalinfoheading"></h3>
-    <p id="additionalinfo"></p>
-    <h3 id="contentguideheading"></h3>
-    <p id="contentguide"></p>
+    ${subseries ? '<p>Subseries: <span id="subseriesname"></span></p>' : ''}
+
+    ${characters ? `<h3 id="notablecharactersheading"></h3>
+    <div id="notablecharacters"></div>` : '' }
     <h3 id="whyplacementheading"></h3>
     <p id="whyplacement"></p>
+
+    <h3>Resources</h3>
+    <h4 id="wheretofindheading"></h4>
+    <p id="wheretofind"></p>
+    <h4 id="additionalinfoheading"></h4>
+    <p id="additionalinfo"></p>
+    <h4 id="contentguideheading"></h4>
+    <p id="contentguide"></p>
+
+
     <p id="whychron"></p>
 </div>`;
 
@@ -162,7 +170,7 @@ if (!selectionOptionDescription.fullstory) {
     selectionOptionDescription.fullstory = `Spoilers relating to any details from the entry's story, including those typically revealed at the end. These include details typically referred to as "spoilers."`
 }
 
-if (subseriesExist) {
+if (subseries) {
     if (!selectionOptionDescription.premisesubseries) {
         selectionOptionDescription.premisesubseries = `Spoilers relating to the pitch of the subseries (e.g. all ${subseriesExample} entries). These include only the sorts of details you might find out from ${blurbVerb} from a later entry in the subseries but which might not be revealed in that particular entry.`
     }
@@ -341,9 +349,9 @@ hideSpoilersButton.addEventListener("click", hideAllSpoilers);
 const pst = document.getElementById("premisestory");
 const bst = document.getElementById("basicstory");
 const fst = document.getElementById("fullstory");
-const psu = subseriesExist ? document.getElementById("premisesubseries") : null;
-const bsu = subseriesExist ? document.getElementById("basicsubseries") : null;
-const fsu = subseriesExist ? document.getElementById("fullsubseries") : null;
+const psu = subseries ? document.getElementById("premisesubseries") : null;
+const bsu = subseries ? document.getElementById("basicsubseries") : null;
+const fsu = subseries ? document.getElementById("fullsubseries") : null;
 const pse = document.getElementById("premiseseries");
 const bse = document.getElementById("basicseries");
 const fse = document.getElementById("fullseries");
@@ -353,7 +361,7 @@ function markLowerLevelSpoilers(clickedInput) {
         if (fse.checked) { bse.checked = true; fst.checked = true; if (fsu) { fsu.checked = true } };
         if (bse.checked) { pse.checked = true; bst.checked = true; if (bsu) { bsu.checked = true } };
 
-        if (subseriesExist) {
+        if (subseries) {
             if (fsu.checked) { bsu.checked = true; fst.checked = true; };
             if (bsu.checked) { psu.checked = true; bst.checked = true; };
             if (psu.checked) { pst.checked = true };
@@ -367,7 +375,7 @@ function markLowerLevelSpoilers(clickedInput) {
         if (!bst.checked) { fst.checked = false; bse.checked = false; if (bsu) { bsu.checked = false } };
         if (!fst.checked) { fse.checked = false; if (fsu) { fsu.checked = false } }
 
-        if (subseriesExist) {
+        if (subseries) {
             if (!psu.checked) { bsu.checked = false; bse.checked = false; };
             if (!bsu.checked) { fsu.checked = false; bse.checked = false; };
             if (!fsu.checked) { fse.checked = false; }
@@ -392,7 +400,7 @@ function setCorrectSpoilerStyling(spoilerSpan) {
     addOrRemoveHiddenSpoiler(spoilerSpan, "pst", pst);
     addOrRemoveHiddenSpoiler(spoilerSpan, "bst", bst);
     addOrRemoveHiddenSpoiler(spoilerSpan, "fst", fst);
-    if (subseriesExist) {
+    if (subseries) {
         addOrRemoveHiddenSpoiler(spoilerSpan, "psu", psu);
         addOrRemoveHiddenSpoiler(spoilerSpan, "bsu", bsu);
         addOrRemoveHiddenSpoiler(spoilerSpan, "fsu", fsu);
@@ -435,6 +443,9 @@ const additionalInfoHeading = document.getElementById("additionalinfoheading");
 const additionalInfo = document.getElementById("additionalinfo");
 const contentGuideHeading = document.getElementById("contentguideheading");
 const contentGuide = document.getElementById("contentguide");
+
+const notableCharactersHeading = document.getElementById("notablecharactersheading");
+const notableCharacters = document.getElementById("notablecharacters");
 const whyPlacementHeading = document.getElementById("whyplacementheading");
 const whyPlacement = document.getElementById("whyplacement");
 const whyChron = document.getElementById("whychron");
@@ -449,10 +460,17 @@ function populateContent() {
     const entry = entries[entries.findIndex(item => item.code === this.id)];
 
     populateQuickFacts(entry);
+
     populateWhereToFind(entry);
+
+    populateWhyContent(entry);
+    populateCharacters(entry);
+
     populateAdditionalInfo(entry);
     populateContentGuide(entry);
-    populateWhyContent(entry);
+
+    replaceSpoilerTags();
+    changeSpoilerStyling();
 
     document.getElementById("content").classList.remove("hid");
 }
@@ -467,7 +485,7 @@ function populateQuickFacts(entry) {
 
     if (phasesExist) { document.getElementById("phasenum").textContent = entry.phase ? entry.phase : "?" }
     if (sagaNames) { document.getElementById("saganame").textContent = entry.phase ? sagaNames[entry.phase] : "?" }
-    if (subseriesExist) { document.getElementById("subseriesname").textContent = entry.subseries ? entry.subseries + (entry.subsubseries ? " (" + entry.subsubseries + ")" : "") : "?"}
+    if (subseries) { document.getElementById("subseriesname").innerHTML = entry.subseries ? "<psu>" + entry.subseries + "</psu>" + (entry.subsubseries ? " (<bsu>" + entry.subsubseries + "</bsu>)" : "") : "?"}
 }
 
 // Format date correctly
@@ -594,6 +612,40 @@ function populateContentGuide(entry) {
 
 // Other services to check: VidAngel
 
+function populateCharacters(entry) {
+    notableCharactersHeading.textContent = "Notable Characters";
+
+    function buildCharacterListItem(listOfCharacters) {
+        let characterList = '';
+        if (listOfCharacters) {
+            characterList = characterList + '<ul>'
+            for (let i=0; i<listOfCharacters.length; i++) {
+                const character = listOfCharacters[i];
+                const name = character[0];
+                const otherInfo = character[1];
+                const spoilerTag = character[2];
+                characterList = characterList + `<li>${spoilerTag ? '<' + spoilerTag + '>' : ''}${name}${otherInfo ? ' (' + otherInfo + ')' : ''}${spoilerTag ? '</' + spoilerTag + '>' : ''}</li>`
+            }
+            characterList = characterList + '</ul>'
+        }
+        return characterList;
+    }
+
+    function buildCharacterLists(characterType, listOfCharacters) {
+        if (listOfCharacters) {
+            return `<h4>${characterType} ${characterType != 'Cameo' ? 'Character' + (listOfCharacters.length > 1 ? 's' : '') : ''}</h4>` + buildCharacterListItem(listOfCharacters);
+        }
+    }
+
+    let main = buildCharacterLists("Main", entry.characters.main);
+    let major = buildCharacterLists("Major", entry.characters.major);
+    let minor = buildCharacterLists("Minor", entry.characters.minor);
+    let cameo = buildCharacterLists("Cameo", entry.characters.cameo);
+
+
+    notableCharacters.innerHTML = `${main ? main : ''}${major ? major : ''}${minor ? minor : ''}${cameo ? cameo : ''}`
+}
+
 function populateWhyContent(entry) {
     const noInfo = "Information not available.";
     let whyPlacementContent = noInfo;
@@ -622,9 +674,6 @@ function populateWhyContent(entry) {
     whyPlacement.innerHTML = whyPlacementContent;
 
     // whyChron.innerHTML = entry.whychron;
-
-    replaceSpoilerTags();
-    changeSpoilerStyling();
 }
 
 function adjustWhyContent() {
@@ -637,7 +686,7 @@ function adjustWhyContent() {
 
 // Replace custom HTML spoiler tags with appropriate spans
 function replaceSpoilerTags() {
-    const spoilerTags = document.querySelectorAll("#content p > *:not(span, strong, em, a, img, ul, li, p)");
+    const spoilerTags = document.querySelectorAll("#content *:is(pst, bst, fst, psu, bsu, fsu, pse, bse, fse)");
 
     for (let i=0; i<spoilerTags.length; i++) {
         const tagType = spoilerTags[i].nodeName.toLowerCase();
@@ -653,7 +702,7 @@ function replaceSpoilerTags() {
         else if  (tagType == "bsu") {tagTypeWritten = "Basic subseries level"}
         else if  (tagType == "fsu") {tagTypeWritten = "Full subseries level"}
 
-        const spoilerMessage = `${tagTypeWritten} spoilers`;
+        const spoilerMessage = `${tagTypeWritten} spoiler`;
 
         spoilerTags[i].insertAdjacentHTML("afterend", `<span class="${tagType} spoiler" title="${spoilerMessage}"><span>${spoilerTags[i].innerHTML}</span></span>`);
         spoilerTags[i].remove();

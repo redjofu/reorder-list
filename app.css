@@ -32,9 +32,18 @@ h1, h2, h3, h4 {
     font-family: 'DM Serif Display', serif;
 }
 
+h2 {
+    font-size: 36px;
+}
+
 h3 {
-    font-size: 22px;
+    font-size: 24px;
     margin: 15px 0;
+}
+
+h4 {
+    font-size: 20px;
+    margin: 5px 0;
 }
 
 .hid {
@@ -298,6 +307,19 @@ input, label, button, #entrylist img {
 #content p {
     margin: 0;
     line-height: 1.4em;
+}
+
+#notablecharacters ul {
+    margin: 0;
+    padding: 0 0 0 30px;
+}
+
+#notablecharacters li {
+    margin: 0 0 3px;
+}
+
+#notablecharacters li::marker {
+    margin-right: 3px;
 }
 
 ul.iconlist {
