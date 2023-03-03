@@ -289,12 +289,8 @@ input, label, button, #entrylist img {
     width: calc(100vw - (var(--sidebar-width) * 2) - 30px);
     margin: 0 auto;
     padding: 5px 0 15px;
+    container-type: inline-size;
 }
-
-/* #content > * {
-    margin-left: 15px;
-    margin-right: 15px;
-} */
 
 #content > h2, #content > h3 {
     margin: 10px 0;
@@ -365,10 +361,6 @@ ul.iconlist {
 }
 /* ------ */
 
-
-#content {
-    container-type: inline-size;
-}
 
 /* Responsive Adjustments */
 @container (max-width: 500px) {

@@ -586,6 +586,7 @@ function prepForURL(string) {
 // "Additional Info" Section
 const wikipediaIcon = "wikipedia.jpeg";
 const rottenTomatoesIcon = "rottentomatoes.png";
+const metacriticIcon = "metacritic.png";
 const imdbIcon = "imdb.jpg";
 const wikiquoteIcon = "wikiquote.png";
 const youtubeIcon = "youtube.jpeg";
@@ -599,6 +600,7 @@ function populateAdditionalInfo(entry) {
     ${entry.wiki ? '<li><a href="' + wiki.url + entry.wiki + '"><img src="' + iconFilePath + wiki.icon + '" alt="' + wiki.description + '"></a></li>' : ''}
     ${entry.wikipedia ? '<li><a href="https://en.wikipedia.org/wiki/' + entry.wikipedia + '"><img src="' + iconFilePath + wikipediaIcon + '" alt="Wikipedia"></a></li>' : ''}
     ${entry.rottentomatoes ? '<li><a href="https://www.rottentomatoes.com/' + entry.rottentomatoes + '"><img src="' + iconFilePath + rottenTomatoesIcon + '" alt="Rotten Tomatoes"></a></li>' : ''}
+    ${entry.metacritic ? '<li><a href="https://www.metacritic.com/' + entry.metacritic + '"><img src="' + iconFilePath + metacriticIcon + '" alt="Metacritic"></a></li>' : ''}
     ${entry.imdb ? '<li><a href="https://www.imdb.com/title/' + entry.imdb + '"><img src="' + iconFilePath + imdbIcon + '" alt="IMDb"></a></li>' : ''}
     ${entry.wikiquote ? '<li><a href="https://en.wikiquote.org/wiki/' + entry.wikiquote + '"><img src="' + iconFilePath + wikiquoteIcon + '" alt="Wikiquote"></a></li>' : ''}
     ${entry.youtube ? '<li><a href="https://www.youtube.com/watch?v=' + entry.youtube + '"><img src="' + iconFilePath + youtubeIcon + '" alt="YouTube"></a></li>' : ''}
@@ -636,6 +638,17 @@ function populateReviews(entry) {
             ${entry.rottenaudience ? entry.rottenaudience + '%<span class="reviewDescriptor"> (Audience Score)</span>' : ''}
             ${entry.rottentomatoes ? '</a>' : ''}</p>`;
     }
+    if (entry.metascore || entry.mcuserscore) {
+        reviewsList = reviewsList + `<p>${entry.metacritic ? '<a href="https://www.metacritic.com/' + entry.metacritic + '">' : ''}
+            Metacritic: ${entry.metascore ? entry.metascore + '<span class="reviewDescriptor"> (Metascore)</span>' : ''}
+            ${entry.metascore && entry.mcuserscore ? ' | ' : ''}
+            ${entry.mcuserscore ? entry.mcuserscore + '<span class="reviewDescriptor"> (User Score)</span>' : ''}
+            ${entry.metacritic ? '</a>' : ''}</p>`;
+    }
+    if (entry.cinemascore) {
+        reviewsList = reviewsList + `<p><a href="https://www.cinemascore.com/">CinemaScore: ${entry.cinemascore}</a></p>`;
+    }
+
     
     reviewsHeading.textContent = `${reviewsList != '' ? 'Reviews' : ''}`;
     reviews.innerHTML = reviewsList;
