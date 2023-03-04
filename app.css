@@ -46,6 +46,11 @@ h4 {
     margin: 5px 0;
 }
 
+hr {
+    width: 85%;
+    border: solid 1px var(--color-1);
+}
+
 .hid {
     display: none;
 }
@@ -56,11 +61,14 @@ h4 {
     height: var(--header-height);
 }
 
+#content, #navbar, #selectionbar {
+    height: calc(var(--screen-height) - var(--header-height));
+}
+
 #navbar, #selectionbar {
     /* background-color: rgba(0, 0, 0, 0.2); */
     background-color: var(--color-4);
     width: var(--sidebar-width);
-    height: calc(var(--screen-height) - var(--header-height));
     /* padding: var(--sidebar-padding); */
 }
 
@@ -88,12 +96,23 @@ input, label, button, #entrylist img {
     cursor: pointer;
 }
 
-#entrylist img:hover, .iconlist li img:hover {
-    filter: brightness(120%) saturate(120%);
+#entrylist img, .iconlist li img {
+    transition-duration: 0.2s;
+}
+
+#entrylist img:hover, #entrylist img:active {
+    /* filter: brightness(120%) saturate(120%); */
+    transform: scale(1.05);
+}
+
+.iconlist li img:hover, .iconlist li img:active {
+    transform: scale(1.1);
 }
 
 #entrylist img:active, .iconlist li img:active {
     filter: brightness(90%) saturate(70%);
+    margin-top: -2px;
+    margin-bottom: 2px;
 }
 
 
@@ -198,18 +217,18 @@ input, label, button, #entrylist img {
     /* height: calc(625px - 100px - 15px * 2 - 4px * 2 - 200px);  */ 
     margin: 0 0 var(--sidebar-padding) var(--sidebar-padding);
 }
-#selectionscroll, #selectionexplanation p{
+#selectionscroll, #selectionexplanation p, .scrollarea {
     overflow-y: auto;
     scrollbar-color: var(--color-5) var(--color-1);
     scrollbar-width: thin;
 }
 
 /* Scrollbar styling */
-#selectionscroll::-webkit-scrollbar, #selectionexplanation p::-webkit-scrollbar {
+#selectionscroll::-webkit-scrollbar, #selectionexplanation p::-webkit-scrollbar, .scrollarea::-webkit-scrollbar {
     width: var(--scrollbar-width);
 }
 
-#selectionscroll::-webkit-scrollbar-button:single-button:decrement, #selectionexplanation p::-webkit-scrollbar-button:single-button:decrement {
+#selectionscroll::-webkit-scrollbar-button:single-button:decrement, #selectionexplanation p::-webkit-scrollbar-button:single-button:decrement, .scrollarea::-webkit-scrollbar-button:single-button:decrement  {
     width: 20px;
     background-color: transparent;
     border-bottom: 20px solid var(--color-1);
@@ -218,7 +237,7 @@ input, label, button, #entrylist img {
     cursor: pointer !important;
 }
 
-#selectionscroll::-webkit-scrollbar-button:single-button:increment, #selectionexplanation p::-webkit-scrollbar-button:single-button:increment {
+#selectionscroll::-webkit-scrollbar-button:single-button:increment, #selectionexplanation p::-webkit-scrollbar-button:single-button:increment, .scrollarea::-webkit-scrollbar-button:single-button:increment {
     width: 20px;
     background-color: transparent;
     border-top: 20px solid var(--color-1);
@@ -227,11 +246,11 @@ input, label, button, #entrylist img {
     cursor: pointer !important;
 }
 
-#selectionscroll::-webkit-scrollbar-track, #selectionexplanation p::-webkit-scrollbar-track {
+#selectionscroll::-webkit-scrollbar-track, #selectionexplanation p::-webkit-scrollbar-track, .scrollarea::-webkit-scrollbar-track {
     background-color: var(--color-2);
 }
 
-#selectionscroll::-webkit-scrollbar-thumb, #selectionexplanation p::-webkit-scrollbar-thumb {
+#selectionscroll::-webkit-scrollbar-thumb, #selectionexplanation p::-webkit-scrollbar-thumb, .scrollarea::-webkit-scrollbar-thumb {
     background-color: var(--color-1);
     border-radius: 10px;
 }
@@ -247,8 +266,15 @@ input, label, button, #entrylist img {
     position: absolute;
     left: 0;
     pointer-events: none;
-    width: calc(var(--sidebar-width) - var(--scrollbar-width));
+    /* width: calc(var(--sidebar-width) - var(--scrollbar-width)); */
+    width: calc(100% - var(--scrollbar-width));
     height: 50px;
+    z-index: 1;
+}
+
+#selectionexplanation.scrollhidetop:before, #selectionexplanation.scrollhidebottom:after {
+    width: calc(100% - (var(--sidebar-padding) * 2) - var(--scrollbar-width));
+    margin: var(--sidebar-padding) 0 var(--sidebar-padding) var(--sidebar-padding);
 }
 
 .scrollhidetop:before {
@@ -260,6 +286,24 @@ input, label, button, #entrylist img {
     bottom: 0;
     background-image: linear-gradient(to top, var(--color-4), transparent 85%);
 }
+
+#content.scrollhidetop:before {
+    background-image: linear-gradient(to bottom, var(--color-3), transparent 85%);
+}
+
+#content.scrollhidebottom:after {
+    background-image: linear-gradient(to top, var(--color-3), transparent 85%);
+}
+
+#selectionexplanation.scrollhidetop:before {
+    background-image: linear-gradient(to bottom, var(--color-5), transparent 85%);
+}
+
+#selectionexplanation.scrollhidebottom:after {
+    background-image: linear-gradient(to top, var(--color-5), transparent 85%);
+}
+
+
 /* ------ */
 
 
@@ -286,10 +330,15 @@ input, label, button, #entrylist img {
 
 /* Content Area Styling */
 #content {
-    width: calc(100vw - (var(--sidebar-width) * 2) - 30px);
-    margin: 0 auto;
-    padding: 5px 0 15px;
+    /* width: calc(100vw - (var(--sidebar-width) * 2) - 30px); */
+    /* margin: 0 auto; */
+    /* padding: 5px 0 15px; */
     container-type: inline-size;
+}
+
+#contentcontainer {
+    padding: 5px 15px 15px;
+    height: calc(var(--screen-height) - var(--header-height) - 20px);
 }
 
 #content > h2, #content > h3 {
@@ -297,7 +346,12 @@ input, label, button, #entrylist img {
 }
 
 #content #entrytitle {
-    margin-top: 0;
+    margin: 0 0 10px;
+}
+
+#entryimage {
+    float: right;
+    margin-left: 10px;
 }
 
 #content p {
@@ -305,16 +359,16 @@ input, label, button, #entrylist img {
     line-height: 1.4em;
 }
 
-#notablecharacters ul {
+#notablecharacters ul, #keyfacts {
     margin: 0;
     padding: 0 0 0 30px;
 }
 
-#notablecharacters li {
+#notablecharacters li, #keyfacts li {
     margin: 0 0 3px;
 }
 
-#notablecharacters li::marker {
+#notablecharacters li::marker, #keyfacts li::marker {
     margin-right: 3px;
 }
 
@@ -359,11 +413,24 @@ ul.iconlist {
 .hiddenspoiler span {
     visibility: hidden;
 }
+
+img.hiddenspoiler {
+    filter: brightness(0.18) blur(3px);
+    border-radius: 0;
+}
+
+img.hiddenspoiler:hover {
+    filter: brightness(0.25) blur(2px);
+}
+
+img.hiddenspoiler:active {
+    filter: brightness(0.35) blur(1px);
+}
 /* ------ */
 
 
 /* Responsive Adjustments */
-@container (max-width: 500px) {
+@container (max-width: 545px) {
     .reviewDescriptor {
         display: none;
     }

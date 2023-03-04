@@ -69,7 +69,8 @@ const subseriesCheckboxes = `<input type="checkbox" id="premisesubseries" name="
 <input type="checkbox" id="basicsubseries" name="basicsubseries" value="basicsubseries">
 <label for="basicsubseries">Basic Subseries Level</label>
 <input type="checkbox" id="fullsubseries" name="fullsubseries" value="fullsubseries">
-<label for="fullsubseries">Full Subseries Level</label>`;
+<label for="fullsubseries">Full Subseries Level</label>
+<hr>`;
 
 // Main template
 main.innerHTML = `<div id="navbar">
@@ -95,54 +96,73 @@ main.innerHTML = `<div id="navbar">
                 <div id="spoilerselection">
                     <button id="allspoilers">Show All</button>
                     <button id="hidespoilers">Hide All</button>
+
                     <input type="checkbox" id="premisestory" name="premisestory" value="premisestory">
                     <label for="premisestory">Premise Story Level</label>
                     <input type="checkbox" id="basicstory" name="basicstory" value="basicstory">
                     <label for="basicstory">Basic Story Level</label>
                     <input type="checkbox" id="fullstory" name="fullstory" value="fullstory">
                     <label for="fullstory">Full Story Level</label>
+                    <hr>
+
                     ${subseries ? subseriesCheckboxes : ''}
+
                     <input type="checkbox" id="premiseseries" name="premiseseries" value="premiseseries">
                     <label for="premiseseries">Premise Series Level</label>
                     <input type="checkbox" id="basicseries" name="basicseries" value="basicseries">
                     <label for="basicseries">Basic Series Level</label>
                     <input type="checkbox" id="fullseries" name="fullseries" value="fullseries">
                     <label for="fullseries">Full Series Level</label>
+                    <hr>
+
+                    <input type="checkbox" id="otherseries" name="otherseries" value="otherseries">
+                    <label for="otherseries">Other Series Level</label>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div id="content" class="hid">
-    <h2 id="entrytitle"></h2>
+    <div id="contentcontainer" class="scrollarea">
+        <h2 id="entrytitle"></h2>
+        <img id="entryimage" class="hid bst spoiler">
 
-    <p>Release date: <span id="releasedate"></span></p>
-    <p>Type: <span id="classification"></span></p>
-    ${lengthExists ? '<p>Length: <span id="entrylength"></span></p>' : ''}
-    ${phasesExist ? '<p>Phase: <span id="phasenum"></span></p>' : ''}
-    ${sagaNames ? '<p>Saga: <span id="saganame"></span></p>' : ''}
-    ${subseries ? '<p>Subseries: <span id="subseriesname"></span></p>' : ''}
+        <p>Release date: <span id="releasedate"></span></p>
+        <p>Type: <span id="classification"></span></p>
+        ${lengthExists ? '<p>Length: <span id="entrylength"></span></p>' : ''}
+        ${phasesExist ? '<p>Phase: <span id="phasenum"></span></p>' : ''}
+        ${sagaNames ? '<p>Saga: <span id="saganame"></span></p>' : ''}
+        ${subseries ? '<p>Subseries: <span id="subseriesname"></span></p>' : ''}
 
-    <h3 id="reviewsheading"></h3>
-    <div id="reviews"></div>
+        <h3 id="keyfactsheading"></h3>
+        <ul id="keyfacts"></ul>
+        <h3 id="skippabilityheading"></h3>
+        <div id="skippability"></div>
+        <h3 id="reviewsheading"></h3>
+        <div id="reviews"></div>
 
-    ${characters ? `<h3 id="notablecharactersheading"></h3>
-    <div id="notablecharacters"></div>` : '' }
+        ${characters ? `<h3 id="notablecharactersheading"></h3>
+        <div id="notablecharacters"></div>` : '' }
 
-    <h3 id="whyplacementheading"></h3>
-    <p id="whyplacement"></p>
+        <h3 id="whyplacementheading"></h3>
+        <p id="whyplacement"></p>
 
-    <h3>Resources</h3>
-    <h4 id="wheretofindheading"></h4>
-    <p id="wheretofind"></p>
-    <h4 id="additionalinfoheading"></h4>
-    <p id="additionalinfo"></p>
-    <h4 id="contentguideheading"></h4>
-    <p id="contentguide"></p>
+        <h3>Resources</h3>
+        <h4 id="wheretofindheading"></h4>
+        <p id="wheretofind"></p>
+        <h4 id="additionalinfoheading"></h4>
+        <p id="additionalinfo"></p>
+        <h4 id="contentguideheading"></h4>
+        <p id="contentguide"></p>
 
 
-    <p id="whychron"></p>
+        <p id="whychron"></p>
+    </div>
 </div>`;
+
+const content = document.getElementById("content");
+const contentContainer = document.getElementById("contentcontainer");
+// contentContainer
 
 const selectionBar = document.getElementById("selectionbar");
 
@@ -176,11 +196,11 @@ if (!selectionOptionDescription.fullstory) {
 
 if (subseries) {
     if (!selectionOptionDescription.premisesubseries) {
-        selectionOptionDescription.premisesubseries = `Spoilers relating to the pitch of the subseries (e.g. all ${subseriesExample} entries). These include only the sorts of details you might find out from ${blurbVerb} from a later entry in the subseries but which might not be revealed in that particular entry.`
+        selectionOptionDescription.premisesubseries = `Spoilers relating to the pitch of the subseries (e.g. all ${subseriesExample} entries). These include only the sorts of details you might find out from ${blurbVerb} from a later entry in the subseries but which might not be revealed in that particular entry. All story-level spoilers (including full story-level spoilers) of a previous subseries entry are considered premise subseries-level spoiler for subsequent entries.`
     }
 
     if (!selectionOptionDescription.basicsubseries) {
-        selectionOptionDescription.basicsubseries = `Spoilers relating to basic events of the subseries (e.g. all ${subseriesExample} entries). These include the sorts of details a friend might tell you after ${progressiveVerb} a later entry in the subseries but which might not be revealed in that particular entry.`
+        selectionOptionDescription.basicsubseries = `Spoilers relating to basic events of the subseries (e.g. all ${subseriesExample} entries). These include the sorts of details a friend might tell you after ${progressiveVerb} a later entry in the subseries but which might not be revealed in that particular entry. All story-level spoilers (including full story-level spoilers) of a previous subseries entry are considered premise subseries-level spoiler for subsequent entries.`
     }
     
     if (!selectionOptionDescription.fullsubseries) {
@@ -190,15 +210,19 @@ if (subseries) {
 
 
 if (!selectionOptionDescription.premiseseries) {
-    selectionOptionDescription.premiseseries = `Spoilers relating to the pitch of the series as a whole. These include only the sorts of details you might find out from ${blurbVerb} from a later entry in the series but which might not be revealed in that particular entry.`
+    selectionOptionDescription.premiseseries = `Spoilers relating to the pitch of ${seriesName} as a whole. These include only the sorts of details you might find out from ${blurbVerb} from a later entry in the series but which might not be revealed in that particular entry. All story-level spoilers (including full story-level spoilers) of a previous series entry are considered premise series-level spoiler for subsequent entries.`
 }
 
 if (!selectionOptionDescription.basicseries) {
-    selectionOptionDescription.basicseries = `Spoilers relating to basic events of the series. These include the sorts of details a friend might tell you after ${progressiveVerb} a later entry in the series but which might not be revealed in that particular entry.`
+    selectionOptionDescription.basicseries = `Spoilers relating to basic events of ${seriesName}. These include the sorts of details a friend might tell you after ${progressiveVerb} a later entry in the series but which might not be revealed in that particular entry. All story-level spoilers (including full story-level spoilers) of a previous series entry are considered premise series-level spoiler for subsequent entries.`
 }
 
 if (!selectionOptionDescription.fullseries) {
-    selectionOptionDescription.fullseries = `Spoilers relating to any details from any entry in the series, including those typically revealed at the end. These include details typically referred to as "spoilers" and may be significantly "spoilery" since they may include crucial details from later entries.`
+    selectionOptionDescription.fullseries = `Spoilers relating to any details from any entry in ${seriesName}, including those typically revealed at the end. These include details typically referred to as "spoilers" and may be significantly "spoilery" since they may include crucial details from later entries.`
+}
+
+if (!selectionOptionDescription.otherseries) {
+    selectionOptionDescription.otherseries = `Spoilers relating to any details from any narratives outside of ${seriesName}.`
 }
 
 // Make selection inputs add descriptive text to explanation paragraph.
@@ -209,6 +233,7 @@ function addSelectionDescription(){
     const objectKey = this.value;
     const objectName = "selectionOptionDescription."
     selectionParagraph.innerHTML = eval(objectName+objectKey);
+    setTimeout(determineScrollGradient.bind(selectionParagraph),100);
 }
 
 for (let i=0; i<inputs.length; i++) {
@@ -220,23 +245,37 @@ for (let i=0; i<inputs.length; i++) {
 const selectionContent = document.getElementById("selectioncontent");
 const selectionScroll = document.getElementById("selectionscroll");
 
+// function determineScrollGradient(){
+//     if ((selectionScroll.scrollHeight < selectionScroll.clientHeight) || (selectionScroll.scrollTop == 0)) {
+//         selectionContent.classList.remove("scrollhidetop");
+//     } else {
+//         selectionContent.classList.add("scrollhidetop");
+//     }
+
+//     if ((selectionScroll.scrollHeight < selectionScroll.clientHeight) || (Math.floor(selectionScroll.scrollTop) == selectionScroll.scrollHeight - selectionScroll.clientHeight)) {
+//         selectionContent.classList.remove("scrollhidebottom");
+//     } else {
+//         selectionContent.classList.add("scrollhidebottom");
+//     }
+// }
 function determineScrollGradient(){
-    if ((selectionScroll.scrollHeight < selectionScroll.clientHeight) || (selectionScroll.scrollTop == 0)) {
-        selectionContent.classList.remove("scrollhidetop");
+    if ((this.scrollHeight < this.clientHeight) || (this.scrollTop == 0)) {
+        this.parentElement.classList.remove("scrollhidetop");
     } else {
-        selectionContent.classList.add("scrollhidetop");
+        this.parentElement.classList.add("scrollhidetop");
     }
 
-    if ((selectionScroll.scrollHeight < selectionScroll.clientHeight) || (Math.floor(selectionScroll.scrollTop) == selectionScroll.scrollHeight - selectionScroll.clientHeight)) {
-        selectionContent.classList.remove("scrollhidebottom");
+    if ((this.scrollHeight < this.clientHeight) || (Math.floor(this.scrollTop) == this.scrollHeight - this.clientHeight)) {
+        this.parentElement.classList.remove("scrollhidebottom");
     } else {
-        selectionContent.classList.add("scrollhidebottom");
+        this.parentElement.classList.add("scrollhidebottom");
     }
 }
-setTimeout(determineScrollGradient,100);
-// determineScrollGradient()
+setTimeout(determineScrollGradient.bind(selectionScroll),100);
 
 selectionScroll.addEventListener("scroll", determineScrollGradient);
+contentContainer.addEventListener("scroll", determineScrollGradient);
+selectionParagraph.addEventListener("scroll", determineScrollGradient);
 
 
 // Prime order inputs to work with buildNavBar
@@ -278,7 +317,7 @@ function buildNavBar(selectedOrderInput) {
         const newLI = document.createElement("li");
         newLI.id = orderedEntries[i].code;
         newLI.classList.add(orderedEntries[i].type);
-        newLI.innerHTML = `<img src="logos/${orderedEntries[i].image}" alt="${orderedEntries[i].name}">`
+        newLI.innerHTML = `<img src="logos/${orderedEntries[i].logo}" alt="${orderedEntries[i].name}">`
         entryList.appendChild(newLI);
     }
 
@@ -359,6 +398,7 @@ const fsu = subseries ? document.getElementById("fullsubseries") : null;
 const pse = document.getElementById("premiseseries");
 const bse = document.getElementById("basicseries");
 const fse = document.getElementById("fullseries");
+const ose = document.getElementById("otherseries");
 
 function markLowerLevelSpoilers(clickedInput) {
     if (clickedInput.checked) {
@@ -416,6 +456,7 @@ function setCorrectSpoilerStyling(spoilerSpan) {
     addOrRemoveHiddenSpoiler(spoilerSpan, "pse", pse);
     addOrRemoveHiddenSpoiler(spoilerSpan, "bse", bse);
     addOrRemoveHiddenSpoiler(spoilerSpan, "fse", fse);
+    addOrRemoveHiddenSpoiler(spoilerSpan, "ose", ose);
 }
 
 function addOrRemoveHiddenSpoiler(spoilerSpan, className, checkboxName) {
@@ -443,6 +484,7 @@ for (let i=0; i<spoilerInputs.length; i++) {
 
 // Set entry logos to be clickable elements to populate content area
 const entryTitle = document.getElementById("entrytitle");
+const entryImage = document.getElementById("entryimage");
 const releaseDate = document.getElementById("releasedate");
 const classification = document.getElementById("classification");
 // const phaseNum = phasesExist ? document.getElementById("phasenum") : null;
@@ -453,6 +495,10 @@ const additionalInfo = document.getElementById("additionalinfo");
 const contentGuideHeading = document.getElementById("contentguideheading");
 const contentGuide = document.getElementById("contentguide");
 
+const keyFactsHeading = document.getElementById("keyfactsheading");
+const keyFacts = document.getElementById("keyfacts");
+const skippabilityHeading = document.getElementById("skippabilityheading");
+const skippability = document.getElementById("skippability");
 const reviewsHeading = document.getElementById("reviewsheading");
 const reviews = document.getElementById("reviews");
 const notableCharactersHeading = document.getElementById("notablecharactersheading");
@@ -472,12 +518,14 @@ function populateContent() {
 
     populateQuickFacts(entry);
 
-    populateWhereToFind(entry);
-
+    populateKeyFacts(entry);
+    populateSkippability(entry);
     populateReviews(entry);
     populateCharacters(entry);
+
     populateWhyContent(entry);
 
+    populateWhereToFind(entry);
     populateAdditionalInfo(entry);
     populateContentGuide(entry);
 
@@ -486,12 +534,14 @@ function populateContent() {
 
     hideEmptyElements();
 
-    document.getElementById("content").classList.remove("hid");
+    setTimeout(determineScrollGradient.bind(contentContainer),100);
+    content.classList.remove("hid");
 }
 
 // Quick facts section
 function populateQuickFacts(entry) {
     entryTitle.textContent = entry.name;
+    addEntryImage(entry);
     releaseDate.textContent = parseDate(entry.release);
     classification.textContent = entry.classification;
 
@@ -500,6 +550,36 @@ function populateQuickFacts(entry) {
     if (phasesExist) { document.getElementById("phasenum").textContent = entry.phase ? entry.phase : "?" }
     if (sagaNames) { document.getElementById("saganame").textContent = entry.phase ? sagaNames[entry.phase] : "?" }
     if (subseries) { document.getElementById("subseriesname").innerHTML = entry.subseries ? "<psu>" + entry.subseries + "</psu>" + (entry.subsubseries ? " (<bsu>" + entry.subsubseries + "</bsu>)" : "") : "?"}
+}
+
+function addEntryImage(entry) {
+    if (entry.image) {
+        entryImage.src = "images/" + entry.image;
+        entryImage.alt = `${entry.name}${imageType ? ' ' + imageType : ''}`;
+        removeSpoilerClasses();
+        if (entry.imagespoiler) {
+            entryImage.classList.add(entry.imagespoiler);
+        }
+        entryImage.classList.remove("hid");
+    } else {
+        entryImage.src = "";
+        entryImage.alt = "";
+        entryImage.classList.add("hid");
+    }
+    
+}
+
+function removeSpoilerClasses() {
+    entryImage.classList.remove("pst");
+    entryImage.classList.remove("bst");
+    entryImage.classList.remove("fst");
+    entryImage.classList.remove("psu");
+    entryImage.classList.remove("bsu");
+    entryImage.classList.remove("fsu");
+    entryImage.classList.remove("pse");
+    entryImage.classList.remove("bse");
+    entryImage.classList.remove("fse");
+    entryImage.classList.remove("ose");
 }
 
 // Format date correctly
@@ -576,7 +656,6 @@ function populateWhereToFind(entry) {
     </ul>`;
 }
 // Other services to check: HBO Max, Hulu, Fubo, Tubi, Paramount+, Freevee, Peacock
-// Add eBay?
 
 function prepForURL(string) {
     return string.toLowerCase().replaceAll(" ","+");
@@ -627,6 +706,41 @@ function populateContentGuide(entry) {
 }
 
 // Other services to check: VidAngel
+
+function populateKeyFacts(entry) {
+    let keyFactsList = '';
+
+    function buildKeyFactsList(fact) {
+        keyFactsList = keyFactsList + `<li>${fact[1] ? '<' + fact[1] + '>' : ''}${fact[0]}${fact[1] ? '<' + fact[1] + '>' : ''}`;
+    }
+
+    if (entry.keyfacts.length && typeof(entry.keyfacts) == 'object') {
+        // for (let i=0; entry.keyfacts.length; i++) {
+
+        // }
+        entry.keyfacts.forEach(buildKeyFactsList);
+        // spoilerInputs.forEach(checkbox => checkbox.checked = true);
+    }
+
+    keyFactsHeading.textContent = `${keyFactsList != '' ? 'Key Facts' : ''}`;
+    keyFacts.innerHTML = keyFactsList;
+}
+
+function populateSkippability(entry) {
+    let skippabilityContent = '';
+
+    if (entry.skipno && entry.skipyes) {
+        skippabilityContent = `<h4>Why You Shouldn't Skip It</h4>
+        <p>${entry.skipno}</p>
+        <h4>Why You Might Want to Skip It</h4>
+        <p>${entry.skipyes}</p>`;
+    } else if (entry.skipno || entry.skipyes) {
+        skippabilityContent = `<p>${entry.skipno ? entry.skipno : entry.skipyes}</p>`;
+    }
+
+    skippabilityHeading.textContent = `${skippabilityContent != '' ? 'Skippability' : ''}`;
+    skippability.innerHTML = skippabilityContent;
+}
 
 function populateReviews(entry) {
     let reviewsList = '';
@@ -740,21 +854,22 @@ function replaceAllSpoilerTags() {
 }
 
 function replaceSpoilerTags(extraSelector) {
-    const spoilerTags = document.querySelectorAll(`#content ${extraSelector} *:is(pst, bst, fst, psu, bsu, fsu, pse, bse, fse)`);
+    const spoilerTags = document.querySelectorAll(`#content ${extraSelector} *:is(pst, bst, fst, psu, bsu, fsu, pse, bse, fse, ose)`);
 
     for (let i=0; i<spoilerTags.length; i++) {
         const tagType = spoilerTags[i].nodeName.toLowerCase();
         
         let tagTypeWritten;
         if (tagType == "pst") {tagTypeWritten = "Premise story level"}
-        else if  (tagType == "bst") {tagTypeWritten = "Basic story level"}
-        else if  (tagType == "fst") {tagTypeWritten = "Full story level"}
-        else if  (tagType == "pse") {tagTypeWritten = "Premise series level"}
-        else if  (tagType == "bse") {tagTypeWritten = "Basic series level"}
-        else if  (tagType == "fse") {tagTypeWritten = "Full series level"}
-        else if  (tagType == "psu") {tagTypeWritten = "Premise subseries level"}
-        else if  (tagType == "bsu") {tagTypeWritten = "Basic subseries level"}
-        else if  (tagType == "fsu") {tagTypeWritten = "Full subseries level"}
+        else if (tagType == "bst") {tagTypeWritten = "Basic story level"}
+        else if (tagType == "fst") {tagTypeWritten = "Full story level"}
+        else if (tagType == "pse") {tagTypeWritten = "Premise series level"}
+        else if (tagType == "bse") {tagTypeWritten = "Basic series level"}
+        else if (tagType == "fse") {tagTypeWritten = "Full series level"}
+        else if (tagType == "psu") {tagTypeWritten = "Premise subseries level"}
+        else if (tagType == "bsu") {tagTypeWritten = "Basic subseries level"}
+        else if (tagType == "fsu") {tagTypeWritten = "Full subseries level"}
+        else if (tagType == "ose") {tagTypeWritten = "Other series level"}
 
         const spoilerMessage = `${tagTypeWritten} spoiler`;
 

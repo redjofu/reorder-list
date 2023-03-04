@@ -1,4 +1,5 @@
-const pageTitle = "Best Order to Watch the Marvel Cinematic Universe";
+const seriesName = "the Marvel Cinematic Universe";
+const pageTitle = `Best Order to Watch ${seriesName}`;
 
 // How to describe the people who consume the media in question (e.g. "viewers," "readers," "gamers")
 const userType = "viewers";
@@ -10,6 +11,9 @@ const blurbVerb = "watching a trailer";
 
 // Example of a subseries
 const subseriesExample = "Thor";
+
+// Type of image being used
+const imageType = "poster";
 
 const typeOptions = [
     ["Films", "films"],
@@ -79,7 +83,7 @@ const characters = {
         "species" : "human",
         "race" : "white"
     },
-    "rhodey" : {
+    "jamesrhodes" : {
         "name" : "James Rhodes"
     },
     "pepperpotts" : {
@@ -124,7 +128,9 @@ const entries = [
         "narrative" : 1,
         "type" : "films",
         "classification" : "Film",
-        "image" : "iron-man.png",
+        "logo" : "iron-man.png",
+        "image" : "iron-man.jpg",
+        "imagespoiler" : "bst",
         "length" : 127,
         "lengthtype" : "minutes",
         "phase": 1,
@@ -158,8 +164,8 @@ const entries = [
                 [characters.tonystark.name, characters.tonystark.alias, "pst"]
             ],
             "major" : [
-                [characters.pepperpotts.name, null, "bst"],
-                [characters.rhodey.name, null, "bst"]
+                [characters.pepperpotts.name, null, "pst"],
+                [characters.jamesrhodes.name, null, "pst"]
             ],
             "minor" : [
                 [characters.philcoulson.name, null, "bst"]
@@ -168,6 +174,14 @@ const entries = [
                 [characters.nickfury.name, null, "fst"]
             ]
         },
+        "keyfacts" : [
+            [`First film in the Marvel Cinematic Universe, kicking off one of the most successful media franchises of all time`],
+            [`One of the American Film Insitute's ten best films of 2008`],
+            [`2022 addition to the Library of Congress's National Film Registry`]
+
+        ],
+        "skipno" : `As the first film in the Marvel Cinematic Universe, this is an integral part of not just the Iron Man subseries but the overarching plot of the whole MCU. It introduces the character of Tony Stark/Iron Man, <bse>whose character arc could be said to be the primary arc</bse> <fse>of the entire Inifinity Saga, right down to Tony's final words.</fse>`,
+        "skipyes" : `<bst>There isn't much connective tissue with the overall MCU since it was literally laying the groundwork.</bst> <pse>The exception is the introduction of S.H.I.E.L.D., a key organization in the MCU,</pse> <fst>along with the end-credits scene featuring Nick Fury.</fst> Additionally, as the first film in the MCU, it's also the oldest, leaving some aspects a little more raw compared to later entries. <bst>Tony's playboy personality presents an attitude of objectification of women, something that isn't resolved in the movie,</bst> <fsu>though it is by the end of the trilogy.</fsu> The violence is more realistic than later in the MCU, <bse>which tends to get a little more fantastical later on.</bse>`,
         "whychron" : "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</pse>"
     },
     {
@@ -177,7 +191,7 @@ const entries = [
         "chronological": 4,
         "narrative": 4,
         "type": "films",
-        "image": "incredible-hulk.png",
+        "logo": "incredible-hulk.png",
         "phase": 1,
         "whychron": "hello <pst>pst</pst> <bst>bst</bst> <fst>fst</fst> <psu>psu</psu> <bsu>bsu</bsu> <fsu>fsu</fsu> <pse>pse</pse> <bse>bse</bse> <fse>fse</fse> hello"
     },
@@ -188,7 +202,7 @@ const entries = [
         "chronological": 5,
         "narrative": 2,
         "type": "films",
-        "image": "iron-man-2.png"
+        "logo": "iron-man-2.png"
     },
     {
         "code": "thor",
@@ -197,7 +211,7 @@ const entries = [
         "chronological": 6,
         "narrative": 3,
         "type": "films",
-        "image": "thor.png"
+        "logo": "thor.png"
     },
     {
         "code": "captain-america-first-avenger",
@@ -206,7 +220,7 @@ const entries = [
         "chronological": 1,
         "narrative": 5,
         "type": "films",
-        "image": "captain-america-first-avenger.png"
+        "logo": "captain-america-first-avenger.png"
     }
     /*
     {
@@ -215,7 +229,7 @@ const entries = [
         "chronological": ,
         "narrative": ,
         "type": ,
-        "image": 
+        "logo": 
     }
     */
 ]
