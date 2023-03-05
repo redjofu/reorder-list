@@ -63,15 +63,6 @@ const chronologicalInput = `<input type="radio" id="chronological" name="order" 
 const narrativeInput = `<input type="radio" id="narrative" name="order" value="narrative">
 <label for="narrative">Narrative Order</label>`;
 
-// Subseries spoiler checkboxes
-const subseriesCheckboxes = `<input type="checkbox" id="premisesubseries" name="premisesubseries" value="premisesubseries">
-<label for="premisesubseries">Premise Subseries Level</label>
-<input type="checkbox" id="basicsubseries" name="basicsubseries" value="basicsubseries">
-<label for="basicsubseries">Basic Subseries Level</label>
-<input type="checkbox" id="fullsubseries" name="fullsubseries" value="fullsubseries">
-<label for="fullsubseries">Full Subseries Level</label>
-<hr>`;
-
 // Main template
 main.innerHTML = `<div id="navbar">
     <ol id="entrylist"></ol>
@@ -105,7 +96,13 @@ main.innerHTML = `<div id="navbar">
                     <label for="fullstory">Full Story Level</label>
                     <hr>
 
-                    ${subseries ? subseriesCheckboxes : ''}
+                    ${subseries ? `<input type="checkbox" id="premisesubseries" name="premisesubseries" value="premisesubseries">
+                    <label for="premisesubseries">Premise Subseries Level</label>
+                    <input type="checkbox" id="basicsubseries" name="basicsubseries" value="basicsubseries">
+                    <label for="basicsubseries">Basic Subseries Level</label>
+                    <input type="checkbox" id="fullsubseries" name="fullsubseries" value="fullsubseries">
+                    <label for="fullsubseries">Full Subseries Level</label>
+                    <hr>` : ''}
 
                     <input type="checkbox" id="premiseseries" name="premiseseries" value="premiseseries">
                     <label for="premiseseries">Premise Series Level</label>
@@ -136,10 +133,11 @@ main.innerHTML = `<div id="navbar">
 
         <h3 id="keyfactsheading"></h3>
         <ul id="keyfacts"></ul>
-        <h3 id="skippabilityheading"></h3>
-        <div id="skippability"></div>
         <h3 id="reviewsheading"></h3>
         <div id="reviews"></div>
+        <h3 id="skippabilityheading"></h3>
+        <div id="skippability"></div>
+        ${creditScenesExist ? '' : ''}
 
         ${characters ? `<h3 id="notablecharactersheading"></h3>
         <div id="notablecharacters"></div>` : '' }
@@ -714,7 +712,7 @@ function populateKeyFacts(entry) {
         keyFactsList = keyFactsList + `<li>${fact[1] ? '<' + fact[1] + '>' : ''}${fact[0]}${fact[1] ? '<' + fact[1] + '>' : ''}`;
     }
 
-    if (entry.keyfacts.length && typeof(entry.keyfacts) == 'object') {
+    if (entry.keyfacts && entry.keyfacts.length && typeof(entry.keyfacts) == 'object') {
         // for (let i=0; entry.keyfacts.length; i++) {
 
         // }
@@ -722,7 +720,7 @@ function populateKeyFacts(entry) {
         // spoilerInputs.forEach(checkbox => checkbox.checked = true);
     }
 
-    keyFactsHeading.textContent = `${keyFactsList != '' ? 'Key Facts' : ''}`;
+    keyFactsHeading.textContent = `${keyFactsList != '' ? 'Key Fact' : ''}${keyFactsList != '' && typeof(entry.keyfacts) == 'object' && entry.keyfacts.length > 1 ? 's' : ''}`;
     keyFacts.innerHTML = keyFactsList;
 }
 
@@ -859,22 +857,30 @@ function replaceSpoilerTags(extraSelector) {
     for (let i=0; i<spoilerTags.length; i++) {
         const tagType = spoilerTags[i].nodeName.toLowerCase();
         
-        let tagTypeWritten;
-        if (tagType == "pst") {tagTypeWritten = "Premise story level"}
-        else if (tagType == "bst") {tagTypeWritten = "Basic story level"}
-        else if (tagType == "fst") {tagTypeWritten = "Full story level"}
-        else if (tagType == "pse") {tagTypeWritten = "Premise series level"}
-        else if (tagType == "bse") {tagTypeWritten = "Basic series level"}
-        else if (tagType == "fse") {tagTypeWritten = "Full series level"}
-        else if (tagType == "psu") {tagTypeWritten = "Premise subseries level"}
-        else if (tagType == "bsu") {tagTypeWritten = "Basic subseries level"}
-        else if (tagType == "fsu") {tagTypeWritten = "Full subseries level"}
-        else if (tagType == "ose") {tagTypeWritten = "Other series level"}
+        // let tagTypeWritten;
+        // if (tagType == "pst") {tagTypeWritten = "Premise story level"}
+        // else if (tagType == "bst") {tagTypeWritten = "Basic story level"}
+        // else if (tagType == "fst") {tagTypeWritten = "Full story level"}
+        // else if (tagType == "pse") {tagTypeWritten = "Premise series level"}
+        // else if (tagType == "bse") {tagTypeWritten = "Basic series level"}
+        // else if (tagType == "fse") {tagTypeWritten = "Full series level"}
+        // else if (tagType == "psu") {tagTypeWritten = "Premise subseries level"}
+        // else if (tagType == "bsu") {tagTypeWritten = "Basic subseries level"}
+        // else if (tagType == "fsu") {tagTypeWritten = "Full subseries level"}
+        // else if (tagType == "ose") {tagTypeWritten = "Other series level"}
 
-        const spoilerMessage = `${tagTypeWritten} spoiler`;
+        // const spoilerMessage = `${tagTypeWritten} spoiler`;
 
-        spoilerTags[i].insertAdjacentHTML("afterend", `<span class="${tagType} spoiler" title="${spoilerMessage}"><span>${spoilerTags[i].innerHTML}</span></span>`);
+        // spoilerTags[i].insertAdjacentHTML("afterend", `<span class="${tagType} spoiler" title="${spoilerMessage}"><span>${spoilerTags[i].innerHTML}</span></span>`);
+        spoilerTags[i].insertAdjacentHTML("afterend", `<span class="${tagType} spoiler"><span>${spoilerTags[i].innerHTML}</span></span>`);
         spoilerTags[i].remove();
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        ////////////////FIGURE OUT HOW TO ADD TITLE ATTRIBUTES BACK IN ////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
     }
 }
 

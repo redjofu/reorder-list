@@ -30,6 +30,7 @@ const orderOptions = {
 const lengthExists = true;
 const subseriesExist = true;
 const phasesExist = true;
+const creditScenesExist = true;
 
 // Names of sagas
 const sagaInfinity = "The Infinity Saga";
