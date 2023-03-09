@@ -124,12 +124,12 @@ main.innerHTML = `<div id="navbar">
         <h2 id="entrytitle"></h2>
         <img id="entryimage" class="hid bst spoiler">
 
-        <p>Release date: <span id="releasedate"></span></p>
-        <p>Type: <span id="classification"></span></p>
-        ${lengthExists ? '<p>Length: <span id="entrylength"></span></p>' : ''}
-        ${phasesExist ? '<p>Phase: <span id="phasenum"></span></p>' : ''}
-        ${sagaNames ? '<p>Saga: <span id="saganame"></span></p>' : ''}
-        ${subseries ? '<p>Subseries: <span id="subseriesname"></span></p>' : ''}
+        <p><strong>Release date:</strong> <span id="releasedate"></span></p>
+        <p><strong>Type:</strong> <span id="classification"></span></p>
+        ${lengthExists ? '<p><strong>Length:</strong> <span id="entrylength"></span></p>' : ''}
+        ${phasesExist ? '<p><strong>Phase:</strong> <span id="phasenum"></span></p>' : ''}
+        ${sagaNames ? '<p><strong>Saga:</strong> <span id="saganame"></span></p>' : ''}
+        ${subseries ? '<p><strong>Subseries:</strong> <span id="subseriesname"></span></p>' : ''}
 
         <h3 id="keyfactsheading"></h3>
         <ul id="keyfacts"></ul>
@@ -137,7 +137,8 @@ main.innerHTML = `<div id="navbar">
         <div id="reviews"></div>
         <h3 id="skippabilityheading"></h3>
         <div id="skippability"></div>
-        ${creditScenesExist ? '' : ''}
+        ${creditScenesExist ? `<h3 id="creditsheading"></h3>
+        <div id="credits"></div>` : ''}
 
         ${characters ? `<h3 id="notablecharactersheading"></h3>
         <div id="notablecharacters"></div>` : '' }
@@ -497,6 +498,8 @@ const keyFactsHeading = document.getElementById("keyfactsheading");
 const keyFacts = document.getElementById("keyfacts");
 const skippabilityHeading = document.getElementById("skippabilityheading");
 const skippability = document.getElementById("skippability");
+const creditsHeading = document.getElementById("creditsheading");
+const credits = document.getElementById("credits");
 const reviewsHeading = document.getElementById("reviewsheading");
 const reviews = document.getElementById("reviews");
 const notableCharactersHeading = document.getElementById("notablecharactersheading");
@@ -519,6 +522,7 @@ function populateContent() {
     populateKeyFacts(entry);
     populateSkippability(entry);
     populateReviews(entry);
+    if (creditScenesExist) { populateCredits(entry); }
     populateCharacters(entry);
 
     populateWhyContent(entry);
@@ -766,6 +770,32 @@ function populateReviews(entry) {
     reviews.innerHTML = reviewsList;
 }
 
+function populateCredits(entry) {
+    const creditsExplanation = `<p class="paragraphtext">Credit scenes, or stingers, are placed after the core narrative is over and all major plot points resolved. They may occur either after all credits have rolled (post-credits scenes), after only some have finished (mid-credits scenes), or&mdash;rarely&mdash;after the resolution of the story but just before the credits begin. Credit scenes come in a few types, usually either calling back to the events of the narrative (perhaps drawing attention to an unresolved plot point) or by foreshadowing future entries in the series.</p>
+        <p class="paragraphtext">If you are ${progressiveVerb} ${seriesName} in release order, credits scenes will convey information as the ${mediaCreators} intended. However if you are ${progressiveVerb} the series for the first time in a different order, you may get spoilers for an entry you haven't yet gotten to. For this reason, details are presented here to help you determine whether to watch the credits scenes or not. (Note that recommendations are based on spoilers only, not on whether watching the scene may be deemed worthwhile or not.)</p>`;
+    
+    let creditsList = '';
+
+    if (entry.creditscenes) {
+        let creditScenesLength = entry.creditscenes.length;
+
+        for (let i=0; i<creditScenesLength; i++) {
+            let sceneDetails = '';
+            sceneDetails = sceneDetails + `<h4>Credit Scene ${creditScenesLength>1 ? '#' + i+1 : ''} Details</h4>`
+            if (entry.creditscenes[i].timing) { sceneDetails = sceneDetails + `<p><strong>Timing:</strong> ${entry.creditscenes[i].timing}</p>` }
+            if (entry.creditscenes[i].type) { sceneDetails = sceneDetails + `<p><strong>Type:</strong> <fst>${entry.creditscenes[i].type}</fst></p>` }
+            if (entry.creditscenes[i].release && release.checked) { sceneDetails = sceneDetails + `<p><strong>Release order recommendation:</strong> ${entry.creditscenes[i].release}</p>` }
+            if (entry.creditscenes[i].chron && chronological.checked) { sceneDetails = sceneDetails + `<p><strong>Chronological order recommendation:</strong> ${entry.creditscenes[i].chron}</p>` }
+            if (entry.creditscenes[i].nar && narrative.checked) { sceneDetails = sceneDetails + `<p><strong>Narrative order recommendation:</strong> ${entry.creditscenes[i].nar}</p>` }
+            if (entry.creditscenes[i].contents) { sceneDetails = sceneDetails + `<p><strong>Scene contents:</strong> <fst>${entry.creditscenes[i].contents}</fst></p>` }
+            creditsList = creditsList + sceneDetails;                
+        }
+
+        creditsHeading.textContent = `Credit Scene${creditScenesLength>1 ? 's' : ''}`
+        credits.innerHTML = creditsExplanation + creditsList;
+    }
+}
+
 function populateCharacters(entry) {
     if (!entry.characters) {
         notableCharactersHeading.innerHTML = "";
@@ -782,8 +812,8 @@ function populateCharacters(entry) {
             for (let i=0; i<listOfCharacters.length; i++) {
                 const character = listOfCharacters[i];
                 const name = character[0];
-                const otherInfo = character[1];
-                const spoilerTag = character[2];
+                const spoilerTag = character[1];
+                const otherInfo = character[2] ? character[2] : null;
                 characterList = characterList + `<li>${spoilerTag ? '<' + spoilerTag + '>' : ''}${name}${otherInfo ? ' (' + otherInfo + ')' : ''}${spoilerTag ? '</' + spoilerTag + '>' : ''}</li>`
             }
             characterList = characterList + '</ul>'
@@ -831,6 +861,13 @@ function populateWhyContent(entry) {
         whyPlacement.innerHTML = whyPlacementContent;
     }
     
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////FIGURE OUT HOW TO REPOPULATE CREDIT SCENE DTEAILS///////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
 
     // whyChron.innerHTML = entry.whychron;
 }

@@ -9,6 +9,9 @@ const infinitiveVerb = "watch";
 // How to describe how someone might view the media in "tailer" or "blurb" form
 const blurbVerb = "watching a trailer";
 
+// How to describe the people who made the media
+const mediaCreators = "filmmakers";
+
 // Example of a subseries
 const subseriesExample = "Thor";
 
@@ -162,17 +165,17 @@ const entries = [
         "clearplay" : "3003",
         "characters" : {
             "main" : [
-                [characters.tonystark.name, characters.tonystark.alias, "pst"]
+                [characters.tonystark.name, "pst", characters.tonystark.alias]
             ],
             "major" : [
-                [characters.pepperpotts.name, null, "pst"],
-                [characters.jamesrhodes.name, null, "pst"]
+                [characters.pepperpotts.name, "pst"],
+                [characters.jamesrhodes.name, "pst"]
             ],
             "minor" : [
-                [characters.philcoulson.name, null, "bst"]
+                [characters.philcoulson.name, "bst"]
             ],
             "cameo" : [
-                [characters.nickfury.name, null, "fst"]
+                [characters.nickfury.name, "fst"]
             ]
         },
         "keyfacts" : [
@@ -183,7 +186,19 @@ const entries = [
         ],
         "skipno" : `As the first film in the Marvel Cinematic Universe, this is an integral part of not just the Iron Man subseries but the overarching plot of the whole MCU. It introduces the character of Tony Stark/Iron Man, <bse>whose character arc could be said to be the primary arc</bse> <fse>of the entire Inifinity Saga, right down to Tony's final words.</fse>`,
         "skipyes" : `<bst>There isn't much connective tissue with the overall MCU since it was literally laying the groundwork.</bst> <pse>The exception is the introduction of S.H.I.E.L.D., a key organization in the MCU,</pse> <fst>along with the end-credits scene featuring Nick Fury.</fst> Additionally, as the first film in the MCU, it's also the oldest, leaving some aspects a little more raw compared to later entries. <bst>Tony's playboy personality presents an attitude of objectification of women, something that isn't resolved in the movie,</bst> <fsu>though it is by the end of the trilogy.</fsu> The violence is more realistic than later in the MCU, <bse>which tends to get a little more fantastical later on.</bse>`,
-        "whychron" : "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</pse>"
+        "whychron" : "<fst>Although the first film released in the MCU, the end-credits scene features Nick Fury telling Tony Stark there are other superheroes.</fst> <pse>Indeed, both Captain America and Captain Marvel take place before,</pse> <bse>and we discover that Ant-Man and Black Panther's predecessors were also active previous to Iron Man.</pse>",
+        "whynar" : `<pse>Although it's not the first film in chronological order,</pse> beginning with Iron Man matches the release order and gives viewers the same introduction to the MCU that theatergoers had in 2008. As such, it doesn’t require or expect any knowledge of other films.`,
+        "connections" : `<pse>The film introduces S.H.I.E.L.D., an organization that serves as the connective tissue for early entries in the MCU. Among its agents seen are Phil Coulson and Nick Fury,</pse> <bse>both of whom feature prominently in future movies.</bse>`,
+        "creditscenes" : [
+            {
+                "timing" : "Post-credits",
+                "type" : "Foreshadow future",
+                "release" : "Watch",
+                "chron" : "Watch",
+                "nar" : "Watch",
+                "contents" : `Nick Fury confronts Tony Stark about his status as Iron Man and informs him about the Avengers initiative.`
+            }
+        ]
     },
     {
         "code": "incredible-hulk",

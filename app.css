@@ -359,6 +359,10 @@ input, label, button, #entrylist img {
     line-height: 1.4em;
 }
 
+#content .paragraphtext {
+    margin-bottom: 10px;
+}
+
 #notablecharacters ul, #keyfacts {
     margin: 0;
     padding: 0 0 0 30px;
