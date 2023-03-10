@@ -336,7 +336,7 @@ function buildNavBar(selectedOrderInput) {
 
 function reflectOrderChange() {
     buildNavBar(this);
-    adjustWhyContent();
+    adjustContent();
 }
 
 // Connect selection inputs to buildNavBar function
@@ -860,25 +860,20 @@ function populateWhyContent(entry) {
         whyPlacementHeading.textContent = `${capitalizeFirstLetter(whyPlacementType)} Order Reasoning`;
         whyPlacement.innerHTML = whyPlacementContent;
     }
-    
-        ///////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////
-        ///////////////FIGURE OUT HOW TO REPOPULATE CREDIT SCENE DTEAILS///////////////
-        ///////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////
 
     // whyChron.innerHTML = entry.whychron;
 }
 
-function adjustWhyContent() {
+function adjustContent() {
     if (!content.classList.contains("hid")) {
         const currentEntryTitle = entryTitle.textContent;
         const entry = entries[entries.findIndex(item => item.name === currentEntryTitle)];
+        populateCredits(entry);
         populateWhyContent(entry);
         replaceSpoilerTags("#whyplacement");
         changeSpoilerStyling("#whyplacement");
+        replaceSpoilerTags("#credits");
+        changeSpoilerStyling("#credits");
         hideEmptyElements();
     }
 }
