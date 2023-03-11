@@ -754,31 +754,42 @@ function populateReviews(entry) {
 
     if (entry.rottencritics || entry.rottenaudience) {
         reviewsList = reviewsList + `<p>${entry.rottentomatoes ? '<a href="https://www.rottentomatoes.com/' + entry.rottentomatoes + '">' : ''}
-            Rotten Tomatoes: ${entry.rottencritics ? entry.rottencritics + '%<span class="reviewDescriptor"> (Tomatometer)</span>' : ''}
+            <strong>Rotten Tomatoes:</strong> ${entry.rottencritics ? entry.rottencritics + '%<span class="reviewDescriptor"> (Tomatometer)</span>' : ''}
             ${entry.rottencritics && entry.rottenaudience ? ' | ' : ''}
             ${entry.rottenaudience ? entry.rottenaudience + '%<span class="reviewDescriptor"> (Audience Score)</span>' : ''}
             ${entry.rottentomatoes ? '</a>' : ''}</p>`;
     }
     if (entry.metascore || entry.mcuserscore) {
         reviewsList = reviewsList + `<p>${entry.metacritic ? '<a href="https://www.metacritic.com/' + entry.metacritic + '">' : ''}
-            Metacritic: ${entry.metascore ? entry.metascore + '<span class="reviewDescriptor"> (Metascore)</span>' : ''}
+            <strong>Metacritic:</strong> ${entry.metascore ? entry.metascore + '<span class="reviewDescriptor"> (Metascore)</span>' : ''}
             ${entry.metascore && entry.mcuserscore ? ' | ' : ''}
             ${entry.mcuserscore ? entry.mcuserscore + '<span class="reviewDescriptor"> (User Score)</span>' : ''}
             ${entry.metacritic ? '</a>' : ''}</p>`;
     }
     if (entry.cinemascore) {
-        reviewsList = reviewsList + `<p><a href="https://www.cinemascore.com/">CinemaScore: ${entry.cinemascore}</a></p>`;
+        reviewsList = reviewsList + `<p><a href="https://www.cinemascore.com/"><strong>CinemaScore:</strong> ${entry.cinemascore}</a></p>`;
+    }
+    if (entry.mparating) { 
+        reviewsList = reviewsList + `<p><a href="https://www.filmratings.com/Search?filmTitle=${prepForURL(entry.name)}"><strong>MPA Rating:</strong> ${entry.mparating}</a></p>`;
+    }
+    if (entry.tvrating) {
+        reviewsList = reviewsList + `<p><a href="http://www.tvguidelines.org/ratings.html"><strong>TV Parental Guidelines:</strong> ${entry.tvrating}${entry.tvratingreason ? " (" + entry.tvratingreason + ")": ""}</a></p>`;
+    }
+    if (entry.kimrating) {
+        reviewsList = reviewsList + `<p><a href="https://kids-in-mind.com/${entry.kim ? entry.kim : ""}"><strong>Kins-In-Mind Rating:</strong> ${entry.kimrating}</a></p>`;
     }
 
     
-    reviewsHeading.textContent = `${reviewsList != '' ? 'Reviews' : ''}`;
+    reviewsHeading.textContent = `${reviewsList != '' ? 'Reviews and Ratings' : ''}`;
     reviews.innerHTML = reviewsList;
 }
 
 function populateCredits(entry) {
-    const creditsExplanation = `<p class="paragraphtext">Credit scenes, or stingers, are placed after the core narrative is over and all major plot points resolved. They may occur either after all credits have rolled (post-credits scenes), after only some have finished (mid-credits scenes), or&mdash;rarely&mdash;after the resolution of the story but just before the credits begin. Credit scenes come in a few types, usually either calling back to the events of the narrative (perhaps drawing attention to an unresolved plot point) or by foreshadowing future entries in the series.</p>
-        <p class="paragraphtext">If you are ${progressiveVerb} ${seriesName} in release order, credits scenes will convey information as the ${mediaCreators} intended. However if you are ${progressiveVerb} the series for the first time in a different order, you may get spoilers for an entry you haven't yet gotten to. For this reason, details are presented here to help you determine whether to watch the credits scenes or not. (Note that recommendations are based on spoilers only, not on whether watching the scene may be deemed worthwhile or not.)</p>`;
+    const creditsExplanation = `<button id="whatiscreditscene">What is a "credit scene"?</button>
+        <p class="paragraphtext hiddenelement">Credit scenes, or stingers, are placed after the core narrative is over and all major plot points resolved. They may occur either after all credits have rolled (post-credits scenes), after only some have finished (mid-credits scenes), or&mdash;rarely&mdash;after the resolution of the story but just before the credits begin. Credit scenes come in a few types, usually either calling back to the events of the narrative (perhaps drawing attention to an unresolved plot point) or by foreshadowing future entries in the series.</p>
+        <p class="paragraphtext hiddenelement">If you are ${progressiveVerb} ${seriesName} in release order, credits scenes will convey information as the ${mediaCreators} intended. However if you are ${progressiveVerb} the series for the first time in a different order, you may get spoilers for an entry you haven't yet gotten to. For this reason, details are presented here to help you determine whether to watch the credits scenes or not. (Note that recommendations are based on spoilers only, not on whether watching the scene may be deemed worthwhile or not.)</p>`;
     
+    let creditsHeadingText = '';
     let creditsList = '';
 
     if (entry.creditscenes) {
@@ -796,9 +807,24 @@ function populateCredits(entry) {
             creditsList = creditsList + sceneDetails;                
         }
 
-        creditsHeading.textContent = `Credit Scene${creditScenesLength>1 ? 's' : ''}`
-        credits.innerHTML = creditsExplanation + creditsList;
+        creditsHeadingText = `Credit Scene${creditScenesLength>1 ? 's' : ''}`;
+        creditsList = creditsExplanation + creditsList;
     }
+
+    creditsHeading.textContent = creditsHeadingText;
+    credits.innerHTML = creditsList;
+
+    if (entry.creditscenes) {
+        document.getElementById("whatiscreditscene").addEventListener("click",removeHiddenElement);
+    }
+}
+
+function removeHiddenElement() {
+    const parentEl = this.parentElement;
+    for (let i=0; i<parentEl.children.length; i++) {
+        parentEl.children[i].classList.remove("hiddenelement");
+    }
+    this.classList.add("hiddenelement");
 }
 
 function populateCharacters(entry) {

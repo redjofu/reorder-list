@@ -157,25 +157,27 @@ const entries = [
         "metascore" : 79,
         "mcuserscore" : 8.6,
         "cinemascore" : "A",
+        "mparating" : "PG-13",
         "imdb" : "tt0371746",
         "wikiquote" : "Iron_Man_(2008_film)",
         "youtube" : "8ugaeA-nMTc",
         "commonsense" : "movie-reviews/iron-man",
         "kim" : "i/ironman.htm",
+        "kimrating" : "4.7.4",
         "clearplay" : "3003",
         "characters" : {
             "main" : [
-                [characters.tonystark.name, "pst", characters.tonystark.alias]
+                [characters.tonystark.name, "pst", characters.tonystark.alias],
             ],
             "major" : [
                 [characters.pepperpotts.name, "pst"],
-                [characters.jamesrhodes.name, "pst"]
+                [characters.jamesrhodes.name, "pst"],
             ],
             "minor" : [
-                [characters.philcoulson.name, "bst"]
+                [characters.philcoulson.name, "bst"],
             ],
             "cameo" : [
-                [characters.nickfury.name, "fst"]
+                [characters.nickfury.name, "fst"],
             ]
         },
         "keyfacts" : [
