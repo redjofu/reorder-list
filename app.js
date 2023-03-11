@@ -436,6 +436,7 @@ function markLowerLevelSpoilers(clickedInput) {
 //  Add/remove "hiddenspoiler" class to spoiler spans as applicable
 function changeAllSpoilerStyling() {
     changeSpoilerStyling("");
+    replaceSpoilerTitles();
 }
 
 function changeSpoilerStyling(extraSelector) {
@@ -461,13 +462,17 @@ function setCorrectSpoilerStyling(spoilerSpan) {
 function addOrRemoveHiddenSpoiler(spoilerSpan, className, checkboxName) {
     if (spoilerSpan.classList.contains(className)) { 
         if (checkboxName.checked) {
-            spoilerSpan.classList.remove("hiddenspoiler");
-            spoilerSpan.removeAttribute("title");
+            removeHiddenSpoiler(spoilerSpan);
         } else {
             spoilerSpan.classList.add("hiddenspoiler");
-            spoilerSpan.addEventListener("click", () => {spoilerSpan.classList.remove("hiddenspoiler")});
+            spoilerSpan.addEventListener("click", () => {removeHiddenSpoiler(spoilerSpan)});
         }
     }
+}
+
+function removeHiddenSpoiler(spoilerSpan) {
+    spoilerSpan.classList.remove("hiddenspoiler");
+    spoilerSpan.removeAttribute("title");
 }
 
 // Set spoiler checkboxes to use correct functions
@@ -874,6 +879,7 @@ function adjustContent() {
         changeSpoilerStyling("#whyplacement");
         replaceSpoilerTags("#credits");
         changeSpoilerStyling("#credits");
+        replaceSpoilerTitles();
         hideEmptyElements();
     }
 }
@@ -888,31 +894,29 @@ function replaceSpoilerTags(extraSelector) {
 
     for (let i=0; i<spoilerTags.length; i++) {
         const tagType = spoilerTags[i].nodeName.toLowerCase();
-        
-        // let tagTypeWritten;
-        // if (tagType == "pst") {tagTypeWritten = "Premise story level"}
-        // else if (tagType == "bst") {tagTypeWritten = "Basic story level"}
-        // else if (tagType == "fst") {tagTypeWritten = "Full story level"}
-        // else if (tagType == "pse") {tagTypeWritten = "Premise series level"}
-        // else if (tagType == "bse") {tagTypeWritten = "Basic series level"}
-        // else if (tagType == "fse") {tagTypeWritten = "Full series level"}
-        // else if (tagType == "psu") {tagTypeWritten = "Premise subseries level"}
-        // else if (tagType == "bsu") {tagTypeWritten = "Basic subseries level"}
-        // else if (tagType == "fsu") {tagTypeWritten = "Full subseries level"}
-        // else if (tagType == "ose") {tagTypeWritten = "Other series level"}
-
-        // const spoilerMessage = `${tagTypeWritten} spoiler`;
-
-        // spoilerTags[i].insertAdjacentHTML("afterend", `<span class="${tagType} spoiler" title="${spoilerMessage}"><span>${spoilerTags[i].innerHTML}</span></span>`);
         spoilerTags[i].insertAdjacentHTML("afterend", `<span class="${tagType} spoiler"><span>${spoilerTags[i].innerHTML}</span></span>`);
         spoilerTags[i].remove();
-        ///////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////
-        ////////////////FIGURE OUT HOW TO ADD TITLE ATTRIBUTES BACK IN ////////////////
-        ///////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////
+    }
+}
+
+function replaceSpoilerTitles() {
+    const spoilerTags = document.querySelectorAll(".hiddenspoiler");
+
+    for (let i=0; i<spoilerTags.length; i++) {
+        let tagTypeWritten;
+
+        if (spoilerTags[i].classList.contains("pst")) {tagTypeWritten = "Premise story level"}
+        else if (spoilerTags[i].classList.contains("bst")) {tagTypeWritten = "Basic story level"}
+        else if (spoilerTags[i].classList.contains("fst")) {tagTypeWritten = "Full story level"}
+        else if (spoilerTags[i].classList.contains("pse")) {tagTypeWritten = "Premise series level"}
+        else if (spoilerTags[i].classList.contains("bse")) {tagTypeWritten = "Basic series level"}
+        else if (spoilerTags[i].classList.contains("fse")) {tagTypeWritten = "Full series level"}
+        else if (spoilerTags[i].classList.contains("psu")) {tagTypeWritten = "Premise subseries level"}
+        else if (spoilerTags[i].classList.contains("bsu")) {tagTypeWritten = "Basic subseries level"}
+        else if (spoilerTags[i].classList.contains("fsu")) {tagTypeWritten = "Full subseries level"}
+        else if (spoilerTags[i].classList.contains("ose")) {tagTypeWritten = "Other series level"}
+
+        spoilerTags[i].title = `${tagTypeWritten} spoiler`;
     }
 }
 
