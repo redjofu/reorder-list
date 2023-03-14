@@ -20,7 +20,10 @@ const imageType = "poster";
 
 const typeOptions = [
     ["Films", "films"],
-    ["TV Series", "tvseries"]
+    ["TV Series", "tvseries"],
+    ["Animation", "animation"],
+    ["Specials", "specials"],
+    ["Shorts", "shorts"]
 ]
 
 const orderOptions = {
