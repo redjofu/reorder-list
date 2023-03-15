@@ -129,7 +129,7 @@ main.innerHTML = `<div id="navbar">
         ${lengthExists ? '<p><strong>Length:</strong> <span id="entrylength"></span></p>' : ''}
         ${phasesExist ? '<p><strong>Phase:</strong> <span id="phasenum"></span></p>' : ''}
         ${sagaNames ? '<p><strong>Saga:</strong> <span id="saganame"></span></p>' : ''}
-        ${subseries ? '<p><strong>Subseries:</strong> <span id="subseriesname"></span></p>' : ''}
+        ${subseries ? `<p><strong>Subseries:</strong> <span id="subseriesname"></span></p>` : ''}
 
         <h3 id="keyfactsheading"></h3>
         <ul id="keyfacts"></ul>
@@ -556,7 +556,36 @@ function populateQuickFacts(entry) {
 
     if (phasesExist) { document.getElementById("phasenum").textContent = entry.phase ? entry.phase : "?" }
     if (sagaNames) { document.getElementById("saganame").textContent = entry.phase ? sagaNames[entry.phase] : "?" }
-    if (subseries) { document.getElementById("subseriesname").innerHTML = entry.subseries ? "<psu>" + entry.subseries + "</psu>" + (entry.subsubseries ? " (<bsu>" + entry.subsubseries + "</bsu>)" : "") : "?"}
+    if (subseries) { 
+        const subseriesName = document.getElementById("subseriesname");
+        let relatedSubseriesName = document.getElementById("relatedsubseriesname") ? document.getElementById("relatedsubseriesname") : false;
+        subseriesName.innerHTML = entry.subseries && entry.subseries.primary ? "<psu>" + entry.subseries.primary[0] + "</psu>" + (entry.subseries.primary.length>1 ? " (<bsu>" + entry.subseries.primary[1] + "</bsu>)" : "") : "?";
+
+        if (entry.subseries && entry.subseries.secondary) {
+            if (!relatedSubseriesName) {
+                subseriesName.parentElement.insertAdjacentHTML("afterend", `<p><strong>Related subseries:</strong> <span id="relatedsubseriesname"></span></p>`);
+                relatedSubseriesName = document.getElementById("relatedsubseriesname");
+            }
+            relatedSubseriesName.innerHTML = populateRelatedSubseries(entry);
+        } else if (relatedSubseriesName) {
+            relatedSubseriesName.parentElement.remove();
+        }
+    }
+
+    function populateRelatedSubseries(entry) {
+        let relatedSubList = '';
+
+        for (let i = 0; i < entry.subseries.secondary.length; i++) {
+            const spoilerType = entry.subseries.secondary[2] ? entry.subseries.secondary[2] : false;
+            relatedSubList = relatedSubList + (spoilerType ? `<${spoilerType}>` : "<psu>") + entry.subseries.secondary[i][0] + (spoilerType ? `</${spoilerType}>` : "</psu>") + 
+                (entry.subseries.secondary[i][1] ? " (" + (spoilerType ? `<${spoilerType}>` : "<bsu>") + entry.subseries.secondary[i][1] + (spoilerType ? `</${spoilerType}>` : "</bsu>") + ")" : '');
+            if (entry.subseries.secondary.length > 1 && i < entry.subseries.secondary.length) {
+                relatedSubList = relatedSubList + ", "
+            }
+        }
+
+        return relatedSubList;
+    }
 }
 
 function addEntryImage(entry) {

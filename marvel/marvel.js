@@ -114,11 +114,24 @@ const characters = {
 ////////////////////////////////////////
 
 const subseries = {
+    // "ironman" : {
+    //     "name" : "Iron Man",
+    //     "subsubseries" : {
+    //         "trilogy" : "Iron Man trilogy"
+    //     }
+    // }
     "ironman" : {
         "name" : "Iron Man",
-        "subsubseries" : {
-            "trilogy" : "Iron Man trilogy"
-        }
+        "sub1" : "Iron Man",
+        "sub2" : "War Machine"
+    },
+    "thor" : {
+        "name" : "Thor",
+        "sub1" : "Thor",
+        "sub2" : "Loki"
+    },
+    "hulk" : {
+        "name" : "Hulk"
     }
 }
 
@@ -141,8 +154,15 @@ const entries = [
         "length" : 127,
         "lengthtype" : "minutes",
         "phase": 1,
-        "subseries": subseries.ironman.name,
-        "subsubseries" : subseries.ironman.subsubseries.trilogy,
+        "subseries" : {
+            "primary" : [subseries.ironman.name, subseries.ironman.sub1],
+            "secondary" : [
+                [subseries.thor.name, subseries.thor.sub1, "fst"],
+                [subseries.hulk.name, null]
+            ]
+        },
+        // "subseries": subseries.ironman.name,
+        // "subsubseries" : subseries.ironman.subsubseries.trilogy,
         "disneyplus" : "movies/iron-man/6aM2a8mZATiu",
         "netflix" : "70080038",
         "primevideo" : "B001FD5KJM",
@@ -213,6 +233,9 @@ const entries = [
         "type": "films",
         "logo": "incredible-hulk.png",
         "phase": 1,
+        "subseries" : {
+            "primary" : [subseries.hulk.name]
+        },
         "whychron": "hello <pst>pst</pst> <bst>bst</bst> <fst>fst</fst> <psu>psu</psu> <bsu>bsu</bsu> <fsu>fsu</fsu> <pse>pse</pse> <bse>bse</bse> <fse>fse</fse> hello"
     },
     {
