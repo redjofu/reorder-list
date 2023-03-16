@@ -577,8 +577,7 @@ function populateQuickFacts(entry) {
 
         for (let i = 0; i < entry.subseries.secondary.length; i++) {
             const spoilerType = entry.subseries.secondary[2] ? entry.subseries.secondary[2] : false;
-            relatedSubList = relatedSubList + (spoilerType ? `<${spoilerType}>` : "<psu>") + entry.subseries.secondary[i][0] + (spoilerType ? `</${spoilerType}>` : "</psu>") + 
-                (entry.subseries.secondary[i][1] ? " (" + (spoilerType ? `<${spoilerType}>` : "<bsu>") + entry.subseries.secondary[i][1] + (spoilerType ? `</${spoilerType}>` : "</bsu>") + ")" : '');
+            relatedSubList = relatedSubList + (spoilerType ? `<${spoilerType}>` : "<pst>") + entry.subseries.secondary[i][0] + (entry.subseries.secondary[i][1] ? " (" + entry.subseries.secondary[i][1] + (spoilerType ? `</${spoilerType}>` : "</pst>") + ")" : '');
             if (entry.subseries.secondary.length > 1 && i < entry.subseries.secondary.length) {
                 relatedSubList = relatedSubList + ", "
             }
