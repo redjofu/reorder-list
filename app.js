@@ -536,6 +536,8 @@ function populateContent() {
     populateAdditionalInfo(entry);
     populateContentGuide(entry);
 
+    replaceEntryTags();
+
     replaceAllSpoilerTags();
     changeAllSpoilerStyling();
 
@@ -804,7 +806,7 @@ function populateReviews(entry) {
         reviewsList = reviewsList + `<p><a href="http://www.tvguidelines.org/ratings.html"><strong>TV Parental Guidelines:</strong> ${entry.tvrating}${entry.tvratingreason ? " (" + entry.tvratingreason + ")": ""}</a></p>`;
     }
     if (entry.kimrating) {
-        reviewsList = reviewsList + `<p><a href="https://kids-in-mind.com/${entry.kim ? entry.kim : ""}"><strong>Kins-In-Mind Rating:</strong> ${entry.kimrating}</a></p>`;
+        reviewsList = reviewsList + `<p><a href="https://kids-in-mind.com/${entry.kim ? entry.kim : ""}"><strong>Kids-In-Mind Rating:</strong> ${entry.kimrating}</a></p>`;
     }
 
     
@@ -929,12 +931,50 @@ function adjustContent() {
         const entry = entries[entries.findIndex(item => item.name === currentEntryTitle)];
         populateCredits(entry);
         populateWhyContent(entry);
+        replaceEntryTags();
         replaceSpoilerTags("#whyplacement");
         changeSpoilerStyling("#whyplacement");
         replaceSpoilerTags("#credits");
         changeSpoilerStyling("#credits");
         replaceSpoilerTitles();
         hideEmptyElements();
+    }
+}
+
+function replaceEntryTags() {
+    const entryTags = document.querySelectorAll("entry");
+
+    for (let i=0; i<entryTags.length; i++) {
+        const entryCode = entryTags[i].attributes.code.textContent;
+        const isSelf = entryCode == 'self' ? true : false;
+        const tagContent = entryTags[i].innerHTML;
+        let entryName = '';
+        
+        // console.log(i + ":");
+        // console.log("entryCode: " + entryCode);
+        // console.log("isSelf:" + isSelf);
+        // console.log("tagContent:" + tagContent);
+
+        if (tagContent != '') {
+            entryName = tagContent;
+        } else if (isSelf) {
+            entryName = entryTitle.textContent;
+        } else {
+            const specificEntry = entries[entries.findIndex(item => item.code === entryCode)];
+            if (specificEntry) {
+                entryName = specificEntry.name;
+            } else {
+                entryName = 'one entry';
+                console.error(`Trying to replace entry tag but can't find "${entryCode}"`);
+            }
+
+            // console.log(entries[entries.findIndex(item => item.code === entryCode)]);
+        }
+
+        // console.log("entryName:" + entryName);
+
+        entryTags[i].insertAdjacentHTML("afterend", `<em>${entryName}</em>`);
+        entryTags[i].remove();
     }
 }
 
