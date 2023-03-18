@@ -536,7 +536,7 @@ function populateContent() {
     populateAdditionalInfo(entry);
     populateContentGuide(entry);
 
-    replaceEntryTags();
+    replaceExtraTags();
 
     replaceAllSpoilerTags();
     changeAllSpoilerStyling();
@@ -933,7 +933,7 @@ function adjustContent() {
         const entry = entries[entries.findIndex(item => item.name === currentEntryTitle)];
         populateCredits(entry);
         populateWhyContent(entry);
-        replaceEntryTags();
+        replaceExtraTags();
         replaceSpoilerTags("#whyplacement");
         changeSpoilerStyling("#whyplacement");
         replaceSpoilerTags("#credits");
@@ -941,6 +941,11 @@ function adjustContent() {
         replaceSpoilerTitles();
         hideEmptyElements();
     }
+}
+
+function replaceExtraTags() {
+    replaceEntryTags();
+    replaceSubseriesTags();
 }
 
 function replaceEntryTags() {
@@ -951,11 +956,6 @@ function replaceEntryTags() {
         const isSelf = entryCode == 'self' ? true : false;
         const tagContent = entryTags[i].innerHTML;
         let entryName = '';
-        
-        // console.log(i + ":");
-        // console.log("entryCode: " + entryCode);
-        // console.log("isSelf:" + isSelf);
-        // console.log("tagContent:" + tagContent);
 
         if (tagContent != '') {
             entryName = tagContent;
@@ -966,17 +966,42 @@ function replaceEntryTags() {
             if (specificEntry) {
                 entryName = specificEntry.name;
             } else {
-                entryName = 'one entry';
+                entryName = entryCode;
                 console.error(`Trying to replace entry tag but can't find "${entryCode}"`);
             }
-
-            // console.log(entries[entries.findIndex(item => item.code === entryCode)]);
         }
-
-        // console.log("entryName:" + entryName);
 
         entryTags[i].insertAdjacentHTML("afterend", `<em>${entryName}</em>`);
         entryTags[i].remove();
+    }
+}
+
+function replaceSubseriesTags() {
+    const subseriesTags = document.querySelectorAll("subseries");
+
+    for (let i=0; i<subseriesTags.length; i++) {
+        const subseriesCode = subseriesTags[i].attributes.code.textContent;
+        const isSelf = subseriesCode == 'self' ? true : false;
+        const tagContent = subseriesTags[i].innerHTML;
+        let subseriesTagName = '';
+
+        if (tagContent != '') {
+            subseriesTagName = tagContent;
+        } else if (isSelf) {
+            subseriesTagName = entries[entries.findIndex(item => item.name == entryTitle.textContent)].subseries.primary[0];
+        } else {
+            const specificEntry = subseries[subseriesCode];
+            // entries[entries.findIndex(item => item.code === subseriesCode)];
+            if (specificEntry) {
+                subseriesTagName = specificEntry.name;
+            } else {
+                subseriesTagName = subseriesCode;
+                console.error(`Trying to replace subseries tag but can't find "${subseriesCode}"`);
+            }
+        }
+
+        subseriesTags[i].insertAdjacentHTML("afterend", `<em>${subseriesTagName}</em>`);
+        subseriesTags[i].remove();
     }
 }
 
