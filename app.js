@@ -665,6 +665,7 @@ function parseLength(entry) {
 const iconFilePath = "../icons/";
 const disneyPlusIcon = "disneyplus.png";
 const netflixIcon = "netflix.jpeg";
+const hboMaxIcon = "hbomax.jpeg";
 const primeVideoIcon = "primevideo.jpeg";
 const vuduIcon = "vudu.jpeg";
 const appleTVIcon = "appletv.png";
@@ -681,8 +682,9 @@ function populateWhereToFind(entry) {
     <ul class="iconlist">
     ${entry.disneyplus ? '<li><a href="https://www.disneyplus.com/' + entry.disneyplus + '"><img src="' + iconFilePath + disneyPlusIcon + '" alt="Disney+"></a></li>' : ''}
     ${entry.netflix ? '<li><a href="https://www.netflix.com/title/' + entry.netflix + '"><img src="' + iconFilePath + netflixIcon + '" alt="Netflix"></a></li>' : ''}
+    ${entry.hbomax ? '<li><a href="https://www.hbomax.com/' + entry.hbomax + '"><img src="' + iconFilePath + hboMaxIcon + '" alt="HBO Max"></a></li>' : ''}
     ${entry.primevideo ? '<li><a href="https://www.amazon.com/gp/video/detail/' + entry.primevideo + '"><img src="' + iconFilePath + primeVideoIcon + '" alt="Prime Video"></a></li>' : ''}
-    ${entry.vudu ? '<li><a href="https://www.vudu.com/content/movies/details/' + entry.vudu + '"><img src="' + iconFilePath + vuduIcon + '" alt="Vudu Fandango"></a></li>' : ''}
+    ${entry.vudu ? '<li><a href="https://www.vudu.com/content/movies/details/' + entry.code + '/' + entry.vudu + '"><img src="' + iconFilePath + vuduIcon + '" alt="Vudu Fandango"></a></li>' : ''}
     ${entry.appletv ? '<li><a href="https://tv.apple.com/' + entry.appletv + '"><img src="' + iconFilePath + appleTVIcon + '" alt="Apple TV"></a></li>' : ''}
     ${entry.googleplay ? '<li><a href="https://play.google.com/store/' + entry.googleplay + '"><img src="' + iconFilePath + googlePlayIcon + '" alt="Google Play"></a></li>' : ''}
     ${entry.disc ? '<li><a href="https://www.amazon.com/s?k=' + prepForURL(entry.name) + '&i=movies-tv&rh=n%3A2625373011%2Cp_n_format_browse-bin%3A2650304011%7C2650305011%7C9397930011"><img src="' + iconFilePath + amazonIcon + '" alt="Search Amazon"></a></li>' : ''}
