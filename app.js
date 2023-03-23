@@ -666,11 +666,12 @@ const iconFilePath = "../icons/";
 const disneyPlusIcon = "disneyplus.png";
 const netflixIcon = "netflix.jpeg";
 const hboMaxIcon = "hbomax.jpeg";
-const starzIcon = "starz.jepg";
+const starzIcon = "starz.webp";
 const primeVideoIcon = "primevideo.jpeg";
 const vuduIcon = "vudu.jpeg";
 const appleTVIcon = "appletv.png";
 const googlePlayIcon = "googleplay.png";
+const redboxIcon = "redbox.png";
 const amazonIcon = "amazon.png";
 const walmartIcon = "walmart.png";
 const targetIcon = "target.jpeg";
@@ -679,7 +680,7 @@ const ebayIcon = "ebay.png";
 
 function populateWhereToFind(entry) {
     whereToFindHeading.textContent = `Where to ${infinitiveVerb ? capitalizeFirstLetter(infinitiveVerb) : 'Find'}`;
-    whereToFind.innerHTML = `<p>Purchase or subscription required. Title may not be available in your region.</p>
+    whereToFind.innerHTML = `<p>Purchase, subscription, or rental required (depending on the service). Title may not be available in your region or may no longer be availabe.</p>
     <ul class="iconlist">
     ${entry.disneyplus ? '<li><a href="https://www.disneyplus.com/' + entry.disneyplus + '"><img src="' + iconFilePath + disneyPlusIcon + '" alt="Disney+"></a></li>' : ''}
     ${entry.netflix ? '<li><a href="https://www.netflix.com/title/' + entry.netflix + '"><img src="' + iconFilePath + netflixIcon + '" alt="Netflix"></a></li>' : ''}
@@ -689,6 +690,7 @@ function populateWhereToFind(entry) {
     ${entry.vudu ? '<li><a href="https://www.vudu.com/content/movies/details/' + entry.code + '/' + entry.vudu + '"><img src="' + iconFilePath + vuduIcon + '" alt="Vudu Fandango"></a></li>' : ''}
     ${entry.appletv ? '<li><a href="https://tv.apple.com/' + entry.appletv + '"><img src="' + iconFilePath + appleTVIcon + '" alt="Apple TV"></a></li>' : ''}
     ${entry.googleplay ? '<li><a href="https://play.google.com/store/' + entry.googleplay + '"><img src="' + iconFilePath + googlePlayIcon + '" alt="Google Play"></a></li>' : ''}
+    ${entry.redbox ? '<li><a href="https://www.redbox.com/movies/' + entry.redbox + '"><img src="' + iconFilePath + redboxIcon + '" alt="Redbox"></a></li>' : ''}
     ${entry.disc ? '<li><a href="https://www.amazon.com/s?k=' + prepForURL(entry.name) + '&i=movies-tv&rh=n%3A2625373011%2Cp_n_format_browse-bin%3A2650304011%7C2650305011%7C9397930011"><img src="' + iconFilePath + amazonIcon + '" alt="Search Amazon"></a></li>' : ''}
     ${entry.disc ? '<li><a href="https://www.walmart.com/search?q=' + prepForURL(entry.name) + '+blu-ray&catId=4096"><img src="' + iconFilePath + walmartIcon + '" alt="Search Walmart"></a></li>' : ''}
     ${entry.disc ? '<li><a href="https://www.target.com/s?searchTerm=' + prepForURL(entry.name) + '&category=5xsxe&facetedValue=cz41e"><img src="' + iconFilePath + targetIcon + '" alt="Search Target"></a></li>' : ''}
@@ -696,7 +698,7 @@ function populateWhereToFind(entry) {
     ${entry.disc ? '<li><a href="https://www.ebay.com/sch/617/i.html?_from=R40&_nkw=' + prepForURL(entry.name) + '"><img src="' + iconFilePath + ebayIcon + '" alt="Search eBay"></a></li>' : ''}
     </ul>`;
 }
-// Other services to check: HBO Max, Hulu, Fubo, Tubi, Paramount+, Freevee, Peacock
+// Other services to check: Hulu, Fubo, Tubi, Paramount+, Freevee, Peacock
 
 function prepForURL(string) {
     return string.toLowerCase().replaceAll(" ","+");
