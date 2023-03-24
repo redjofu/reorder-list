@@ -738,13 +738,22 @@ const kimIcon = "kim.jpg";
 const clearPlayIcon = "clearplay.jpg";
 
 function populateContentGuide(entry) {
+    let clearplayURL;
+    if (entry.clearplay) {
+        if (entry.clearplay == 'streaming') {
+            clearplayURL = 'https://web.clearplay.com/search';
+        } else {
+            clearplayURL = 'https://www.clearplay.com/MovieDash.aspx?id=' + entry.clearplay;
+        }
+    }
+    
     contentGuideHeading.textContent = "Content Guide for Parents";
     contentGuide.innerHTML = `<p>Not all content may be appropriate for children or concerned individuals. These services may help.</p>
     <ul class="iconlist">
     ${entry.commonsense ? '<li><a href="https://www.commonsensemedia.org/' + entry.commonsense + '"><img src="' + iconFilePath + commonSenseIcon + '" alt="Common Sense Media"></a></li>' : ''}
     ${entry.imdb ? '<li><a href="https://www.imdb.com/title/' + entry.imdb + '/parentalguide"><img src="' + iconFilePath + imdbIcon + '" alt="IMDb Parental Guide"></a></li>' : ''}
     ${entry.kim ? '<li><a href="https://kids-in-mind.com/' + entry.kim + '"><img src="' + iconFilePath + kimIcon + '" alt="Kids-In-Mind"></a></li>' : ''}
-    ${entry.clearplay ? '<li><a href="https://www.clearplay.com/MovieDash.aspx?id=' + entry.clearplay + '"><img src="' + iconFilePath + clearPlayIcon + '" alt="ClearPlay"></a></li>' : ''}
+    ${entry.clearplay ? '<li><a href="' + clearplayURL + '"><img src="' + iconFilePath + clearPlayIcon + '" alt="ClearPlay"></a></li>' : ''}
     </ul>`;
 }
 
