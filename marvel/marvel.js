@@ -181,7 +181,7 @@ const entries = [
         "rottenaudience" : 91,
         "metacritic" : "movie/iron-man",
         "metascore" : 79,
-        "mcuserscore" : 8.6,
+        "mcuserscore" : 8,
         "cinemascore" : "A",
         "mparating" : "PG-13",
         "imdb" : "tt0371746",

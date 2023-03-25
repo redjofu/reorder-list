@@ -808,7 +808,7 @@ function populateReviews(entry) {
         reviewsList = reviewsList + `<p>${entry.metacritic ? '<a href="https://www.metacritic.com/' + entry.metacritic + '">' : ''}
             <strong>Metacritic:</strong> ${entry.metascore ? entry.metascore + '<span class="reviewDescriptor"> (Metascore)</span>' : ''}
             ${entry.metascore && entry.mcuserscore ? ' | ' : ''}
-            ${entry.mcuserscore ? entry.mcuserscore + '<span class="reviewDescriptor"> (User Score)</span>' : ''}
+            ${entry.mcuserscore ? entry.mcuserscore.toFixed(1) + '<span class="reviewDescriptor"> (User Score)</span>' : ''}
             ${entry.metacritic ? '</a>' : ''}</p>`;
     }
     if (entry.cinemascore) {
