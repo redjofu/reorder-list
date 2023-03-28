@@ -820,6 +820,9 @@ function populateReviews(entry) {
     if (entry.tvrating) {
         reviewsList = reviewsList + `<p><a href="http://www.tvguidelines.org/ratings.html"><strong>TV Parental Guidelines:</strong> ${entry.tvrating}${entry.tvratingreason ? " (" + entry.tvratingreason + ")": ""}</a></p>`;
     }
+    if (entry.commonsenseage) {
+        reviewsList = reviewsList + `<p><a href="https://www.commonsensemedia.org/${entry.commonsense ? entry.commonsense : ''}"><strong>Common Sense Media <span class="reviewDescriptor">Age Recommendation</span>:</strong> ${entry.commonsenseage}+</a></p>`;
+    }
     if (entry.kimrating) {
         reviewsList = reviewsList + `<p><a href="https://kids-in-mind.com/${entry.kim ? entry.kim : ""}"><strong>Kids-In-Mind Rating:</strong> ${entry.kimrating}</a></p>`;
     }

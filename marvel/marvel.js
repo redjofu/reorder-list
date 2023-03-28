@@ -188,6 +188,7 @@ const entries = [
         "wikiquote" : "Iron_Man_(2008_film)",
         "youtube" : "8ugaeA-nMTc",
         "commonsense" : "movie-reviews/iron-man",
+        "commonsenseage" : 13,
         "kim" : "i/ironman.htm",
         "kimrating" : "4.7.4",
         "clearplay" : "3003",
