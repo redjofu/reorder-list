@@ -735,6 +735,7 @@ function populateAdditionalInfo(entry) {
 
 const commonSenseIcon = "commonsense.jpeg";
 const kimIcon = "kim.jpg";
+const vidAngelIcon = "vidangel.png";
 const clearPlayIcon = "clearplay.jpg";
 
 function populateContentGuide(entry) {
@@ -753,6 +754,7 @@ function populateContentGuide(entry) {
     ${entry.commonsense ? '<li><a href="https://www.commonsensemedia.org/' + entry.commonsense + '"><img src="' + iconFilePath + commonSenseIcon + '" alt="Common Sense Media"></a></li>' : ''}
     ${entry.imdb ? '<li><a href="https://www.imdb.com/title/' + entry.imdb + '/parentalguide"><img src="' + iconFilePath + imdbIcon + '" alt="IMDb Parental Guide"></a></li>' : ''}
     ${entry.kim ? '<li><a href="https://kids-in-mind.com/' + entry.kim + '"><img src="' + iconFilePath + kimIcon + '" alt="Kids-In-Mind"></a></li>' : ''}
+    ${entry.vidangel ? '<li><a href="https://www.vidangel.com/' + entry.vidangel + '"><img src="' + iconFilePath + vidAngelIcon + '" alt="VidAngel"></a></li>' : ''}
     ${entry.clearplay ? '<li><a href="' + clearplayURL + '"><img src="' + iconFilePath + clearPlayIcon + '" alt="ClearPlay"></a></li>' : ''}
     </ul>`;
 }
