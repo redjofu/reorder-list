@@ -975,6 +975,7 @@ function replaceEntryTags() {
 
     for (let i=0; i<entryTags.length; i++) {
         const entryCode = entryTags[i].attributes.code.textContent;
+        const isEm = entryTags[i].attributes.noem ? false : true;
         const isSelf = entryCode == 'self' ? true : false;
         const tagContent = entryTags[i].innerHTML;
         let entryName = '';
@@ -993,7 +994,7 @@ function replaceEntryTags() {
             }
         }
 
-        entryTags[i].insertAdjacentHTML("afterend", `<em>${entryName}</em>`);
+        entryTags[i].insertAdjacentHTML("afterend", `${isEm ? '<em>' : ''}${entryName}${isEm ? '</em>' : ''}`);
         entryTags[i].remove();
     }
 }
