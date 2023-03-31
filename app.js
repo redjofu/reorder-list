@@ -714,6 +714,7 @@ const metacriticIcon = "metacritic.png";
 const imdbIcon = "imdb.jpg";
 const wikiquoteIcon = "wikiquote.png";
 const youtubeIcon = "youtube.jpeg";
+const spotifyIcon = "spotify.png";
 
 
 function populateAdditionalInfo(entry) {
@@ -728,6 +729,7 @@ function populateAdditionalInfo(entry) {
     ${entry.imdb ? '<li><a href="https://www.imdb.com/title/' + entry.imdb + '"><img src="' + iconFilePath + imdbIcon + '" alt="IMDb"></a></li>' : ''}
     ${entry.wikiquote ? '<li><a href="https://en.wikiquote.org/wiki/' + entry.wikiquote + '"><img src="' + iconFilePath + wikiquoteIcon + '" alt="Wikiquote"></a></li>' : ''}
     ${entry.youtube ? '<li><a href="https://www.youtube.com/watch?v=' + entry.youtube + '"><img src="' + iconFilePath + youtubeIcon + '" alt="YouTube"></a></li>' : ''}
+    ${entry.spotify ? '<li><a href="https://open.spotify.com/' + entry.spotify + '"><img src="' + iconFilePath + spotifyIcon + '" alt="Spotify"></a></li>' : ''}
     </ul>`;
 }
 
