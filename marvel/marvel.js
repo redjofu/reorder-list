@@ -37,6 +37,7 @@ const lengthExists = true;
 const subseriesExist = true;
 const phasesExist = true;
 const creditScenesExist = true;
+const otherSeriesMentions = true;
 
 // Names of sagas
 const sagaInfinity = "The Infinity Saga";

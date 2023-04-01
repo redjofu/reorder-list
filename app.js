@@ -110,10 +110,18 @@ main.innerHTML = `<div id="navbar">
                     <label for="basicseries">Basic Series Level</label>
                     <input type="checkbox" id="fullseries" name="fullseries" value="fullseries">
                     <label for="fullseries">Full Series Level</label>
-                    <hr>
+                    
+                    ${otherSeriesMentions ? `<hr>
+                    <input type="checkbox" id="premiseotherseries" name="premiseotherseries" value="premiseotherseries">
+                    <label for="premiseotherseries">Premise Other Series Level</label>
+                    <input type="checkbox" id="basicotherseries" name="basicotherseries" value="basicotherseries">
+                    <label for="basicotherseries">Basic Other Series Level</label>
+                    <input type="checkbox" id="fullotherseries" name="fullotherseries" value="fullotherseries">
+                    <label for="fullotherseries">Full Other Series Level</label>
+                    ` : ''}
+                    
 
-                    <input type="checkbox" id="otherseries" name="otherseries" value="otherseries">
-                    <label for="otherseries">Other Series Level</label>
+                    
                 </div>
             </div>
         </div>
@@ -220,9 +228,18 @@ if (!selectionOptionDescription.fullseries) {
     selectionOptionDescription.fullseries = `Spoilers relating to any details from any entry in ${seriesName}, including those typically revealed at the end. These include details typically referred to as "spoilers" and may be significantly "spoilery" since they may include crucial details from later entries.`
 }
 
-if (!selectionOptionDescription.otherseries) {
-    selectionOptionDescription.otherseries = `Spoilers relating to any details from any narratives outside of ${seriesName}.`
+if (otherSeriesMentions) {
+    if (!selectionOptionDescription.premiseotherseries) {
+        selectionOptionDescription.premiseotherseries = `Spoilers relating to the pitch of any narratives outside of ${seriesName}. These include only the sorts of details you might find out from ${blurbVerb}.`
+    }
+    if (!selectionOptionDescription.basicotherseries) {
+        selectionOptionDescription.basicotherseries = `Spoilers relating to basic events of any narratives outside of ${seriesName}. These include the sorts of details a friend might tell you after ${progressiveVerb} themselves.`
+    }
+    if (!selectionOptionDescription.fullotherseries) {
+        selectionOptionDescription.fullotherseries = `Spoilers relating to any details from any narratives outside of ${seriesName}, including those typically revealed at the end. These include details typically referred to as "spoilers."`
+    }
 }
+
 
 // Make selection inputs add descriptive text to explanation paragraph.
 const inputs = document.querySelectorAll("#selectionbar input");
@@ -397,36 +414,48 @@ const fsu = subseries ? document.getElementById("fullsubseries") : null;
 const pse = document.getElementById("premiseseries");
 const bse = document.getElementById("basicseries");
 const fse = document.getElementById("fullseries");
-const ose = document.getElementById("otherseries");
+const pos = otherSeriesMentions ? document.getElementById("premiseotherseries") : null;
+const bos = otherSeriesMentions ? document.getElementById("basicotherseries") : null;
+const fos = otherSeriesMentions ? document.getElementById("fullotherseries") : null;
 
 function markLowerLevelSpoilers(clickedInput) {
     if (clickedInput.checked) {
-        if (fse.checked) { bse.checked = true; fst.checked = true; if (fsu) { fsu.checked = true } };
-        if (bse.checked) { pse.checked = true; bst.checked = true; if (bsu) { bsu.checked = true } };
+        if (fse.checked) { bse.checked = true; fst.checked = true; if (fsu) { fsu.checked = true } }
+        if (bse.checked) { pse.checked = true; bst.checked = true; if (bsu) { bsu.checked = true } }
+        
 
         if (subseries) {
-            if (fsu.checked) { bsu.checked = true; fst.checked = true; };
-            if (bsu.checked) { psu.checked = true; bst.checked = true; };
-            if (psu.checked) { pst.checked = true };
+            if (fsu.checked) { bsu.checked = true; fst.checked = true; }
+            if (bsu.checked) { psu.checked = true; bst.checked = true; }
+            if (psu.checked) { pst.checked = true }
         }
 
-        if (fst.checked) { bst.checked = true };
-        if (bst.checked) { pst.checked = true };
+        if (fst.checked) { bst.checked = true }
+        if (bst.checked) { pst.checked = true }
+
+        if (otherSeriesMentions) {
+            if (fos.checked) { bos.checked = true; }
+            if (bos.checked) { pos.checked = true; }
+        }
 
     } else {
-        if (!pst.checked) { bst.checked = false; if (psu) { psu.checked = false } };
-        if (!bst.checked) { fst.checked = false; bse.checked = false; if (bsu) { bsu.checked = false } };
+        if (!pst.checked) { bst.checked = false; if (psu) { psu.checked = false } }
+        if (!bst.checked) { fst.checked = false; bse.checked = false; if (bsu) { bsu.checked = false } }
         if (!fst.checked) { fse.checked = false; if (fsu) { fsu.checked = false } }
 
         if (subseries) {
-            if (!psu.checked) { bsu.checked = false; bse.checked = false; };
-            if (!bsu.checked) { fsu.checked = false; bse.checked = false; };
+            if (!psu.checked) { bsu.checked = false; bse.checked = false; }
+            if (!bsu.checked) { fsu.checked = false; bse.checked = false; }
             if (!fsu.checked) { fse.checked = false; }
         }
 
-        if (!pse.checked) { bse.checked = false };
-        if (!bse.checked) { fse.checked = false };
+        if (!pse.checked) { bse.checked = false }
+        if (!bse.checked) { fse.checked = false }
 
+        if (otherSeriesMentions) {
+            if (!pos.checked) { bos.checked = false; }
+            if (!bos.checked) { fos.checked = false; }
+        }
     }
 }
 
