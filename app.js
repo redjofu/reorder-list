@@ -62,6 +62,8 @@ const chronologicalInput = `<input type="radio" id="chronological" name="order" 
 <label for="chronological">Chronological Order</label>`;
 const narrativeInput = `<input type="radio" id="narrative" name="order" value="narrative">
 <label for="narrative">Narrative Order</label>`;
+const alphabeticalInput = `<input type="radio" id="alphabetical" name="order" value="name">
+<label for="alphabetical">Alphabetical Order</label>`;
 
 // Main template
 main.innerHTML = `<div id="navbar" class="scrollarea">
@@ -80,6 +82,7 @@ main.innerHTML = `<div id="navbar" class="scrollarea">
                     ${orderOptions.release ? releaseInput : ''}
                     ${orderOptions.chronological ? chronologicalInput : ''}
                     ${orderOptions.narrative ? narrativeInput : ''}
+                    ${orderOptions.alphabetical ? alphabeticalInput : ''}
                 </div>
             </div>
             <div id="spoilers">
@@ -148,6 +151,8 @@ main.innerHTML = `<div id="navbar" class="scrollarea">
         ${creditScenesExist ? `<h3 id="creditsheading"></h3>
         <div id="credits"></div>` : ''}
 
+        <h3 id="connectionsheading"></h3>
+        <div id="connections"></div>
         ${characters ? `<h3 id="notablecharactersheading"></h3>
         <div id="notablecharacters"></div>` : '' }
 
@@ -187,6 +192,10 @@ if (!selectionOptionDescription.chronological) {
 
 if (!selectionOptionDescription.narrative) {
     selectionOptionDescription.narrative = `The order I feel provides the best narrative structure for ${userType}, especially for those ${progressiveVerb} for the first time.`
+}
+
+if (!selectionOptionDescription.name) {
+    selectionOptionDescription.name = `Alphabetical order, intended to more easily find a specific entry but <em>not</em> intended as an order for ${progressiveVerb}.`
 }
 
 if (!selectionOptionDescription.premisestory) {
@@ -315,21 +324,34 @@ function buildNavBar(selectedOrderInput) {
     const orderDeterminer = selectedOrderInput.value; // The "value" of the order input that has been selected
 
     for (let i=0; i<entries.length; i++) {
-        const currentEntry = "entries[i].";
-        entryOrder.push(eval(currentEntry+orderDeterminer));
+        let currentEntry = eval("entries[i]."+orderDeterminer);
+        if (currentEntry != undefined) { 
+            // Remove "A" or "The" from entry name when sorting alphabetically
+            if (orderDeterminer == "name" && (currentEntry.charAt(0).toUpperCase() == "A" || currentEntry.charAt(0).toUpperCase() == "T")) {
+                const currentEntryArray = currentEntry.split(" ");
+                if (currentEntryArray[0].toUpperCase() == "A" || currentEntryArray[0].toUpperCase() == "THE") {
+                    currentEntryArray.shift();
+                    currentEntry = '';
+                    for (let i=0; i<currentEntryArray.length; i++) {
+                        currentEntry = currentEntry + currentEntryArray[i];
+                    }
+                }
+            }
+            entryOrder.push(currentEntry); 
+        }
     }
 
-    for (let i=0; i<entries.length; i++) {
+    for (let i=0; i<entryOrder.length; i++) {
         entryOrderSorted.push(entryOrder[i]);
     }
-    
+
     if (Number.isInteger(entryOrderSorted[0])) {
         entryOrderSorted.sort((a,b) => a-b); // Correctly sort numbers. Info provided by https://dmitripavlutin.com/javascript-array-sort-numbers/
     } else {
         entryOrderSorted.sort();
     }
 
-    for (let i=0; i<entries.length; i++) {
+    for (let i=0; i<entryOrder.length; i++) {
         orderedEntries.push(entries[entryOrder.indexOf(entryOrderSorted[i])]);
     }
 
@@ -546,6 +568,8 @@ const creditsHeading = document.getElementById("creditsheading");
 const credits = document.getElementById("credits");
 const reviewsHeading = document.getElementById("reviewsheading");
 const reviews = document.getElementById("reviews");
+const connectionsHeading = document.getElementById("connectionsheading");
+const connections = document.getElementById("connections");
 const notableCharactersHeading = document.getElementById("notablecharactersheading");
 const notableCharacters = document.getElementById("notablecharacters");
 const whyPlacementHeading = document.getElementById("whyplacementheading");
@@ -570,6 +594,7 @@ function populateContent() {
     populateCharacters(entry);
 
     populateWhyContent(entry);
+    populateConnections(entry);
 
     populateWhereToFind(entry);
     populateAdditionalInfo(entry);
@@ -758,7 +783,7 @@ const spotifyIcon = "spotify.png";
 
 function populateAdditionalInfo(entry) {
     additionalInfoHeading.textContent = "Additional Information";
-    additionalInfo.innerHTML = `<p>Looking for more details or reviews for ${entry.name}? Check out these resources.</p>
+    additionalInfo.innerHTML = `<p>Looking for more details or reviews for <entry code="self"></entry>? Check out these resources.</p>
     <ul class="iconlist">
     ${entry.official ? '<li><a href="' + officialSite.url + entry.official + '"><img src="' + iconFilePath + officialSite.icon + '" alt="' + officialSite.description + '"></a></li>' : ''}
     ${entry.wiki ? '<li><a href="' + wiki.url + entry.wiki + '"><img src="' + iconFilePath + wiki.icon + '" alt="' + wiki.description + '"></a></li>' : ''}
@@ -879,8 +904,10 @@ function populateReviews(entry) {
 
 function populateCredits(entry) {
     const creditsExplanation = `<button id="whatiscreditscene">What is a "credit scene"?</button>
-        <p class="paragraphtext hiddenelement">Credit scenes, or stingers, are placed after the core narrative is over and all major plot points resolved. They may occur either after all credits have rolled (post-credits scenes), after only some have finished (mid-credits scenes), or&mdash;rarely&mdash;after the resolution of the story but just before the credits begin. Credit scenes come in a few types, usually either calling back to the events of the narrative (perhaps drawing attention to an unresolved plot point) or by foreshadowing future entries in the series.</p>
-        <p class="paragraphtext hiddenelement">If you are ${progressiveVerb} ${seriesName} in release order, credits scenes will convey information as the ${mediaCreators} intended. However if you are ${progressiveVerb} the series for the first time in a different order, you may get spoilers for an entry you haven't yet gotten to. For this reason, details are presented here to help you determine whether to watch the credits scenes or not. (Note that recommendations are based on spoilers only, not on whether watching the scene may be deemed worthwhile or not.)</p>`;
+        <p class="paragraphtext hiddenelement">Credit scenes, or stingers, are placed after the core narrative is over and all major plot points resolved. They may occur either after all credits have rolled (post-credits scenes), after only some have finished (mid-credits scenes), or&mdash;rarely&mdash;after the resolution of the story but just before the credits begin.</p>
+        <p class="paragraphtext hiddenelement">Credit scenes come in a few types, usually either calling back to the events of the narrative (perhaps drawing attention to an unresolved plot point) or by foreshadowing future entries in the series. (Note that in a few cases, the foreshadowed events may not actually be fulfilled in future entries if decisions were made later not to pursue those narrative threads.) The phrases "foreshadow future" and "narrative reference" are used here. Another type, "scene of future title," might indicate that the credit scene is a trailer for or a clip directly from an entry that hadn't been released at the time.</p>
+        <p class="paragraphtext hiddenelement">If you are ${progressiveVerb} ${seriesName} in release order, credits scenes will convey information as the ${mediaCreators} intended. However if you are ${progressiveVerb} the series for the first time in a different order, you may get spoilers for an entry you haven't yet gotten to. For this reason, details are presented here to help you determine whether to watch the credits scenes or not if you want to avoid spoilers.</p>
+        <p class="paragraphtext hiddenelement">(Note that recommendations are based on spoilers only, and no differentiation is made between premise-level spoilers or other levels. Recommendations are not based on whether watching the scene may be deemed worthwhile or not.)</p>`;
     
     let creditsHeadingText = '';
     let creditsList = '';
@@ -986,6 +1013,16 @@ function populateWhyContent(entry) {
     }
 
     // whyChron.innerHTML = entry.whychron;
+}
+
+function populateConnections(entry) {
+    if (entry.connections) {
+        connectionsHeading.textContent = 'Connections to Other Titles';
+        connections.innerHTML = `<p>${entry.connections}</p>`;
+    } else {
+        connectionsHeading.textContent = '';
+        connections.innerHTML = '';
+    }
 }
 
 function adjustContent() {

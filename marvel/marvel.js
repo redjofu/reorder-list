@@ -1,3 +1,5 @@
+const pageLoads = true; // This is used by the HTML file trying to find this JS file, and it should always be true.
+
 const seriesName = "the Marvel Cinematic Universe";
 const pageTitle = `Best Order to Watch ${seriesName}`;
 
@@ -29,7 +31,8 @@ const typeOptions = [
 const orderOptions = {
     release: true,
     chronological: true,
-    narrative: true
+    narrative: true,
+    alphabetical: true
 };
 
 // Are different elements present?
@@ -55,6 +58,10 @@ const selectionOptionDescription = {
     // Type inputs
     films: `Theatrical films produced by Marvel Studios. Marvel films produced by other studios (e.g. Fox's "X-Men" series) are not included.`,
     tvseries: `Disney+ series produced by Marvel Studios. Series produced by Marvel TV (e.g. "Agents of S.H.I.E.L.D.") are not included.`,
+    animation: `Animated series produced by Marvel Studios and which are expressly tied to the Marvel Cinematic Universe.`,
+    specials: `Marvel Studios Special Presentations, styled after traditional TV specials and often themed for a holiday.`,
+    shorts: `Short films produced by Marvel Studios.`,
+
 
     // Order inputs
     chronological: `The order according to when the core events for each entry occur within the overarching story. This is primarily taken from the order listed within Disney+, though sources using orders compiled by fans are also used.`
