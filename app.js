@@ -64,7 +64,7 @@ const narrativeInput = `<input type="radio" id="narrative" name="order" value="n
 <label for="narrative">Narrative Order</label>`;
 
 // Main template
-main.innerHTML = `<div id="navbar">
+main.innerHTML = `<div id="navbar" class="scrollarea">
     <ol id="entrylist"></ol>
 </div>
 <div id="selectionbar">
@@ -322,7 +322,12 @@ function buildNavBar(selectedOrderInput) {
     for (let i=0; i<entries.length; i++) {
         entryOrderSorted.push(entryOrder[i]);
     }
-    entryOrderSorted.sort();
+    
+    if (Number.isInteger(entryOrderSorted[0])) {
+        entryOrderSorted.sort((a,b) => a-b); // Correctly sort numbers. Info provided by https://dmitripavlutin.com/javascript-array-sort-numbers/
+    } else {
+        entryOrderSorted.sort();
+    }
 
     for (let i=0; i<entries.length; i++) {
         orderedEntries.push(entries[entryOrder.indexOf(entryOrderSorted[i])]);
@@ -485,7 +490,12 @@ function setCorrectSpoilerStyling(spoilerSpan) {
     addOrRemoveHiddenSpoiler(spoilerSpan, "pse", pse);
     addOrRemoveHiddenSpoiler(spoilerSpan, "bse", bse);
     addOrRemoveHiddenSpoiler(spoilerSpan, "fse", fse);
-    addOrRemoveHiddenSpoiler(spoilerSpan, "ose", ose);
+    if (otherSeriesMentions) {
+        addOrRemoveHiddenSpoiler(spoilerSpan, "pos", pos);
+        addOrRemoveHiddenSpoiler(spoilerSpan, "bos", bos);
+        addOrRemoveHiddenSpoiler(spoilerSpan, "fos", fos);
+    }
+    
 }
 
 function addOrRemoveHiddenSpoiler(spoilerSpan, className, checkboxName) {
@@ -721,7 +731,7 @@ function populateWhereToFind(entry) {
     ${entry.appletv ? '<li><a href="https://tv.apple.com/' + entry.appletv + '"><img src="' + iconFilePath + appleTVIcon + '" alt="Apple TV"></a></li>' : ''}
     ${entry.googleplay ? '<li><a href="https://play.google.com/store/' + entry.googleplay + '"><img src="' + iconFilePath + googlePlayIcon + '" alt="Google Play"></a></li>' : ''}
     ${entry.redbox ? '<li><a href="https://www.redbox.com/movies/' + entry.redbox + '"><img src="' + iconFilePath + redboxIcon + '" alt="Redbox"></a></li>' : ''}
-    ${entry.netflixdvd ? '<li><a href="https://www.netflix.com/title/' + entry.netflix + '"><img src="' + iconFilePath + netflixDVDIcon + '" alt="DVD.com &ndash; a Netflix Company"></a></li>' : ''}
+    ${entry.netflixdvd ? '<li><a href="https://dvd.netflix.com/Movie/' + entry.netflix + '"><img src="' + iconFilePath + netflixDVDIcon + '" alt="DVD.com &ndash; a Netflix Company"></a></li>' : ''}
     ${entry.disc ? '<li><a href="https://www.amazon.com/s?k=' + prepForURL(entry.name) + '&i=movies-tv&rh=n%3A2625373011%2Cp_n_format_browse-bin%3A2650304011%7C2650305011%7C9397930011"><img src="' + iconFilePath + amazonIcon + '" alt="Search Amazon"></a></li>' : ''}
     ${entry.disc ? '<li><a href="https://www.walmart.com/search?q=' + prepForURL(entry.name) + '+blu-ray&catId=4096"><img src="' + iconFilePath + walmartIcon + '" alt="Search Walmart"></a></li>' : ''}
     ${entry.disc ? '<li><a href="https://www.target.com/s?searchTerm=' + prepForURL(entry.name) + '&category=5xsxe&facetedValue=cz41e"><img src="' + iconFilePath + targetIcon + '" alt="Search Target"></a></li>' : ''}
@@ -880,7 +890,7 @@ function populateCredits(entry) {
 
         for (let i=0; i<creditScenesLength; i++) {
             let sceneDetails = '';
-            sceneDetails = sceneDetails + `<h4>Credit Scene ${creditScenesLength>1 ? '#' + i+1 : ''} Details</h4>`
+            sceneDetails = sceneDetails + `<h4>Credit Scene ${creditScenesLength>1 ? '#' + (i+1) : ''} Details</h4>`
             if (entry.creditscenes[i].timing) { sceneDetails = sceneDetails + `<p><strong>Timing:</strong> ${entry.creditscenes[i].timing}</p>` }
             if (entry.creditscenes[i].type) { sceneDetails = sceneDetails + `<p><strong>Type:</strong> <fst>${entry.creditscenes[i].type}</fst></p>` }
             if (entry.creditscenes[i].release && release.checked) { sceneDetails = sceneDetails + `<p><strong>Release order recommendation:</strong> ${entry.creditscenes[i].release}</p>` }
