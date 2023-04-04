@@ -7,7 +7,7 @@ const main = document.querySelector("main");
 // Head template
 head.innerHTML = `<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
-<link href="../app.css" rel="stylesheet" type="text/css">
+<link href="../app.css?${timestamp.css}" rel="stylesheet" type="text/css">
 <style id="extracss"></style>`;
 
 // Use custom head details

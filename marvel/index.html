@@ -8,9 +8,45 @@
         <main>
         </main>
         <footer>
-            <script src="./marvel.js"></script>
+            <script type="text/javascript" id="initialscript">
+                //<![CDATA[
+                const initialScript = document.getElementById("initialscript");
+
+                const usersDate = new Date();
+                const usersTime = usersDate.getTime();
+
+                let urlPieces = window.document.URL.split(".")[window.document.URL.split(".").length-1].split("/");
+                if (urlPieces[urlPieces.length-1] == '') { urlPieces.pop(); }
+                let urlPage = '';
+
+                ////////////////////////
+                ////////////////////////
+                // TESTING PURPOSES ONLY
+                urlPieces = ["com", "marvel"];
+                ////////////////////////
+                ////////////////////////
+                
+                let baseDots = '';
+                let thisDots = '';
+                for (let i = 0; i < urlPieces.length; i++) { 
+                    baseDots += ".";
+                    if (i != 0) { thisDots +=  "."; }
+                }
+
+                const timestampScript = document.createElement("script");
+                timestampScript.setAttribute("src", `${baseDots}/check-update.js?${usersTime}`);
+                initialScript.append(timestampScript);
+                
+                if (urlPieces.length > 1) { // Anything other than root
+                    urlPage = urlPieces[1];
+                } else {
+                    // What happens if it's in root
+                }
+                //]]>
+            </script>
+            <!-- <script src="./marvel.js"></script>
             <script src="./data-marvel.js"></script>
-            <script src="../app.js"></script>
+            <script src="../app.js"></script> -->
         </footer>
     </body>
 </html>
