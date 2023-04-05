@@ -9,7 +9,7 @@ let dataLoads = false;
 
 function loadDataJS() {
     const mainJS = document.createElement("script");
-    mainJS.setAttribute("src", `${thisDots}/${urlPage}s.js?${timestamp[urlPage]}`);
+    mainJS.setAttribute("src", `${thisDots}/${urlPage}.js?${timestamp[urlPage]}`);
     initialScript.append(mainJS);
 
     const dataJS = document.createElement("script");
@@ -34,7 +34,6 @@ function loadAppJS() {
                 loadAppJS();
             },200)
         } else {
-            console.error(error);
             console.log("404 page");
             throw new Error("Can't find the file!");
         }
