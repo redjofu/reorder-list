@@ -1,3 +1,12 @@
+try {
+    if (pageLoads && entries) {}
+} catch (error) {
+    console.error(error);
+    console.log("404 page");
+    throw new Error("Can't find the file!");
+} 
+
+
 // Build out main template elements
 const head = document.querySelector("head");
 const body = document.querySelector("body");
@@ -7,7 +16,7 @@ const main = document.querySelector("main");
 // Head template
 head.innerHTML = `<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
-<link href="../app.css?${timestamp.css}" rel="stylesheet" type="text/css">
+<link href="${baseDots}/app.css?${timestamp.css}" rel="stylesheet" type="text/css">
 <style id="extracss"></style>`;
 
 // Use custom head details
@@ -130,9 +139,12 @@ main.innerHTML = `<div id="navbar" class="scrollarea">
         </div>
     </div>
 </div>
-<div id="content" class="hid">
-    <div id="contentcontainer" class="scrollarea">
+
+<div id="content">
+    <div id="preliminarycontent" class="scrollarea"></div>
+    <div id="contentcontainer" class="scrollarea hid">
         <h2 id="entrytitle"></h2>
+        <p id="jumplinks"></p>
         <img id="entryimage" class="hid bst spoiler">
 
         <p><strong>Release date:</strong> <span id="releasedate"></span></p>
@@ -159,7 +171,7 @@ main.innerHTML = `<div id="navbar" class="scrollarea">
         <h3 id="whyplacementheading"></h3>
         <p id="whyplacement"></p>
 
-        <h3>Resources</h3>
+        <h3 id="resourcesheading">Resources</h3>
         <h4 id="wheretofindheading"></h4>
         <p id="wheretofind"></p>
         <h4 id="additionalinfoheading"></h4>
@@ -173,6 +185,7 @@ main.innerHTML = `<div id="navbar" class="scrollarea">
 </div>`;
 
 const content = document.getElementById("content");
+const preliminaryContent = document.getElementById("preliminarycontent");
 const contentContainer = document.getElementById("contentcontainer");
 // contentContainer
 
@@ -299,6 +312,7 @@ function determineScrollGradient(){
 setTimeout(determineScrollGradient.bind(selectionScroll),100);
 
 selectionScroll.addEventListener("scroll", determineScrollGradient);
+preliminaryContent.addEventListener("scroll", determineScrollGradient);
 contentContainer.addEventListener("scroll", determineScrollGradient);
 selectionParagraph.addEventListener("scroll", determineScrollGradient);
 
@@ -546,6 +560,24 @@ for (let i=0; i<spoilerInputs.length; i++) {
     spoilerInputs[i].addEventListener("click", setUpSpoilerCheckboxes);
 }
 
+// Initial content displayed to the user on the main screen. This goes away once an entry is selected.
+function populateInitialContent() {
+    const initialOpening = `<h2 id="initialtitle">Welcome, ${greetingsName ? greetingsName : 'Friend'}!</h2>
+    <p>If you're looking for the best order to ${infinitiveVerb} ${seriesName}, <em>Order Compass</em> has you covered! The selection bar on the right allows you to customize what you want to see. The navigation bar on the left restructures itself as you pick your preferred order, and you can select individual entries for more details.</p>`;
+
+    let typeExplanations = '';
+
+    const initialContent = `${initialOpening}
+    <h3>Types of Entries</h3>
+    <p></p>
+    <h3>Available Orders</h3>
+    <p></p>
+    <h3>Spoiler Settings</h3>
+    <p></p>`;
+
+    preliminaryContent.innerHTML = initialContent;
+}
+populateInitialContent();
 
 // Set entry logos to be clickable elements to populate content area
 const entryTitle = document.getElementById("entrytitle");
@@ -560,6 +592,7 @@ const additionalInfo = document.getElementById("additionalinfo");
 const contentGuideHeading = document.getElementById("contentguideheading");
 const contentGuide = document.getElementById("contentguide");
 
+const jumpLinks = document.getElementById("jumplinks");
 const keyFactsHeading = document.getElementById("keyfactsheading");
 const keyFacts = document.getElementById("keyfacts");
 const skippabilityHeading = document.getElementById("skippabilityheading");
@@ -585,6 +618,7 @@ function populateContent() {
 
     const entry = entries[entries.findIndex(item => item.code === this.id)];
 
+    populateJumpLinks(entry);
     populateQuickFacts(entry);
 
     populateKeyFacts(entry);
@@ -608,7 +642,22 @@ function populateContent() {
     hideEmptyElements();
 
     setTimeout(determineScrollGradient.bind(contentContainer),100);
-    content.classList.remove("hid");
+    preliminaryContent.classList.add("hid");
+    contentContainer.classList.remove("hid");
+}
+
+function populateJumpLinks(entry) {
+    let jumpLinksList = '';
+
+    if (entry.keyfacts) { jumpLinksList += `${jumpLinksList.length > 0 ? ' | ' : ''}<a href="#keyfactsheading">Key Facts</a>`; }
+    if (entry.rottencritics || entry.rottenaudience || entry.metascore || entry.mcuserscore || entry.cinemascore || entry.mparating || entry.tvrating || entry.commonsenseage || entry.kimrating) { jumpLinksList += `${jumpLinksList.length > 0 ? ' | ' : ''}<a href="#reviewsheading">Reviews</a>`; }
+    if (entry.skipno || entry.skpyes) { jumpLinksList += `${jumpLinksList.length > 0 ? ' | ' : ''}<a href="#skippabilityheading">Skippability</a>`; }
+    if (entry.creditscenes) { jumpLinksList += `${jumpLinksList.length > 0 ? ' | ' : ''}<a href="#creditsheading">Credit Scenes</a>`; }
+    if (entry.connections) { jumpLinksList += `${jumpLinksList.length > 0 ? ' | ' : ''}<a href="#connectionsheading">Connections</a>`; }
+    if (entry.characters) { jumpLinksList += `${jumpLinksList.length > 0 ? ' | ' : ''}<a href="#notablecharactersheading">Characters</a>`; }
+    jumpLinksList += `${jumpLinksList.length > 0 ? ' | ' : ''}<a href="#resourcesheading">Resources</a>`;
+
+    jumpLinks.innerHTML = jumpLinksList;
 }
 
 // Quick facts section
@@ -726,7 +775,7 @@ function parseLength(entry) {
 }
 
 // "Where to Find" Section
-const iconFilePath = "../icons/";
+const iconFilePath = `${baseDots}/icons/`;
 const disneyPlusIcon = "disneyplus.png";
 const netflixIcon = "netflix.jpeg";
 const hboMaxIcon = "hbomax.jpeg";
@@ -1026,7 +1075,7 @@ function populateConnections(entry) {
 }
 
 function adjustContent() {
-    if (!content.classList.contains("hid")) {
+    if (!contentContainer.classList.contains("hid")) {
         const currentEntryTitle = entryTitle.textContent;
         const entry = entries[entries.findIndex(item => item.name === currentEntryTitle)];
         populateCredits(entry);

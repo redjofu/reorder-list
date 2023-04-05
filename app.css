@@ -336,7 +336,7 @@ input, label, button, #entrylist img {
     container-type: inline-size;
 }
 
-#contentcontainer {
+#contentcontainer, #preliminarycontent {
     padding: 5px 15px 15px;
     height: calc(var(--screen-height) - var(--header-height) - 20px);
 }
@@ -345,18 +345,23 @@ input, label, button, #entrylist img {
     margin: 10px 0;
 }
 
-#content #entrytitle {
+#content #entrytitle, #preliminarycontent #initialtitle {
     margin: 0 0 10px;
 }
 
 #entryimage {
     float: right;
     margin-left: 10px;
+    max-width: 220px;
 }
 
 #content p {
     margin: 0;
     line-height: 1.4em;
+}
+
+#content #jumplinks {
+    margin-bottom: 15px;
 }
 
 #content .paragraphtext {

@@ -13,7 +13,7 @@
                 const initialScript = document.getElementById("initialscript");
 
                 const usersDate = new Date();
-                const usersTime = usersDate.getTime();
+                const usersTime = usersDate.getYear().toString() + usersDate.getMonth().toString() + usersDate.getDate().toString();
 
                 let urlPieces = window.document.URL.split(".")[window.document.URL.split(".").length-1].split("/");
                 if (urlPieces[urlPieces.length-1] == '') { urlPieces.pop(); }

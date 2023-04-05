@@ -1,5 +1,3 @@
-const pageLoads = true; // This is used by the HTML file trying to find this JS file, and it should always be true.
-
 const seriesName = "the Marvel Cinematic Universe";
 const pageTitle = `Best Order to Watch ${seriesName}`;
 
@@ -7,6 +5,7 @@ const pageTitle = `Best Order to Watch ${seriesName}`;
 const userType = "viewers";
 const progressiveVerb = "watching";
 const infinitiveVerb = "watch";
+const greetingsName = "Superhero"
 
 // How to describe how someone might view the media in "tailer" or "blurb" form
 const blurbVerb = "watching a trailer";
@@ -292,3 +291,5 @@ const wiki = {
 //     }
 //     */
 // ]
+
+pageLoads = true; // This is used by the check-update file trying to find this JS file, and it should always be true.
