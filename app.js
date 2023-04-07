@@ -332,10 +332,35 @@ function buildNavBar(selectedOrderInput) {
     entryList.innerHTML = '';
     
     // Determine order
+    const orderedEntries = sortEntries(selectedOrderInput.value); // Array
+
+    // Build HTML of navBar
+    for (let i=0; i<orderedEntries.length; i++) {
+        const newLI = document.createElement("li");
+        newLI.id = orderedEntries[i].code;
+        newLI.classList.add(orderedEntries[i].type);
+        newLI.innerHTML = `<img src="logos/${orderedEntries[i].logo}" alt="${orderedEntries[i].name}">`
+        entryList.appendChild(newLI);
+    }
+
+    // Remove event listeners to prep for navbar rebuild (but only if the "entrylogos" variable has been defined)
+    if (typeof entryLogos !== 'undefined') {
+        removeEventListenersOnLogos();
+    }
+
+    // Prep navbar list for interactivity
+    entryLogos = document.querySelectorAll("#entrylist li");
+    
+    // Set event listeners but only if the "entrylogos" variable has been defined
+    if (typeof entryLogos !== 'undefined') {
+        setEventListenersOnLogos();
+    }
+}
+
+function sortEntries(orderDeterminer) { // Returns array
     const entryOrder = []; // Array of the entries' order
     const entryOrderSorted = []; // Array of the entries' order, sorted
     const orderedEntries = []; // Array of the entries in correct order
-    const orderDeterminer = selectedOrderInput.value; // The "value" of the order input that has been selected
 
     for (let i=0; i<entries.length; i++) {
         let currentEntry = eval("entries[i]."+orderDeterminer);
@@ -369,27 +394,7 @@ function buildNavBar(selectedOrderInput) {
         orderedEntries.push(entries[entryOrder.indexOf(entryOrderSorted[i])]);
     }
 
-    // Build HTML of navBar
-    for (let i=0; i<orderedEntries.length; i++) {
-        const newLI = document.createElement("li");
-        newLI.id = orderedEntries[i].code;
-        newLI.classList.add(orderedEntries[i].type);
-        newLI.innerHTML = `<img src="logos/${orderedEntries[i].logo}" alt="${orderedEntries[i].name}">`
-        entryList.appendChild(newLI);
-    }
-
-    // Remove event listeners to prep for navbar rebuild (but only if the "entrylogos" variable has been defined)
-    if (typeof entryLogos !== 'undefined') {
-        removeEventListenersOnLogos();
-    }
-
-    // Prep navbar list for interactivity
-    entryLogos = document.querySelectorAll("#entrylist li");
-    
-    // Set event listeners but only if the "entrylogos" variable has been defined
-    if (typeof entryLogos !== 'undefined') {
-        setEventListenersOnLogos();
-    }
+    return orderedEntries;
 }
 
 function reflectOrderChange() {
@@ -562,18 +567,62 @@ for (let i=0; i<spoilerInputs.length; i++) {
 
 // Initial content displayed to the user on the main screen. This goes away once an entry is selected.
 function populateInitialContent() {
+    // Opening paragraph
     const initialOpening = `<h2 id="initialtitle">Welcome, ${greetingsName ? greetingsName : 'Friend'}!</h2>
     <p>If you're looking for the best order to ${infinitiveVerb} ${seriesName}, <em>Order Compass</em> has you covered! The selection bar on the right allows you to customize what you want to see. The navigation bar on the left restructures itself as you pick your preferred order, and you can select individual entries for more details.</p>`;
 
+    // "Types of Entires" section
     let typeExplanations = '';
 
+    if (typeOptions) {
+        for (let i=0; i<typeOptions.length; i++) {
+            typeExplanations += `<p><strong>${typeOptions[i][0]}:</strong> ${selectionOptionDescription[typeOptions[i][1]]}</p>`;
+        }
+    }
+
+    // "Available Orders" section
+    const orderExplanations = `${orderOptions.release ? '<p><strong>Release Order:</strong> ' + selectionOptionDescription.release + '</p>' : ''}
+    ${orderOptions.chronological ? '<p><strong>Chronological Order:</strong> ' + selectionOptionDescription.chronological + '</p>' : ''}
+    ${orderOptions.narrative ? '<p><strong>Narrative Order:</strong> ' + selectionOptionDescription.narrative + '</p>' : ''}
+    ${orderOptions.alphabetical ? '<p><strong>Alphabetical Order:</strong> ' + selectionOptionDescription.name + '</p>' : ''}`;
+
+    // "Spoiler Settings" section
+    const spoilerExplanations = `<p><strong>Premise Story Level:</strong> ${selectionOptionDescription.premisestory}</p>
+    <p><strong>Basic Story Level:</strong> ${selectionOptionDescription.basicstory}</p>
+    <p><strong>Full Story Level:</strong> ${selectionOptionDescription.fullstory}</p>
+    <hr>
+    ${subseries ? '<p><strong>Premise Subseries Level:</strong> ' + selectionOptionDescription.premisesubseries + '</p>' +
+    '<p><strong>Premise Subseries Level:</strong> ' + selectionOptionDescription.basicsubseries + '</p>' +
+    '<p><strong>Premise Subseries Level:</strong> ' + selectionOptionDescription.fullsubseries + '</p>' +
+    '<hr>' : ''}
+    <p><strong>Premise Series Level:</strong> ${selectionOptionDescription.premiseseries}</p>
+    <p><strong>Basic Series Level:</strong> ${selectionOptionDescription.basicseries}</p>
+    <p><strong>Full Series Level:</strong> ${selectionOptionDescription.fullseries}</p>
+    ${otherSeriesMentions ? '<hr><p><strong>Premise Other Series Level:</strong> ' + selectionOptionDescription.premiseotherseries + '</p>' +
+    '<p><strong>Premise Other Series Level:</strong> ' + selectionOptionDescription.basicotherseries + '</p>' +
+    '<p><strong>Premise Other Series Level:</strong> ' + selectionOptionDescription.fullotherseries + '</p>' : ''}`;
+
+    // "Individual Entry Page Links Section"
+    const individualPageLinksExplanation = `<p>The preferred method of navigating the site is by clicking on the entires in the left navigation bar. However, for your convenience, links to pages for each of these individual entries is provided below. Note that these pages show all spoilers and do not have either the navigation bar or the selection bar available for use.</p>`;
+
+    const listOfEntries = sortEntries("release");
+
+    let pageLinks = '';
+
+    for (let i = 0; i < listOfEntries.length; i++) {
+        // pageLinks += `${i != 0 ? ' | ' : ''}<a href="${listOfEntries[i].code}">${listOfEntries[i].name}</a>`;
+        pageLinks += `<li><a href="${listOfEntries[i].code}">${listOfEntries[i].name}</a></li>`;
+    }
+
     const initialContent = `${initialOpening}
-    <h3>Types of Entries</h3>
-    <p></p>
+    ${typeOptions ? '<h3>Types of Entries</h3>' + typeExplanations : ''}
     <h3>Available Orders</h3>
-    <p></p>
+    ${orderExplanations}
     <h3>Spoiler Settings</h3>
-    <p></p>`;
+    ${spoilerExplanations}
+    <h3>Individual Entry Page Links</h3>
+    ${individualPageLinksExplanation}
+    <ul>${pageLinks}</ul>`;
 
     preliminaryContent.innerHTML = initialContent;
 }
