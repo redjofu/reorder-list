@@ -622,7 +622,9 @@ function populateInitialContent() {
     ${spoilerExplanations}
     <h3>Individual Entry Page Links</h3>
     ${individualPageLinksExplanation}
-    <ul>${pageLinks}</ul>`;
+    <ul>${pageLinks}</ul>
+    
+    `;
 
     preliminaryContent.innerHTML = initialContent;
 }

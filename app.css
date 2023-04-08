@@ -360,6 +360,10 @@ input, label, button, #entrylist img {
     line-height: 1.4em;
 }
 
+#preliminarycontent p {
+    margin-bottom: 10px;
+}
+
 #content #jumplinks {
     margin-bottom: 15px;
 }
