@@ -179,6 +179,8 @@ main.innerHTML = `<div id="navbar" class="scrollarea">
         <h4 id="contentguideheading"></h4>
         <p id="contentguide"></p>
 
+        <hr>
+        <p id="entrylink"></p>
 
         <p id="whychron"></p>
     </div>
@@ -622,9 +624,7 @@ function populateInitialContent() {
     ${spoilerExplanations}
     <h3>Individual Entry Page Links</h3>
     ${individualPageLinksExplanation}
-    <ul>${pageLinks}</ul>
-    
-    `;
+    <ul>${pageLinks}</ul>`;
 
     preliminaryContent.innerHTML = initialContent;
 }
@@ -659,6 +659,7 @@ const notableCharacters = document.getElementById("notablecharacters");
 const whyPlacementHeading = document.getElementById("whyplacementheading");
 const whyPlacement = document.getElementById("whyplacement");
 const whyChron = document.getElementById("whychron");
+const entryLink = document.getElementById("entrylink");
 
 
 function populateContent() {
@@ -684,6 +685,8 @@ function populateContent() {
     populateWhereToFind(entry);
     populateAdditionalInfo(entry);
     populateContentGuide(entry);
+
+    populateEntryLink(entry);
 
     replaceExtraTags();
 
@@ -927,7 +930,11 @@ function populateContentGuide(entry) {
     </ul>`;
 }
 
-// Other services to check: VidAngel
+function populateEntryLink(entry) {
+    const entryLinkParagraphText = `For a less cluttered version without the nav bar or selection bar&mdash;and which has all spoilers turned on&mdash;please check out our <a href="${entry.code}"><em>${entry.name}</em> page</a>.`;
+
+    entryLink.innerHTML = entryLinkParagraphText;
+}
 
 function populateKeyFacts(entry) {
     let keyFactsList = '';
