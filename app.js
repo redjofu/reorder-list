@@ -322,6 +322,9 @@ selectionParagraph.addEventListener("scroll", determineScrollGradient);
 // Prime order inputs to work with buildNavBar
 const orderInputs = document.querySelectorAll("#orderselection input");
 
+// Prepare variable to keep track of the selected order type
+let selectedOrder;
+
 // Build nav bar
 const navBar = document.getElementById("navbar");
 const entryList = document.getElementById("entrylist");
@@ -401,6 +404,7 @@ function sortEntries(orderDeterminer) { // Returns array
 
 function reflectOrderChange() {
     buildNavBar(this);
+    selectedOrder = this.value;
     adjustContent();
 }
 
@@ -661,15 +665,22 @@ const whyPlacement = document.getElementById("whyplacement");
 const whyChron = document.getElementById("whychron");
 const entryLink = document.getElementById("entrylink");
 
+// Thanks for some array/object searching help: https://stackoverflow.com/questions/7176908/how-can-i-get-the-index-of-an-object-by-its-property-in-javascript
+function findEntryIndex(id, key, entryArray) {
+    return entryArray.findIndex(item => item[key] === id);
+}
 
 function populateContent() {
-    // Thanks for some array/object searching help: https://stackoverflow.com/questions/7176908/how-can-i-get-the-index-of-an-object-by-its-property-in-javascript
+
     // const entryIndex = entries.findIndex(item => item.code === this.id);
 
     // entryTitle.textContent = entries[entryIndex].name;
 
-    const entry = entries[entries.findIndex(item => item.code === this.id)];
+    // const entry = entries[entries.findIndex(item => item.code === this.id)];
 
+    const entry = entries[findEntryIndex(this.id, "code", entries)];
+
+    populatePrevAndNext(entry);
     populateJumpLinks(entry);
     populateQuickFacts(entry);
 
@@ -698,6 +709,13 @@ function populateContent() {
     setTimeout(determineScrollGradient.bind(contentContainer),100);
     preliminaryContent.classList.add("hid");
     contentContainer.classList.remove("hid");
+}
+
+function populatePrevAndNext(entry) {
+    const sortedEntries = sortEntries(selectedOrder);
+    const entryIndex = findEntryIndex(entry.code, "code", sortedEntries);
+    
+    console.log("Previous: " + sortedEntries[entryIndex-1].name);
 }
 
 function populateJumpLinks(entry) {
@@ -1135,7 +1153,8 @@ function populateConnections(entry) {
 function adjustContent() {
     if (!contentContainer.classList.contains("hid")) {
         const currentEntryTitle = entryTitle.textContent;
-        const entry = entries[entries.findIndex(item => item.name === currentEntryTitle)];
+        // const entry = entries[entries.findIndex(item => item.name === currentEntryTitle)];
+        const entry = entries[findEntryIndex(currentEntryTitle, "name", entries)];
         populateCredits(entry);
         populateWhyContent(entry);
         replaceExtraTags();
@@ -1168,7 +1187,8 @@ function replaceEntryTags() {
         } else if (isSelf) {
             entryName = entryTitle.textContent;
         } else {
-            const specificEntry = entries[entries.findIndex(item => item.code === entryCode)];
+            // const specificEntry = entries[entries.findIndex(item => item.code === entryCode)];
+            const specificEntry = entries[findEntryIndex(entryCode, "code", entries)];
             if (specificEntry) {
                 entryName = specificEntry.name;
             } else {
@@ -1194,7 +1214,9 @@ function replaceSubseriesTags() {
         if (tagContent != '') {
             subseriesTagName = tagContent;
         } else if (isSelf) {
-            subseriesTagName = entries[entries.findIndex(item => item.name == entryTitle.textContent)].subseries.primary[0];
+            // subseriesTagName = entries[entries.findIndex(item => item.name == entryTitle.textContent)].subseries.primary[0];
+            subseriesTagName = entries[findEntryIndex(entryTitle.textContent, "name", entries)].subseries.primary[0];
+            // const entry = entries[findEntryIndex(this.id, "code")];
         } else {
             const specificEntry = subseries[subseriesCode];
             // entries[entries.findIndex(item => item.code === subseriesCode)];
