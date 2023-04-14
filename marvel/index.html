@@ -15,6 +15,7 @@
                 const usersDate = new Date();
                 const usersTime = usersDate.getYear().toString() + usersDate.getMonth().toString() + usersDate.getDate().toString();
 
+                // Array of all text in URL after final period, split by slashes
                 let urlPieces = window.document.URL.split(".")[window.document.URL.split(".").length-1].split("/");
                 if (urlPieces[urlPieces.length-1] == '') { urlPieces.pop(); }
                 let urlPage = '';

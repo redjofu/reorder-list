@@ -324,6 +324,7 @@ const orderInputs = document.querySelectorAll("#orderselection input");
 
 // Prepare variable to keep track of the selected order type
 let selectedOrder;
+let selectedOrderName;
 
 // Build nav bar
 const navBar = document.getElementById("navbar");
@@ -405,6 +406,11 @@ function sortEntries(orderDeterminer) { // Returns array
 function reflectOrderChange() {
     buildNavBar(this);
     selectedOrder = this.value;
+    if (selectedOrder == "name") {
+        selectedOrderName = "Alphabetical";
+    } else {
+        selectedOrderName = selectedOrder.charAt(0).toUpperCase() + selectedOrder.slice(1);
+    }
     adjustContent();
 }
 
@@ -632,7 +638,6 @@ function populateInitialContent() {
 
     preliminaryContent.innerHTML = initialContent;
 }
-populateInitialContent();
 
 // Set entry logos to be clickable elements to populate content area
 const entryTitle = document.getElementById("entrytitle");
@@ -680,7 +685,7 @@ function populateContent() {
 
     const entry = entries[findEntryIndex(this.id, "code", entries)];
 
-    populatePrevAndNext(entry);
+    // populatePrevAndNext(entry);
     populateJumpLinks(entry);
     populateQuickFacts(entry);
 
@@ -714,8 +719,19 @@ function populateContent() {
 function populatePrevAndNext(entry) {
     const sortedEntries = sortEntries(selectedOrder);
     const entryIndex = findEntryIndex(entry.code, "code", sortedEntries);
-    
-    console.log("Previous: " + sortedEntries[entryIndex-1].name);
+    const prevEntry = sortedEntries[entryIndex-1] ? sortedEntries[entryIndex-1] : null;
+    const nextEntry = sortedEntries[entryIndex+1] ? sortedEntries[entryIndex+1] : null;
+
+    // const divExists = document.getElementById("otherentrydiv") ? true : false;
+    if (!document.getElementById("otherentrydiv")) {
+        contentContainer.insertAdjacentHTML("afterbegin", '<div id="otherentrydiv"></div>');
+    }
+
+    const otherEntryDiv = document.getElementById("otherentrydiv");
+
+    otherEntryDiv.innerHTML = `<span class="ordertype">${selectedOrderName}</span>
+    <span class="preventry">Prev: (<span class="ordername">${prevEntry ? prevEntry.name : 'N/A'}</span>)</span>
+    <span class="nextentry">Next: (<span class="ordername">${nextEntry ? nextEntry.name : 'N/A'}</span>)</span>`;
 }
 
 function populateJumpLinks(entry) {
@@ -1305,3 +1321,23 @@ function removeEventListenersOnLogos() {
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+
+
+/////////////////////////////////////////////////
+// Upon Page Load
+/////////////////////////////////////////////////
+function identifyBaseOrEntryPage() {
+    urlPieces = ["com", "marvel", "agent-carter-2"];
+    if (urlPieces.length > 2) {
+        const entryIndex = findEntryIndex(urlPieces[2], "code", sortEntries(selectedOrder));
+        if (entryIndex > -1) {
+            const entryListItems = document.querySelectorAll("#entrylist li");
+            entryListItems[entryIndex].click();
+            // (entries[entryIndex]);
+            return;
+        }
+    }
+    populateInitialContent();
+}
+identifyBaseOrEntryPage();

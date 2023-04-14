@@ -349,6 +349,29 @@ input, label, button, #entrylist img {
     margin: 0 0 10px;
 }
 
+.ordertype {
+    display: inline-block;
+    width: 24%;
+    text-align: center;
+}
+
+.preventry, .nextentry {
+    width: 38%;
+}
+
+.preventry {
+    float: left;
+}
+
+.nextentry {
+    float: right;
+}
+
+.ordername {
+    display: inline-block;
+    max-width: 72%;
+}
+
 #entryimage {
     float: right;
     margin-left: 10px;
