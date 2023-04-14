@@ -622,8 +622,8 @@ function populateInitialContent() {
     let pageLinks = '';
 
     for (let i = 0; i < listOfEntries.length; i++) {
-        // pageLinks += `${i != 0 ? ' | ' : ''}<a href="${listOfEntries[i].code}">${listOfEntries[i].name}</a>`;
-        pageLinks += `<li><a href="${listOfEntries[i].code}">${listOfEntries[i].name}</a></li>`;
+        // pageLinks += `${i != 0 ? ' | ' : ''}<a href="/${urlPage}/${listOfEntries[i].code}">${listOfEntries[i].name}</a>`;
+        pageLinks += `<li><a href="/${urlPage}/${listOfEntries[i].code}">${listOfEntries[i].name}</a></li>`;
     }
 
     const initialContent = `${initialOpening}
@@ -965,7 +965,7 @@ function populateContentGuide(entry) {
 }
 
 function populateEntryLink(entry) {
-    const entryLinkParagraphText = `For a less cluttered version without the nav bar or selection bar&mdash;and which has all spoilers turned on&mdash;please check out our <a href="${entry.code}"><em>${entry.name}</em> page</a>.`;
+    const entryLinkParagraphText = `For a less cluttered version without the nav bar or selection bar&mdash;and which has all spoilers turned on&mdash;please check out our <a href="/${urlPage}/${entry.code}"><em>${entry.name}</em> page</a>.`;
 
     entryLink.innerHTML = entryLinkParagraphText;
 }
