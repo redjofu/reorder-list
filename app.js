@@ -6,6 +6,12 @@ try {
     throw new Error("Can't find the file!");
 } 
 
+// Sitewide constants
+const siteTitle = "Order Compass";
+const siteName = `<em>${siteTitle}</em>`;
+
+// Prepare variable to determine if it's an individual entry page
+let isIndividualEntryPage = true;
 
 // Build out main template elements
 const head = document.querySelector("head");
@@ -14,10 +20,11 @@ const header = document.querySelector("header");
 const main = document.querySelector("main");
 
 // Head template
-head.innerHTML = `<meta name="viewport" content="width=device-width, initial-scale=1.0">
+const headHTML = `<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
-<link href="${baseDots}/app.css?${timestamp.css}" rel="stylesheet" type="text/css">
 <style id="extracss"></style>`;
+
+head.insertAdjacentHTML("afterbegin", headHTML);
 
 // Use custom head details
 const title = document.querySelector("title");
@@ -147,12 +154,7 @@ main.innerHTML = `<div id="navbar" class="scrollarea">
         <p id="jumplinks"></p>
         <img id="entryimage" class="hid bst spoiler">
 
-        <p><strong>Release date:</strong> <span id="releasedate"></span></p>
-        <p><strong>Type:</strong> <span id="classification"></span></p>
-        ${lengthExists ? '<p><strong>Length:</strong> <span id="entrylength"></span></p>' : ''}
-        ${phasesExist ? '<p><strong>Phase:</strong> <span id="phasenum"></span></p>' : ''}
-        ${sagaNames ? '<p><strong>Saga:</strong> <span id="saganame"></span></p>' : ''}
-        ${subseries ? `<p><strong>Subseries:</strong> <span id="subseriesname"></span></p>` : ''}
+        <div id="quickfacts"></div>
 
         <h3 id="keyfactsheading"></h3>
         <ul id="keyfacts"></ul>
@@ -169,7 +171,7 @@ main.innerHTML = `<div id="navbar" class="scrollarea">
         <div id="notablecharacters"></div>` : '' }
 
         <h3 id="whyplacementheading"></h3>
-        <p id="whyplacement"></p>
+        <div id="whyplacement"></div>
 
         <h3 id="resourcesheading">Resources</h3>
         <h4 id="wheretofindheading"></h4>
@@ -409,7 +411,7 @@ function reflectOrderChange() {
     if (selectedOrder == "name") {
         selectedOrderName = "Alphabetical";
     } else {
-        selectedOrderName = selectedOrder.charAt(0).toUpperCase() + selectedOrder.slice(1);
+        selectedOrderName = capitalizeFirstLetter(selectedOrder);
     }
     adjustContent();
 }
@@ -579,9 +581,11 @@ for (let i=0; i<spoilerInputs.length; i++) {
 
 // Initial content displayed to the user on the main screen. This goes away once an entry is selected.
 function populateInitialContent() {
+    injectCanonical(`/${urlPage}`);
+
     // Opening paragraph
     const initialOpening = `<h2 id="initialtitle">Welcome, ${greetingsName ? greetingsName : 'Friend'}!</h2>
-    <p>If you're looking for the best order to ${infinitiveVerb} ${seriesName}, <em>Order Compass</em> has you covered! The selection bar on the right allows you to customize what you want to see. The navigation bar on the left restructures itself as you pick your preferred order, and you can select individual entries for more details.</p>`;
+    <p>If you're looking for the best order to ${infinitiveVerb} ${seriesName}, ${siteName} has you covered! The selection bar on the right allows you to customize what you want to see. The navigation bar on the left restructures itself as you pick your preferred order, and you can select individual entries for more details.</p>`;
 
     // "Types of Entires" section
     let typeExplanations = '';
@@ -642,8 +646,8 @@ function populateInitialContent() {
 // Set entry logos to be clickable elements to populate content area
 const entryTitle = document.getElementById("entrytitle");
 const entryImage = document.getElementById("entryimage");
-const releaseDate = document.getElementById("releasedate");
-const classification = document.getElementById("classification");
+// const releaseDate = document.getElementById("releasedate");
+// const classification = document.getElementById("classification");
 // const phaseNum = phasesExist ? document.getElementById("phasenum") : null;
 const whereToFindHeading = document.getElementById("wheretofindheading");
 const whereToFind = document.getElementById("wheretofind");
@@ -653,6 +657,7 @@ const contentGuideHeading = document.getElementById("contentguideheading");
 const contentGuide = document.getElementById("contentguide");
 
 const jumpLinks = document.getElementById("jumplinks");
+const quickFacts = document.getElementById("quickfacts");
 const keyFactsHeading = document.getElementById("keyfactsheading");
 const keyFacts = document.getElementById("keyfacts");
 const skippabilityHeading = document.getElementById("skippabilityheading");
@@ -685,8 +690,11 @@ function populateContent() {
 
     const entry = entries[findEntryIndex(this.id, "code", entries)];
 
+    injectCanonical(`/${urlPage}/${entry.code}`);
+
     // populatePrevAndNext(entry);
     populateJumpLinks(entry);
+    if (isIndividualEntryPage && entry.youtube) { populateYouTubeEmbed(entry.youtube); }
     populateQuickFacts(entry);
 
     populateKeyFacts(entry);
@@ -716,6 +724,18 @@ function populateContent() {
     contentContainer.classList.remove("hid");
 }
 
+function injectCanonical(canonicalURL) {
+    if (document.querySelector(`link[rel="canonical"]`)) {
+        document.querySelector(`link[rel="canonical"]`).remove();
+    }
+
+    const canonicalTag = document.createElement("link");
+    canonicalTag.setAttribute("rel","canonical");
+    canonicalTag.setAttribute("href",canonicalURL);
+
+    head.append(canonicalTag);
+}
+
 function populatePrevAndNext(entry) {
     const sortedEntries = sortEntries(selectedOrder);
     const entryIndex = findEntryIndex(entry.code, "code", sortedEntries);
@@ -737,6 +757,7 @@ function populatePrevAndNext(entry) {
 function populateJumpLinks(entry) {
     let jumpLinksList = '';
 
+    if (isIndividualEntryPage && entry.youtube) { jumpLinksList += `${jumpLinksList.length > 0 ? ' | ' : ''}<a href="#quickfacts">Quick Facts</a>`; }
     if (entry.keyfacts) { jumpLinksList += `${jumpLinksList.length > 0 ? ' | ' : ''}<a href="#keyfactsheading">Key Facts</a>`; }
     if (entry.rottencritics || entry.rottenaudience || entry.metascore || entry.mcuserscore || entry.cinemascore || entry.mparating || entry.tvrating || entry.commonsenseage || entry.kimrating) { jumpLinksList += `${jumpLinksList.length > 0 ? ' | ' : ''}<a href="#reviewsheading">Reviews</a>`; }
     if (entry.skipno || entry.skpyes) { jumpLinksList += `${jumpLinksList.length > 0 ? ' | ' : ''}<a href="#skippabilityheading">Skippability</a>`; }
@@ -748,32 +769,48 @@ function populateJumpLinks(entry) {
     jumpLinks.innerHTML = jumpLinksList;
 }
 
+function populateYouTubeEmbed(youtubeCode) {
+    const youtubeEmbed = `<iframe id="youtubeembed" src="https://www.youtube-nocookie.com/embed/${youtubeCode}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+
+    jumpLinks.insertAdjacentHTML("afterend",youtubeEmbed);
+}
+
 // Quick facts section
 function populateQuickFacts(entry) {
     entryTitle.textContent = entry.name;
     addEntryImage(entry);
-    releaseDate.textContent = parseDate(entry.release);
-    classification.textContent = entry.classification;
 
-    if (lengthExists) { document.getElementById("entrylength").textContent = entry.length ? parseLength(entry) : "?" }
+    let quickFactInfo =`${entry.release ? '<p><strong>Release date:</strong> ' + parseDate(entry.release) + '</p>' : ''}
+    ${entry.classification ? '<p><strong>Type:</strong> ' + entry.classification + '</p>' : ''}
+    ${entry.length && entry.lengthtype ? '<p><strong>Length:</strong> ' + parseLength(entry) + '</p>' : ''}
+    ${entry.phase ? '<p><strong>Phase:</strong> ' + entry.phase + '</p>' : ''}
+    ${sagaNames && entry.phase ? '<p><strong>Saga:</strong> ' + sagaNames[entry.phase] + '</p>' : ''}
+    ${entry.subseries.primary && subseries ? '<p><strong>Subseries:</strong> ' + `<psu>${entry.subseries.primary[0]}</psu>${entry.subseries.primary.length>1 ? " (<bsu>" + entry.subseries.primary[1] + "</bsu>)" : ''}` + '</p>' : ''}
+    ${entry.subseries.secondary && subseries ? '<p><strong>Related subseries:</strong> ' + populateRelatedSubseries(entry) + '</p>' : ''}`;
+    
+    quickFacts.innerHTML = quickFactInfo;
+    // releaseDate.textContent = parseDate(entry.release);
+    // classification.textContent = entry.classification;
 
-    if (phasesExist) { document.getElementById("phasenum").textContent = entry.phase ? entry.phase : "?" }
-    if (sagaNames) { document.getElementById("saganame").textContent = entry.phase ? sagaNames[entry.phase] : "?" }
-    if (subseries) { 
-        const subseriesName = document.getElementById("subseriesname");
-        let relatedSubseriesName = document.getElementById("relatedsubseriesname") ? document.getElementById("relatedsubseriesname") : false;
-        subseriesName.innerHTML = entry.subseries && entry.subseries.primary ? "<psu>" + entry.subseries.primary[0] + "</psu>" + (entry.subseries.primary.length>1 ? " (<bsu>" + entry.subseries.primary[1] + "</bsu>)" : "") : "?";
+    // if (lengthExists) { document.getElementById("entrylength").textContent = entry.length ? parseLength(entry) : "?" }
 
-        if (entry.subseries && entry.subseries.secondary) {
-            if (!relatedSubseriesName) {
-                subseriesName.parentElement.insertAdjacentHTML("afterend", `<p><strong>Related subseries:</strong> <span id="relatedsubseriesname"></span></p>`);
-                relatedSubseriesName = document.getElementById("relatedsubseriesname");
-            }
-            relatedSubseriesName.innerHTML = populateRelatedSubseries(entry);
-        } else if (relatedSubseriesName) {
-            relatedSubseriesName.parentElement.remove();
-        }
-    }
+    // if (phasesExist) { document.getElementById("phasenum").textContent = entry.phase ? entry.phase : "?" }
+    // if (sagaNames) { document.getElementById("saganame").textContent = entry.phase ? sagaNames[entry.phase] : "?" }
+    // if (subseries) { 
+    //     const subseriesName = document.getElementById("subseriesname");
+    //     let relatedSubseriesName = document.getElementById("relatedsubseriesname") ? document.getElementById("relatedsubseriesname") : false;
+    //     subseriesName.innerHTML = entry.subseries && entry.subseries.primary ? "<psu>" + entry.subseries.primary[0] + "</psu>" + (entry.subseries.primary.length>1 ? " (<bsu>" + entry.subseries.primary[1] + "</bsu>)" : "") : "?";
+
+    //     if (entry.subseries && entry.subseries.secondary) {
+    //         if (!relatedSubseriesName) {
+    //             subseriesName.parentElement.insertAdjacentHTML("afterend", `<p><strong>Related subseries:</strong> <span id="relatedsubseriesname"></span></p>`);
+    //             relatedSubseriesName = document.getElementById("relatedsubseriesname");
+    //         }
+    //         relatedSubseriesName.innerHTML = populateRelatedSubseries(entry);
+    //     } else if (relatedSubseriesName) {
+    //         relatedSubseriesName.parentElement.remove();
+    //     }
+    // }
 
     function populateRelatedSubseries(entry) {
         let relatedSubList = '';
@@ -854,9 +891,11 @@ function parseLength(entry) {
     let friendlyLength;
 
     if (entry.lengthtype == "minutes") {
-        let hours = Math.floor(entry.length / 60);
-        let minutes = entry.length - (hours * 60);
-        friendlyLength = `${hours}h ${minutes}m`
+        const calcHours = Math.floor(entry.length / 60);
+        const calcMinutes = entry.length - (calcHours * 60);
+        const hours = calcHours > 0 ? calcHours + "h" : '';
+        const minutes = calcMinutes + "m";
+        friendlyLength = `${hours}${hours != '' ? ' ' : ''}${minutes}`
     }
 
     return friendlyLength;
@@ -1061,9 +1100,9 @@ function populateCredits(entry) {
             sceneDetails = sceneDetails + `<h4>Credit Scene ${creditScenesLength>1 ? '#' + (i+1) : ''} Details</h4>`
             if (entry.creditscenes[i].timing) { sceneDetails = sceneDetails + `<p><strong>Timing:</strong> ${entry.creditscenes[i].timing}</p>` }
             if (entry.creditscenes[i].type) { sceneDetails = sceneDetails + `<p><strong>Type:</strong> <fst>${entry.creditscenes[i].type}</fst></p>` }
-            if (entry.creditscenes[i].release && release.checked) { sceneDetails = sceneDetails + `<p><strong>Release order recommendation:</strong> ${entry.creditscenes[i].release}</p>` }
-            if (entry.creditscenes[i].chron && chronological.checked) { sceneDetails = sceneDetails + `<p><strong>Chronological order recommendation:</strong> ${entry.creditscenes[i].chron}</p>` }
-            if (entry.creditscenes[i].nar && narrative.checked) { sceneDetails = sceneDetails + `<p><strong>Narrative order recommendation:</strong> ${entry.creditscenes[i].nar}</p>` }
+            if (entry.creditscenes[i].release && (release.checked || isIndividualEntryPage)) { sceneDetails = sceneDetails + `<p><strong>Release order recommendation:</strong> ${entry.creditscenes[i].release}</p>` }
+            if (entry.creditscenes[i].chron && (chronological.checked || isIndividualEntryPage)) { sceneDetails = sceneDetails + `<p><strong>Chronological order recommendation:</strong> ${entry.creditscenes[i].chron}</p>` }
+            if (entry.creditscenes[i].nar && (narrative.checked || isIndividualEntryPage)) { sceneDetails = sceneDetails + `<p><strong>Narrative order recommendation:</strong> ${entry.creditscenes[i].nar}</p>` }
             if (entry.creditscenes[i].contents) { sceneDetails = sceneDetails + `<p><strong>Scene contents:</strong> <fst>${entry.creditscenes[i].contents}</fst></p>` }
             creditsList = creditsList + sceneDetails;                
         }
@@ -1128,28 +1167,32 @@ function populateCharacters(entry) {
 }
 
 function populateWhyContent(entry) {
-    const noInfo = "Information not available.";
-    let whyPlacementContent = noInfo;
-    let setHeading = false;
-    let whyPlacementType = "this";
+    // const noInfo = "Information not available.";
+    // let whyPlacementContent = noInfo;
+    let whyPlacementContent = '';
+    let whyPlacementType = '';
 
-    if (!release.checked) {
-        if (chronological.checked) {
-            setHeading = true;
-            whyPlacementType = chronological.value;
-            whyPlacementContent = entry.whychron ? entry.whychron : noInfo;
-        } else if (narrative.checked) {
-            setHeading = true;
-            whyPlacementType = narrative.value;
-            whyPlacementContent = entry.whynar ? entry.whynar : noInfo;
+    function aggregateWhyContent(entry, orderType, entryContent) {
+        if (orderType.checked || isIndividualEntryPage) {
+            whyPlacementContent += `${isIndividualEntryPage ? '<h4>' + capitalizeFirstLetter(orderType.value) + '</h4>' : ''}
+            <p>${entry[entryContent] ? entry[entryContent] : ''}</p>`;
+        }
+        if (orderType.checked) {
+            whyPlacementType = capitalizeFirstLetter(orderType.value);
         }
     }
 
-    if (release.checked) {
+    if ((!release.checked && !alphabetical.checked) || isIndividualEntryPage) {
+        if (isIndividualEntryPage) { whyPlacementContent += `<p>You are on the <entry code="self"></entry> individual page. See the <a href="/${urlPage}">primary page for ${seriesName}</a> for the full ordering functionality of ${siteName}.</p>` }
+        if (chronological) { aggregateWhyContent(entry, chronological, "whychron"); }
+        if (narrative) { aggregateWhyContent(entry, narrative, "whynar"); }
+    }
+
+    if (whyPlacementContent == '') {
         whyPlacementHeading.textContent = '';
         whyPlacement.innerHTML = '';
     } else {
-        whyPlacementHeading.textContent = `${capitalizeFirstLetter(whyPlacementType)} Order Reasoning`;
+        whyPlacementHeading.textContent = `${whyPlacementType != '' ? whyPlacementType + ' ' : ''}Order Reasoning`;
         whyPlacement.innerHTML = whyPlacementContent;
     }
 
@@ -1286,15 +1329,20 @@ function replaceSpoilerTitles() {
 }
 
 function hideEmptyElements() {
-    const containerElements = document.querySelectorAll("*:is(h2, h3, h4, h5, h6, p, ul, ol, li, div, span");
+    const containerElements = document.querySelectorAll("*:is(h2, h3, h4, h5, h6, p, ul, ol, li, div, span)");
     
     for (let i=0; i<containerElements.length; i++) {
         if (containerElements[i].innerHTML == '') {
-            containerElements[i].classList.add("hid");
+            if (isIndividualEntryPage) {
+                containerElements[i].remove();
+            } else {
+                containerElements[i].classList.add("hid");
+            }
         } else {
             containerElements[i].classList.remove("hid");
         }
     }
+    if (preliminaryContent) { preliminaryContent.remove(); };
 }
 
 // Function to set or remove event listeners on logos, called when building the navbar
@@ -1312,6 +1360,25 @@ function removeEventListenersOnLogos() {
     }
 }
 
+// Some cleanup functions
+function reformatPageAsIndividualEntry(entryIndex) {
+    isIndividualEntryPage = true;
+    const entryListItems = document.querySelectorAll("#entrylist li");
+    entryListItems[entryIndex].click();
+    navBar.remove();
+    selectionBar.remove();
+    entryLink.previousElementSibling.remove();
+    entryLink.remove();
+    // setLeftRightBorder(content, content, content);
+    showAllSpoilers();
+}
+
+function setLeftRightBorder(widthToCheck, leftSide, rightSide) {
+    if (widthToCheck.clientWidth < window.innerWidth) {
+        leftSide.classList.add("leftedge");
+        rightSide.classList.add("rightedge");
+    }
+}
 
 ////////////////////////////////////////////////
 // Utility Functions
@@ -1328,16 +1395,16 @@ function capitalizeFirstLetter(string) {
 // Upon Page Load
 /////////////////////////////////////////////////
 function identifyBaseOrEntryPage() {
-    urlPieces = ["com", "marvel", "agent-carter-2"];
+    urlPieces = ["com", "marvel", "iron-man5"];
     if (urlPieces.length > 2) {
         const entryIndex = findEntryIndex(urlPieces[2], "code", sortEntries(selectedOrder));
-        if (entryIndex > -1) {
-            const entryListItems = document.querySelectorAll("#entrylist li");
-            entryListItems[entryIndex].click();
-            // (entries[entryIndex]);
+        if (entryIndex > -1) { 
+            reformatPageAsIndividualEntry(entryIndex);
             return;
         }
     }
+    isIndividualEntryPage = false;
+    // setLeftRightBorder(main, navBar, selectionBar);
     populateInitialContent();
 }
 identifyBaseOrEntryPage();

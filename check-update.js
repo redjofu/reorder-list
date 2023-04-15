@@ -8,6 +8,8 @@ let pageLoads = false;
 let dataLoads = false;
 
 function loadDataJS() {
+    document.querySelector("head").innerHTML = `<link href="${baseDots}/app.css?${timestamp.css}" rel="stylesheet" type="text/css">`;
+    
     const mainJS = document.createElement("script");
     mainJS.setAttribute("src", `${thisDots}/${urlPage}.js?${timestamp[urlPage]}`);
     initialScript.append(mainJS);
