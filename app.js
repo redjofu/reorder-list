@@ -10,7 +10,8 @@ try {
 const siteTitle = "Order Compass";
 const siteName = `<em>${siteTitle}</em>`;
 
-// Prepare variable to determine if it's an individual entry page
+// Set variables to be ready on page load but which may be adjusted after initial page load
+let isInitialPageLoad = true;
 let isIndividualEntryPage = true;
 
 // Build out main template elements
@@ -28,7 +29,7 @@ head.insertAdjacentHTML("afterbegin", headHTML);
 
 // Use custom head details
 const title = document.querySelector("title");
-title.innerText = pageTitle;
+title.innerText = `${pageTitle} | ${siteTitle}`;
 
 // Find and set correct screen height
 const extraCSS = document.getElementById("extracss");
@@ -328,102 +329,6 @@ const orderInputs = document.querySelectorAll("#orderselection input");
 let selectedOrder;
 let selectedOrderName;
 
-// Build nav bar
-const navBar = document.getElementById("navbar");
-const entryList = document.getElementById("entrylist");
-
-// Prepare variable so it can be used and reused each time the nav bar is rebuilt
-let entryLogos; 
-
-function buildNavBar(selectedOrderInput) {
-    // Reset navBar HTML
-    entryList.innerHTML = '';
-    
-    // Determine order
-    const orderedEntries = sortEntries(selectedOrderInput.value); // Array
-
-    // Build HTML of navBar
-    for (let i=0; i<orderedEntries.length; i++) {
-        const newLI = document.createElement("li");
-        newLI.id = orderedEntries[i].code;
-        newLI.classList.add(orderedEntries[i].type);
-        newLI.innerHTML = `<img src="logos/${orderedEntries[i].logo}" alt="${orderedEntries[i].name}">`
-        entryList.appendChild(newLI);
-    }
-
-    // Remove event listeners to prep for navbar rebuild (but only if the "entrylogos" variable has been defined)
-    if (typeof entryLogos !== 'undefined') {
-        removeEventListenersOnLogos();
-    }
-
-    // Prep navbar list for interactivity
-    entryLogos = document.querySelectorAll("#entrylist li");
-    
-    // Set event listeners but only if the "entrylogos" variable has been defined
-    if (typeof entryLogos !== 'undefined') {
-        setEventListenersOnLogos();
-    }
-}
-
-function sortEntries(orderDeterminer) { // Returns array
-    const entryOrder = []; // Array of the entries' order
-    const entryOrderSorted = []; // Array of the entries' order, sorted
-    const orderedEntries = []; // Array of the entries in correct order
-
-    for (let i=0; i<entries.length; i++) {
-        let currentEntry = eval("entries[i]."+orderDeterminer);
-        if (currentEntry != undefined) { 
-            // Remove "A" or "The" from entry name when sorting alphabetically
-            if (orderDeterminer == "name" && (currentEntry.charAt(0).toUpperCase() == "A" || currentEntry.charAt(0).toUpperCase() == "T")) {
-                const currentEntryArray = currentEntry.split(" ");
-                if (currentEntryArray[0].toUpperCase() == "A" || currentEntryArray[0].toUpperCase() == "THE") {
-                    currentEntryArray.shift();
-                    currentEntry = '';
-                    for (let i=0; i<currentEntryArray.length; i++) {
-                        currentEntry = currentEntry + currentEntryArray[i];
-                    }
-                }
-            }
-            entryOrder.push(currentEntry); 
-        }
-    }
-
-    for (let i=0; i<entryOrder.length; i++) {
-        entryOrderSorted.push(entryOrder[i]);
-    }
-
-    if (Number.isInteger(entryOrderSorted[0])) {
-        entryOrderSorted.sort((a,b) => a-b); // Correctly sort numbers. Info provided by https://dmitripavlutin.com/javascript-array-sort-numbers/
-    } else {
-        entryOrderSorted.sort();
-    }
-
-    for (let i=0; i<entryOrder.length; i++) {
-        orderedEntries.push(entries[entryOrder.indexOf(entryOrderSorted[i])]);
-    }
-
-    return orderedEntries;
-}
-
-function reflectOrderChange() {
-    buildNavBar(this);
-    selectedOrder = this.value;
-    if (selectedOrder == "name") {
-        selectedOrderName = "Alphabetical";
-    } else {
-        selectedOrderName = capitalizeFirstLetter(selectedOrder);
-    }
-    adjustContent();
-}
-
-// Connect selection inputs to buildNavBar function
-for (let i=0; i<orderInputs.length; i++) {
-    orderInputs[i].addEventListener("click", reflectOrderChange);
-}
-
-orderInputs[0].click();
-
-
 // Mark all type checkboxes as checked
 const typeInputs = document.querySelectorAll("#typesselection input");
 
@@ -445,6 +350,121 @@ function hideEntriesOfUncheckedType() {
 for (let i=0; i<typeInputs.length; i++) {
     typeInputs[i].addEventListener("click", hideEntriesOfUncheckedType);
 }
+
+// Build nav bar
+const navBar = document.getElementById("navbar");
+const entryList = document.getElementById("entrylist");
+let entryListItems;
+
+// Prepare variable so it can be used and reused each time the nav bar is rebuilt
+let entryLogos;
+let sortedEntries;
+
+function buildNavBar(selectedOrderInput) {
+    // Reset navBar HTML
+    entryList.innerHTML = '';
+    
+    // Determine order
+    const orderedEntries = sortEntries(selectedOrderInput.value); // Array
+    sortedEntries = orderedEntries;
+
+    // Build HTML of navBar
+    for (let i=0; i<orderedEntries.length; i++) {
+        const newLI = document.createElement("li");
+        newLI.id = orderedEntries[i].code;
+        newLI.classList.add(orderedEntries[i].type);
+        newLI.innerHTML = `<img src="logos/${orderedEntries[i].logo}" alt="${orderedEntries[i].name}">`
+        if (document.querySelector(`#${orderedEntries[i].type}`).checked) {
+            newLI.classList.remove("hid");
+        } else {
+            newLI.classList.add("hid");
+        }
+        entryList.appendChild(newLI);
+    }
+
+    // Remove event listeners to prep for navbar rebuild (but only if the "entrylogos" variable has been defined)
+    if (typeof entryLogos !== 'undefined') {
+        removeEventListenersOnLogos();
+    }
+
+    // Prep navbar list for interactivity
+    entryLogos = document.querySelectorAll("#entrylist li");
+    
+    // Set event listeners but only if the "entrylogos" variable has been defined
+    if (typeof entryLogos !== 'undefined') {
+        setEventListenersOnLogos();
+    }
+
+    entryListItems = document.querySelectorAll("#entrylist li");
+}
+
+function sortEntries(orderDeterminer) { // Returns array
+    const entryOrder = []; // Array of the order of the main "entries" array of objects
+    const entryOrderSorted = []; // Array of the entries' order, sorted
+    const orderedEntries = []; // Array of the entries in correct order
+
+    for (let i=0; i<entries.length; i++) {
+        let currentEntry = eval("entries[i]."+orderDeterminer);
+
+        if (currentEntry != undefined) { 
+            // Remove "A" or "The" from entry name when sorting alphabetically
+            if (orderDeterminer == "name" && (currentEntry.charAt(0).toUpperCase() == "A" || currentEntry.charAt(0).toUpperCase() == "T")) {
+                const currentEntryArray = currentEntry.split(" ");
+                if (currentEntryArray[0].toUpperCase() == "A" || currentEntryArray[0].toUpperCase() == "THE") {
+                    currentEntryArray.shift();
+                    currentEntry = '';
+                    for (let i=0; i<currentEntryArray.length; i++) {
+                        currentEntry = currentEntry + currentEntryArray[i];
+                    }
+                }
+            }
+            entryOrder.push(currentEntry); 
+        } else {
+            entryOrder.push(null);
+        }
+    }
+
+    for (let i=0; i<entryOrder.length; i++) {
+        entryOrderSorted.push(entryOrder[i]);
+    }
+
+    if (Number.isInteger(entryOrderSorted[0])) {
+        entryOrderSorted.sort((a,b) => a-b); // Correctly sort numbers. Info provided by https://dmitripavlutin.com/javascript-array-sort-numbers/
+    } else {
+        entryOrderSorted.sort();
+    }
+
+    for (let i=0; i<entryOrder.length; i++) {
+        const orderedValue = entryOrderSorted[i];
+        if (orderedValue != null) {
+            orderedEntries.push(entries[entryOrder.indexOf(orderedValue)]);
+        }
+    }
+
+    return orderedEntries;
+}
+
+function reflectOrderChange() {
+    // sortedEntries = sortEntries(selectedOrder);
+    buildNavBar(this);
+    selectedOrder = this.value;
+    if (selectedOrder == "name") {
+        selectedOrderName = "alphabetical";
+    } else {
+        selectedOrderName = selectedOrder;
+    }
+    if (!isInitialPageLoad) { setURLParameter("order",selectedOrderName); }
+    selectedOrderName = capitalizeFirstLetter(selectedOrderName);
+    adjustContent();
+    
+}
+
+// Connect selection inputs to buildNavBar function
+for (let i=0; i<orderInputs.length; i++) {
+    orderInputs[i].addEventListener("click", reflectOrderChange);
+}
+
+orderInputs[0].click();
 
 // Set up spoiler checkboxes so checking a higher level also selects the lower level
 const spoilerInputs = document.querySelectorAll("#spoilerselection input");
@@ -682,6 +702,8 @@ function findEntryIndex(id, key, entryArray) {
 
 function populateContent() {
 
+    cleanUpPreviousContent();
+
     // const entryIndex = entries.findIndex(item => item.code === this.id);
 
     // entryTitle.textContent = entries[entryIndex].name;
@@ -691,6 +713,7 @@ function populateContent() {
     const entry = entries[findEntryIndex(this.id, "code", entries)];
 
     injectCanonical(`/${urlPage}/${entry.code}`);
+    if (isIndividualEntryPage) { title.innerText = `${entry.name} | ${siteTitle}`; }
 
     // populatePrevAndNext(entry);
     populateJumpLinks(entry);
@@ -722,6 +745,18 @@ function populateContent() {
     setTimeout(determineScrollGradient.bind(contentContainer),100);
     preliminaryContent.classList.add("hid");
     contentContainer.classList.remove("hid");
+    contentContainer.scrollTo(0,0);
+
+    setURLParameter("entry",entry.code);
+}
+
+function cleanUpPreviousContent() {
+    // Remove entry tag event listeners
+    const existingEntryTags = document.querySelectorAll(".entrytag");
+
+    for (let i=0; i<existingEntryTags.length; i++) {
+        existingEntryTags[i].remove();
+    }
 }
 
 function injectCanonical(canonicalURL) {
@@ -737,7 +772,6 @@ function injectCanonical(canonicalURL) {
 }
 
 function populatePrevAndNext(entry) {
-    const sortedEntries = sortEntries(selectedOrder);
     const entryIndex = findEntryIndex(entry.code, "code", sortedEntries);
     const prevEntry = sortedEntries[entryIndex-1] ? sortedEntries[entryIndex-1] : null;
     const nextEntry = sortedEntries[entryIndex+1] ? sortedEntries[entryIndex+1] : null;
@@ -1226,13 +1260,18 @@ function adjustContent() {
     }
 }
 
+// let entryTagCount = 0;
+
 function replaceExtraTags() {
     replaceEntryTags();
+    setTimeout(addEntryTagLinks,500);
     replaceSubseriesTags();
 }
 
 function replaceEntryTags() {
     const entryTags = document.querySelectorAll("entry");
+    // const entryTagId = 'entryTagId';
+    entryTagCount = 0;
 
     for (let i=0; i<entryTags.length; i++) {
         const entryCode = entryTags[i].attributes.code.textContent;
@@ -1240,6 +1279,8 @@ function replaceEntryTags() {
         const isSelf = entryCode == 'self' ? true : false;
         const tagContent = entryTags[i].innerHTML;
         let entryName = '';
+        let linkInfo = '';
+        let endLinkInfo = '';
 
         if (tagContent != '') {
             entryName = tagContent;
@@ -1250,14 +1291,35 @@ function replaceEntryTags() {
             const specificEntry = entries[findEntryIndex(entryCode, "code", entries)];
             if (specificEntry) {
                 entryName = specificEntry.name;
+                if (isIndividualEntryPage) {
+                    linkInfo = `<a href="/${urlPage}/${entryCode}">`;
+                    endLinkInfo = '</a>';
+                } else {
+                    linkInfo = `<button id=${entryCode} class="entrytag entrytagnotself">`;
+                    endLinkInfo = '</button>';
+                }
             } else {
                 entryName = entryCode;
                 console.error(`Trying to replace entry tag but can't find "${entryCode}"`);
             }
         }
 
-        entryTags[i].insertAdjacentHTML("afterend", `${isEm ? '<em>' : ''}${entryName}${isEm ? '</em>' : ''}`);
+        entryTags[i].insertAdjacentHTML("afterend", `${isEm ? '<em>' : ''}${linkInfo}${entryName}${endLinkInfo}${isEm ? '</em>' : ''}`);
         entryTags[i].remove();
+    }
+}
+
+function addEntryTagLinks() {
+    const entryTagsNeedingLinks = document.querySelectorAll(".entrytagnotself");
+
+    if (entryTagsNeedingLinks) {
+        for (let i=0; i<entryTagsNeedingLinks.length; i++) {
+            const entryCode = entryTagsNeedingLinks[i].getAttribute("id");
+            const entryIndex = findEntryIndex(entryCode, "code", sortedEntries);
+            entryTagsNeedingLinks[i].addEventListener("click", function() {
+                entryListItems[entryIndex].click();
+            })
+        }
     }
 }
 
@@ -1329,7 +1391,7 @@ function replaceSpoilerTitles() {
 }
 
 function hideEmptyElements() {
-    const containerElements = document.querySelectorAll("*:is(h2, h3, h4, h5, h6, p, ul, ol, li, div, span)");
+    const containerElements = document.querySelectorAll("*:is(h2, h3, h4, h5, h6, p, ul, ol, #content li, div, span)");
     
     for (let i=0; i<containerElements.length; i++) {
         if (containerElements[i].innerHTML == '') {
@@ -1363,7 +1425,6 @@ function removeEventListenersOnLogos() {
 // Some cleanup functions
 function reformatPageAsIndividualEntry(entryIndex) {
     isIndividualEntryPage = true;
-    const entryListItems = document.querySelectorAll("#entrylist li");
     entryListItems[entryIndex].click();
     navBar.remove();
     selectionBar.remove();
@@ -1389,15 +1450,22 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function setURLParameter(param, value) {
+    const url = new URL(location);
+    url.searchParams.set(param, value);
+    history.pushState({}, "", url);
+}
 
 
 /////////////////////////////////////////////////
 // Upon Page Load
 /////////////////////////////////////////////////
 function identifyBaseOrEntryPage() {
-    urlPieces = ["com", "marvel", "iron-man5"];
+    isInitialPageLoad = false;
+    urlPieces = ["com", "marvel", "iron-man-34"];
+
     if (urlPieces.length > 2) {
-        const entryIndex = findEntryIndex(urlPieces[2], "code", sortEntries(selectedOrder));
+        const entryIndex = findEntryIndex(urlPieces[2], "code", sortedEntries);
         if (entryIndex > -1) { 
             reformatPageAsIndividualEntry(entryIndex);
             return;
@@ -1405,6 +1473,28 @@ function identifyBaseOrEntryPage() {
     }
     isIndividualEntryPage = false;
     // setLeftRightBorder(main, navBar, selectionBar);
-    populateInitialContent();
+
+    const urlParameters = new URLSearchParams(window.location.search);
+    let useInitialContent = true;
+    if (urlParameters) {
+        if (urlParameters.get("entry")) {
+            const entryParameter = urlParameters.get("entry");
+            const entryIndex = findEntryIndex(entryParameter, "code", sortedEntries);
+            if (entryIndex > -1) { 
+                entryListItems[entryIndex].click();
+                useInitialContent = false;
+            }
+        }
+        if (urlParameters.get("order")) {
+            const orderParameter = urlParameters.get("order");
+            for (let i=0; i<orderInputs.length; i++) {
+                if (orderInputs[i].getAttribute("id") == orderParameter) {
+                    orderInputs[i].click();
+                }
+            }
+        }
+    }
+
+    if (useInitialContent) { populateInitialContent(); }
 }
 identifyBaseOrEntryPage();

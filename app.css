@@ -9,6 +9,9 @@
     --color-3: #F2D2B6;
     --color-4: #F2AD94;
     --color-5: #F28972;
+    --link-color: blue;
+    --link-color-hover: red;
+    --link-color-click: blue;
     /* --color-clear: rgba(95,68,58,0); */
     --sidebar-padding: 15px;
     --sidebar-width: 269px;
@@ -409,6 +412,31 @@ input, label, button, #entrylist img {
 
 #preliminarycontent p {
     margin-bottom: 10px;
+}
+
+a, #content .entrytag {
+    color: var(--link-color);
+}
+
+a:hover, #content .entrytag:hover {
+    color: var(--link-color-hover);
+    background-color: inherit;
+}
+
+a:active, #content .entrytag:active {
+    color: var(--link-color-click);
+    background-color: inherit;
+}
+
+#content .entrytag {
+    display: inline;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    border: none;
+    font-style: inherit;
+    text-decoration: underline;
+    background-color: inherit;
 }
 
 #content #jumplinks {
