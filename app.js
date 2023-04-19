@@ -83,9 +83,9 @@ const alphabeticalInput = `<input type="radio" id="alphabetical" name="order" va
 <label for="alphabetical">Alphabetical Order</label>`;
 
 // Main template
-main.innerHTML = `<div id="navbar" class="scrollarea">
+main.innerHTML = `<div id="navbarcontainer"><div id="navbar" class="scrollarea">
     <ol id="entrylist"></ol>
-</div>
+</div></div>
 <div id="selectionbar">
     <div id="selectionexplanation"><p>Select an option below for a description to appear here.</p></div>
     <div id="selectioncontent">
@@ -283,45 +283,6 @@ for (let i=0; i<inputs.length; i++) {
     inputs[i].addEventListener("click", addSelectionDescription);
 }
 
-
-// Code for the scroll gradient
-const selectionContent = document.getElementById("selectioncontent");
-const selectionScroll = document.getElementById("selectionscroll");
-
-// function determineScrollGradient(){
-//     if ((selectionScroll.scrollHeight < selectionScroll.clientHeight) || (selectionScroll.scrollTop == 0)) {
-//         selectionContent.classList.remove("scrollhidetop");
-//     } else {
-//         selectionContent.classList.add("scrollhidetop");
-//     }
-
-//     if ((selectionScroll.scrollHeight < selectionScroll.clientHeight) || (Math.floor(selectionScroll.scrollTop) == selectionScroll.scrollHeight - selectionScroll.clientHeight)) {
-//         selectionContent.classList.remove("scrollhidebottom");
-//     } else {
-//         selectionContent.classList.add("scrollhidebottom");
-//     }
-// }
-function determineScrollGradient(){
-    if ((this.scrollHeight < this.clientHeight) || (this.scrollTop == 0)) {
-        this.parentElement.classList.remove("scrollhidetop");
-    } else {
-        this.parentElement.classList.add("scrollhidetop");
-    }
-
-    if ((this.scrollHeight < this.clientHeight) || (Math.floor(this.scrollTop) == this.scrollHeight - this.clientHeight)) {
-        this.parentElement.classList.remove("scrollhidebottom");
-    } else {
-        this.parentElement.classList.add("scrollhidebottom");
-    }
-}
-setTimeout(determineScrollGradient.bind(selectionScroll),100);
-
-selectionScroll.addEventListener("scroll", determineScrollGradient);
-preliminaryContent.addEventListener("scroll", determineScrollGradient);
-contentContainer.addEventListener("scroll", determineScrollGradient);
-selectionParagraph.addEventListener("scroll", determineScrollGradient);
-
-
 // Prime order inputs to work with buildNavBar
 const orderInputs = document.querySelectorAll("#orderselection input");
 
@@ -336,19 +297,22 @@ for (let i=0; i<typeInputs.length; i++) {
     typeInputs[i].checked=true;
 }
 
-function hideEntriesOfUncheckedType() {
+function adjustTypes() {
+    hideEntriesOfUncheckedType(this);
+}
+
+function hideEntriesOfUncheckedType(typeInput) {
     for (let i=0; i<entryLogos.length; i++) {
-        if (entryLogos[i].classList.contains(this.value) && this.checked) {
+        if (entryLogos[i].classList.contains(typeInput.value) && typeInput.checked) {
             entryLogos[i].classList.remove("hid");
-        } else if (entryLogos[i].classList.contains(this.value) && !this.checked) {
+        } else if (entryLogos[i].classList.contains(typeInput.value) && !typeInput.checked) {
             entryLogos[i].classList.add("hid");
         }
     }
-
 }
 
 for (let i=0; i<typeInputs.length; i++) {
-    typeInputs[i].addEventListener("click", hideEntriesOfUncheckedType);
+    typeInputs[i].addEventListener("click", adjustTypes);
 }
 
 // Build nav bar
@@ -396,6 +360,7 @@ function buildNavBar(selectedOrderInput) {
     }
 
     entryListItems = document.querySelectorAll("#entrylist li");
+    setTimeout(determineScrollGradient.bind(navBar),100);
 }
 
 function sortEntries(orderDeterminer) { // Returns array
@@ -465,6 +430,48 @@ for (let i=0; i<orderInputs.length; i++) {
 }
 
 orderInputs[0].click();
+
+
+// Code for the scroll gradient
+const selectionContent = document.getElementById("selectioncontent");
+const selectionScroll = document.getElementById("selectionscroll");
+
+// function determineScrollGradient(){
+//     if ((selectionScroll.scrollHeight < selectionScroll.clientHeight) || (selectionScroll.scrollTop == 0)) {
+//         selectionContent.classList.remove("scrollhidetop");
+//     } else {
+//         selectionContent.classList.add("scrollhidetop");
+//     }
+
+//     if ((selectionScroll.scrollHeight < selectionScroll.clientHeight) || (Math.floor(selectionScroll.scrollTop) == selectionScroll.scrollHeight - selectionScroll.clientHeight)) {
+//         selectionContent.classList.remove("scrollhidebottom");
+//     } else {
+//         selectionContent.classList.add("scrollhidebottom");
+//     }
+// }
+function determineScrollGradient(){
+    if ((this.scrollHeight < this.clientHeight) || (this.scrollTop == 0)) {
+        console.log("first");
+        this.parentElement.classList.remove("scrollhidetop");
+    } else {
+        console.log("second");
+        this.parentElement.classList.add("scrollhidetop");
+    }
+
+    if ((this.scrollHeight < this.clientHeight) || (Math.floor(this.scrollTop) == this.scrollHeight - this.clientHeight)) {
+        this.parentElement.classList.remove("scrollhidebottom");
+    } else {
+        this.parentElement.classList.add("scrollhidebottom");
+    }
+}
+setTimeout(determineScrollGradient.bind(selectionScroll),100);
+
+selectionScroll.addEventListener("scroll", determineScrollGradient);
+preliminaryContent.addEventListener("scroll", determineScrollGradient);
+contentContainer.addEventListener("scroll", determineScrollGradient);
+selectionParagraph.addEventListener("scroll", determineScrollGradient);
+navBar.addEventListener("scroll", determineScrollGradient);
+
 
 // Set up spoiler checkboxes so checking a higher level also selects the lower level
 const spoilerInputs = document.querySelectorAll("#spoilerselection input");

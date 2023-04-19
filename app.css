@@ -72,18 +72,18 @@ main {
     margin: 0 auto;
 }
 
-#content, #navbar, #selectionbar {
+#content, #navbar, #navbarcontainer, #selectionbar {
     height: calc(var(--screen-height) - var(--header-height));
 }
 
-#navbar, #selectionbar {
+#navbar, #navbarcontainer, #selectionbar {
     /* background-color: rgba(0, 0, 0, 0.2); */
     background-color: var(--color-4);
     width: var(--sidebar-width);
     /* padding: var(--sidebar-padding); */
 }
 
-#navbar {
+#navbar, #navbarcontainer {
     float: left;
 }
 
