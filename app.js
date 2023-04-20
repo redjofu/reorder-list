@@ -290,15 +290,21 @@ const orderInputs = document.querySelectorAll("#orderselection input");
 let selectedOrder;
 let selectedOrderName;
 
-// Mark all type checkboxes as checked
+// Mark all type checkboxes as checked -- unless they were saved in localStorage to not check
 const typeInputs = document.querySelectorAll("#typesselection input");
 
 for (let i=0; i<typeInputs.length; i++) {
-    typeInputs[i].checked=true;
+    const showType = localStorage.getItem(`${urlPage}-${typeInputs[i].id}`);
+    if (showType == 'true' || showType == null) {
+        typeInputs[i].checked=true;
+    }
 }
+
+
 
 function adjustTypes() {
     hideEntriesOfUncheckedType(this);
+    saveTypeInputSelection(this);
 }
 
 function hideEntriesOfUncheckedType(typeInput) {
@@ -308,6 +314,14 @@ function hideEntriesOfUncheckedType(typeInput) {
         } else if (entryLogos[i].classList.contains(typeInput.value) && !typeInput.checked) {
             entryLogos[i].classList.add("hid");
         }
+    }
+}
+
+function saveTypeInputSelection(typeInput) {
+    if (typeInput.checked) {
+        localStorage.setItem(`${urlPage}-${typeInput.id}`,true);
+    } else {
+        localStorage.setItem(`${urlPage}-${typeInput.id}`,false);
     }
 }
 
@@ -451,10 +465,8 @@ const selectionScroll = document.getElementById("selectionscroll");
 // }
 function determineScrollGradient(){
     if ((this.scrollHeight < this.clientHeight) || (this.scrollTop == 0)) {
-        console.log("first");
         this.parentElement.classList.remove("scrollhidetop");
     } else {
-        console.log("second");
         this.parentElement.classList.add("scrollhidetop");
     }
 
