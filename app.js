@@ -207,37 +207,40 @@ function firstTime(recommendation, feeling) {
         return `This option is not recommended for those ${progressiveVerb} the series for the first time.`
     }
 }
-const firstTimeYes = "This order is "
-
 
 // Fill out missing selectionOptionDescription keys and values.
 if (!selectionOptionDescription.release) {
     selectionOptionDescription.release = `The order according to each entry's original release date.`
 }
-if (!selectionOptionDescription.chooserelease) {
-    selectionOptionDescription.chooserelease = `Choose this option to experience ${seriesName} as it was by ${userType} who first enjoyed each entry in the series.`
+if (!selectionOptionDescription.chooseRelease) {
+    selectionOptionDescription.chooseRelease = `Choose this option to experience ${seriesName} as it was by ${userType} who first enjoyed each entry in the series.`
 }
-if (!selectionOptionDescription.recommendrelease) {
-    selectionOptionDescription.recommendrelease = firstTime(true, "good");
+if (!selectionOptionDescription.recommendRelease) {
+    selectionOptionDescription.recommendRelease = orderRec.releaseRec != undefined && orderRec.releaseFeeling ? firstTime(orderRec.releaseRec, orderRec.releaseFeeling) : '';
 }
-// ************** FIGURE OUT HOW TO SOLVE THIS... the parameters for this need to be set in marvel.js, but the function needs to be here. ALso we need defaults.
-selectionOptionDescription.release += " " + selectionOptionDescription.chooserelease + "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+selectionOptionDescription.release += " " + selectionOptionDescription.chooseRelease + " " + selectionOptionDescription.recommendRelease;
 
 if (!selectionOptionDescription.chronological) {
     selectionOptionDescription.chronological = `The order according to when the core events for each entry occur within the overarching story.`
 }
-if (!selectionOptionDescription.choosechronological) {
-    selectionOptionDescription.choosechronological = `Choose this option to experience the events of ${seriesName} in the same sequence as the characters themselves.`
+if (!selectionOptionDescription.chooseChronological) {
+    selectionOptionDescription.chooseChronological = `Choose this option to experience the events of ${seriesName} in the same sequence as the characters themselves.`
 }
-selectionOptionDescription.chronological += " " + selectionOptionDescription.choosechronological;
+if (!selectionOptionDescription.recommendChronological) {
+    selectionOptionDescription.recommendChronological = orderRec.chronologicalRec != undefined && orderRec.chronologicalFeeling ? firstTime(orderRec.chronologicalRec, orderRec.chronologicalFeeling) : '';
+}
+selectionOptionDescription.chronological += " " + selectionOptionDescription.chooseChronological + " " + selectionOptionDescription.recommendChronological;
 
 if (!selectionOptionDescription.narrative) {
     selectionOptionDescription.narrative = `The order I feel provides the best narrative structure for ${userType}, especially for those ${progressiveVerb} for the first time.`
 }
-if (!selectionOptionDescription.choosenarrative) {
-    selectionOptionDescription.choosenarrative = `Choose this option to experience the events of ${seriesName} in the same sequence as the characters themselves.`
+if (!selectionOptionDescription.chooseNarrative) {
+    selectionOptionDescription.chooseNarrative = `Choose this option to experience the events of ${seriesName} in a sequence specially crafted to enhance the overall narrative.`
 }
-selectionOptionDescription.narrative += " " + selectionOptionDescription.choosenarrative;
+if (!selectionOptionDescription.recommendNarrative) {
+    selectionOptionDescription.recommendNarrative = orderRec.narrativeRec != undefined && orderRec.narrativeFeeling ? firstTime(orderRec.narrativeRec, orderRec.releaseFeeling) : '';
+}
+selectionOptionDescription.narrative += " " + selectionOptionDescription.chooseNarrative + " " + selectionOptionDescription.recommendNarrative;
 
 if (!selectionOptionDescription.name) {
     selectionOptionDescription.name = `Alphabetical order, intended to more easily find a specific entry but <em>not</em> intended as an order for ${progressiveVerb}.`

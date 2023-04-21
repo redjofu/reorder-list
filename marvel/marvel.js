@@ -68,6 +68,15 @@ const selectionOptionDescription = {
     // Spoiler inputs
 };
 
+const orderRec = {
+    releaseRec: true,
+    releaseFeeling: "good",
+    chronologicalRec: true,
+    chronologicalFeeling: "good",
+    // narrativeRec: true,
+    // narrativeFeeling: "excellent"
+}
+
 
 // Series-specific details
 const officialSite = {
