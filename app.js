@@ -199,18 +199,45 @@ const selectionBar = document.getElementById("selectionbar");
 // Add the type inputs below the "Types Desired" H3.
 document.getElementById("types").appendChild(typeTemplate);
 
+// Recommended for first time?
+function firstTime(recommendation, feeling) {
+    if (recommendation) {
+        return `This option is ${feeling} for those ${progressiveVerb} the series for the first time.`
+    } else {
+        return `This option is not recommended for those ${progressiveVerb} the series for the first time.`
+    }
+}
+const firstTimeYes = "This order is "
+
+
 // Fill out missing selectionOptionDescription keys and values.
 if (!selectionOptionDescription.release) {
     selectionOptionDescription.release = `The order according to each entry's original release date.`
 }
+if (!selectionOptionDescription.chooserelease) {
+    selectionOptionDescription.chooserelease = `Choose this option to experience ${seriesName} as it was by ${userType} who first enjoyed each entry in the series.`
+}
+if (!selectionOptionDescription.recommendrelease) {
+    selectionOptionDescription.recommendrelease = firstTime(true, "good");
+}
+// ************** FIGURE OUT HOW TO SOLVE THIS... the parameters for this need to be set in marvel.js, but the function needs to be here. ALso we need defaults.
+selectionOptionDescription.release += " " + selectionOptionDescription.chooserelease + "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
 if (!selectionOptionDescription.chronological) {
     selectionOptionDescription.chronological = `The order according to when the core events for each entry occur within the overarching story.`
 }
+if (!selectionOptionDescription.choosechronological) {
+    selectionOptionDescription.choosechronological = `Choose this option to experience the events of ${seriesName} in the same sequence as the characters themselves.`
+}
+selectionOptionDescription.chronological += " " + selectionOptionDescription.choosechronological;
 
 if (!selectionOptionDescription.narrative) {
     selectionOptionDescription.narrative = `The order I feel provides the best narrative structure for ${userType}, especially for those ${progressiveVerb} for the first time.`
 }
+if (!selectionOptionDescription.choosenarrative) {
+    selectionOptionDescription.choosenarrative = `Choose this option to experience the events of ${seriesName} in the same sequence as the characters themselves.`
+}
+selectionOptionDescription.narrative += " " + selectionOptionDescription.choosenarrative;
 
 if (!selectionOptionDescription.name) {
     selectionOptionDescription.name = `Alphabetical order, intended to more easily find a specific entry but <em>not</em> intended as an order for ${progressiveVerb}.`
@@ -290,11 +317,11 @@ const orderInputs = document.querySelectorAll("#orderselection input");
 let selectedOrder;
 let selectedOrderName;
 
-// Mark all type checkboxes as checked -- unless they were saved in localStorage to not check
+// Mark all type checkboxes as checked -- unless they were saved in a previous visit
 const typeInputs = document.querySelectorAll("#typesselection input");
 
 for (let i=0; i<typeInputs.length; i++) {
-    const showType = localStorage.getItem(`${urlPage}-${typeInputs[i].id}`);
+    const showType = getInfo(typeInputs[i].id);
     if (showType == 'true' || showType == null) {
         typeInputs[i].checked=true;
     }
@@ -304,7 +331,7 @@ for (let i=0; i<typeInputs.length; i++) {
 
 function adjustTypes() {
     hideEntriesOfUncheckedType(this);
-    saveTypeInputSelection(this);
+    saveCheckboxSelection(this);
 }
 
 function hideEntriesOfUncheckedType(typeInput) {
@@ -317,11 +344,11 @@ function hideEntriesOfUncheckedType(typeInput) {
     }
 }
 
-function saveTypeInputSelection(typeInput) {
-    if (typeInput.checked) {
-        localStorage.setItem(`${urlPage}-${typeInput.id}`,true);
+function saveCheckboxSelection(checkbox) {
+    if (checkbox.checked) {
+        saveInfo(checkbox.id, true);
     } else {
-        localStorage.setItem(`${urlPage}-${typeInput.id}`,false);
+        saveInfo(checkbox.id, false);
     }
 }
 
@@ -387,16 +414,19 @@ function sortEntries(orderDeterminer) { // Returns array
 
         if (currentEntry != undefined) { 
             // Remove "A" or "The" from entry name when sorting alphabetically
-            if (orderDeterminer == "name" && (currentEntry.charAt(0).toUpperCase() == "A" || currentEntry.charAt(0).toUpperCase() == "T")) {
+            if (orderDeterminer == "name") {
+                currentEntry = currentEntry.replace(/[.-:#!?$()']/g," "); // Replace punctuation with space to ensure these characters aren't considered when sorting
+                currentEntry = currentEntry.replace("&","and");
                 const currentEntryArray = currentEntry.split(" ");
-                if (currentEntryArray[0].toUpperCase() == "A" || currentEntryArray[0].toUpperCase() == "THE") {
-                    currentEntryArray.shift();
-                    currentEntry = '';
-                    for (let i=0; i<currentEntryArray.length; i++) {
-                        currentEntry = currentEntry + currentEntryArray[i];
+                currentEntry = '';
+
+                for (let i=0; i<currentEntryArray.length; i++) {
+                    if (currentEntryArray[i].toLowerCase() != 'a' && currentEntryArray[i].toLowerCase() != 'the') {
+                        currentEntry += currentEntryArray[i];
                     }
                 }
             }
+
             entryOrder.push(currentEntry); 
         } else {
             entryOrder.push(null);
@@ -423,10 +453,25 @@ function sortEntries(orderDeterminer) { // Returns array
     return orderedEntries;
 }
 
-function reflectOrderChange() {
+function adjustOrder() {
+    reflectOrderChange(this);
+    if (!isInitialPageLoad) { saveOrderInputSelection(this); }
+}
+
+function saveOrderInputSelection(orderInput) {
+    for (let i = 0; i < orderInputs.length; i++) {
+        if (orderInput == orderInputs[i]) {
+            saveInfo(orderInputs[i].id, true);    
+        } else {
+            saveInfo(orderInputs[i].id, false);
+        }
+    }
+}
+
+function reflectOrderChange(orderInput) {
     // sortedEntries = sortEntries(selectedOrder);
-    buildNavBar(this);
-    selectedOrder = this.value;
+    buildNavBar(orderInput);
+    selectedOrder = orderInput.value;
     if (selectedOrder == "name") {
         selectedOrderName = "alphabetical";
     } else {
@@ -440,7 +485,7 @@ function reflectOrderChange() {
 
 // Connect selection inputs to buildNavBar function
 for (let i=0; i<orderInputs.length; i++) {
-    orderInputs[i].addEventListener("click", reflectOrderChange);
+    orderInputs[i].addEventListener("click", adjustOrder);
 }
 
 orderInputs[0].click();
@@ -558,9 +603,6 @@ function markLowerLevelSpoilers(clickedInput) {
     }
 }
 
-// const markLowerLevelSpoilersBound = markLowerLevelSpoilers.bind(this);
-
-
 //  Add/remove "hiddenspoiler" class to spoiler spans as applicable
 function changeAllSpoilerStyling() {
     changeSpoilerStyling("");
@@ -611,7 +653,18 @@ function removeHiddenSpoiler(spoilerSpan) {
 // Set spoiler checkboxes to use correct functions
 function setUpSpoilerCheckboxes() {
     markLowerLevelSpoilers(this);
+    saveSpoilerSelections();
     changeAllSpoilerStyling();
+}
+
+function saveSpoilerSelections() {
+    for (let i=0; i<spoilerInputs.length; i++) {
+        if (spoilerInputs[i].checked) {
+            saveInfo(spoilerInputs[i].id, true);
+        } else {
+            saveInfo(spoilerInputs[i].id, false);
+        }
+    }
 }
 
 for (let i=0; i<spoilerInputs.length; i++) {
@@ -1475,6 +1528,14 @@ function setURLParameter(param, value) {
     history.pushState({}, "", url);
 }
 
+function saveInfo(infoType, infoData) {
+    localStorage.setItem(`${urlPage}-${infoType}`,infoData);
+}
+
+function getInfo(infoType) {
+    return localStorage.getItem(`${urlPage}-${infoType}`);
+}
+
 
 /////////////////////////////////////////////////
 // Upon Page Load
@@ -1493,6 +1554,15 @@ function identifyBaseOrEntryPage() {
     isIndividualEntryPage = false;
     // setLeftRightBorder(main, navBar, selectionBar);
 
+    for (let i=0; i<spoilerInputs.length; i++) {
+        if (getInfo(spoilerInputs[i].id) == 'true') {
+            spoilerInputs[i].checked = true;
+        } else {
+            spoilerInputs[i].checked = false;
+        }
+    }
+    // changeAllSpoilerStyling();
+
     const urlParameters = new URLSearchParams(window.location.search);
     let useInitialContent = true;
     if (urlParameters) {
@@ -1508,6 +1578,12 @@ function identifyBaseOrEntryPage() {
             const orderParameter = urlParameters.get("order");
             for (let i=0; i<orderInputs.length; i++) {
                 if (orderInputs[i].getAttribute("id") == orderParameter) {
+                    orderInputs[i].click();
+                }
+            }
+        } else {
+            for (let i=0; i<orderInputs.length; i++) {
+                if (getInfo(orderInputs[i].id) == 'true') {
                     orderInputs[i].click();
                 }
             }
