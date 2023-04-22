@@ -1,5 +1,7 @@
 const seriesName = "the Marvel Cinematic Universe";
 const pageTitle = `Best Order to Watch ${seriesName}`;
+const pageName = "Marvel Cinematic Universe";
+const pageNameMobile = "Marvel";
 
 // How to describe the people who consume the media in question (e.g. "viewers," "readers," "gamers")
 const userType = "viewers";

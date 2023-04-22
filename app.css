@@ -61,13 +61,31 @@ hr {
     display: none;
 }
 
-#header {
+header {
     background-color: var(--color-2);
     width: 100%;
     height: var(--header-height);
 }
 
-main {
+#pagename, #pagenamemobile {
+
+}
+
+#pagename {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    text-align: center;
+    display:block;
+    font-size: 45px;
+    font-family: 'Fira Sans', sans-serif;
+    padding-top: 20px;
+}
+
+#pagenamemobile {
+    display: none;
+}
+
+main, #header {
     max-width: calc((var(--sidebar-width)*2) + var(--content-max-width));
     margin: 0 auto;
 }

@@ -40,7 +40,12 @@ extraCSS.textContent = `:root {
 
 // Header template
 header.innerHTML = `<div id="header">
-
+<div id="logo"></div>
+<h1 id="pagename">
+    <span id="pagenamedesktop">${pageName}</span>
+    <span id="pagenamemobile">${pageNameMobile}</span>
+</h1>
+<div id="sitemenu"></div>
 </div>`;
 
 // Type selection template
