@@ -41,10 +41,12 @@ extraCSS.textContent = `:root {
 // Header template
 header.innerHTML = `<div id="header">
 <div id="logo"></div>
-<h1 id="pagename">
-    <span id="pagenamedesktop">${pageName}</span>
-    <span id="pagenamemobile">${pageNameMobile}</span>
-</h1>
+<a href="/${urlPage}">
+    <h1 id="pagename">
+        <span id="pagenamedesktop">${pageName}</span>
+        <span id="pagenamemobile">${pageNameMobile}</span>
+    </h1>
+</a>
 <div id="sitemenu"></div>
 </div>`;
 

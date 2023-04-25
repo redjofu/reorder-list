@@ -67,12 +67,18 @@ header {
     height: var(--header-height);
 }
 
+header a, header a:hover, header a:active, header a:focus {
+    color: var(--color-1);
+    text-decoration: none;
+}
+
 #pagename, #pagenamemobile {
 
 }
 
 #pagename {
     max-width: var(--content-max-width);
+    height: var(--header-height);
     margin: 0 auto;
     text-align: center;
     display:block;
