@@ -47,7 +47,7 @@ header.innerHTML = `<div id="header">
         <span id="pagenamemobile">${pageNameMobile}</span>
     </h1>
 </a>
-<div id="sitemenu"></div>
+<div id="sitemenu">Other Series</div>
 </div>`;
 
 // Type selection template

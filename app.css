@@ -78,7 +78,7 @@ header a, header a:hover, header a:active, header a:focus {
 
 #pagename {
     max-width: var(--content-max-width);
-    height: var(--header-height);
+    /* height: var(--header-height); */
     margin: 0 auto;
     text-align: center;
     display:block;
@@ -89,6 +89,10 @@ header a, header a:hover, header a:active, header a:focus {
 
 #pagenamemobile {
     display: none;
+}
+
+#sitemenu {
+    float: right;
 }
 
 main, #header {
