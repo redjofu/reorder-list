@@ -72,19 +72,34 @@ header a, header a:hover, header a:active, header a:focus {
     text-decoration: none;
 }
 
+#header {
+    display: flex;
+    align-items: center;
+}
+
+#logo {
+    /* float: left; */
+    padding: 10px;
+}
+
+#logo img {
+    width: 250px;
+}
+
 #pagename, #pagenamemobile {
 
 }
 
 #pagename {
-    max-width: var(--content-max-width);
+    width: var(--content-max-width);
+    max-width: calc(100vw - 540px);
     /* height: var(--header-height); */
     margin: 0 auto;
     text-align: center;
     display:block;
     font-size: 45px;
     font-family: 'Fira Sans', sans-serif;
-    padding-top: 20px;
+    /* padding-top: 20px; */
 }
 
 #pagenamemobile {
@@ -92,7 +107,9 @@ header a, header a:hover, header a:active, header a:focus {
 }
 
 #sitemenu {
-    float: right;
+    /* float: right; */
+    width: 270px;
+    text-align: center;
 }
 
 main, #header {
