@@ -23,7 +23,10 @@
     --scrollbar-width: 15px;
     --content-width: calc(100vw - (var(--sidebar-width) * 2) - 30px - var(--scrollbar-width));
     --icon-number: 9;
-    --icon-width: calc((var(--content-width) - (6px * var(--icon-number) + (var(--icon-number) - 1) * 6px))/var(--icon-number));
+    --icon-width: calc((var(--content-width) - (6px * var(--icon-number) + (var(--icon-number) - 1) * 6px)) / var(--icon-number));
+    --individual-content-width: calc(100vw - 30px - var(--scrollbar-width));
+    --individual-icon-number: 9;
+    --individual-icon-width: calc((var(--individual-content-width) - (6px * var(--individual-icon-number) + (var(--individual-icon-number) - 1) * 6px)) / var(--individual-icon-number));
 }
 
 body {
@@ -85,8 +88,12 @@ header a, header a:hover, header a:active, header a:focus {
     padding: 10px;
 }
 
-#logo img {
+#logodesktop {
     width: 250px;
+}
+
+#logomobile {
+    display: none;
 }
 
 #pagename, #pagenamemobile {
@@ -527,9 +534,14 @@ ul.iconlist {
     height: 0;
 }
 
-.iconlist li img {
+.standard .iconlist li img {
     /* width: 80px; */
     width: var(--icon-width);
+}
+
+.individual .iconlist li img {
+    /* width: 80px; */
+    width: var(--individual-icon-width);
 }
 
 .hiddenspoiler {
@@ -582,14 +594,29 @@ img.hiddenspoiler:active {
 @container (max-width: 330px) {
     #entryimage {
         float: initial;
+    }
+
+    .standard #entryimage {
         /* margin: 0 calc((100cqw - 220px - 30px - var(--scrollbar-width))/2);  220px for the image, 30px for the container padding) */
         margin: 0 calc((var(--content-width) - 220px)/2); /*220px for the image*/
+    }
+
+    .individual #entryimage {
+        margin: 0 calc((var(--individual-content-width) - 220px)/2); /*220px for the image*/
     }
 }
 
 @media screen and (min-width: 1438px) {
     :root {
-        --content-width: calc(var(--content-max-width) - 30px - var(--scrollbar-width));
+        /* --content-width: calc(var(--content-max-width) - 30px - var(--scrollbar-width)); */
+        --content-width: var(--individual-content-width);
+        /* --individual-content-width: var(--content-width); */
+    }
+}
+
+@media screen and (min-width: 900px) {
+    :root {
+        --individual-content-width: calc(var(--content-max-width) - 30px - var(--scrollbar-width));
     }
 }
 
@@ -633,16 +660,87 @@ img.hiddenspoiler:active {
     }
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 850px) and (min-width: 701px) {
     :root {
         --icon-number: 2;
+        --sidebar-width: 199px;
+        --header-height: 80px;
+    }
+    #logodesktop {
+        width: 180px;
+    }
+    #sitemenu {
+        width: 200px;
+    }
+    #pagename {
+        max-width: calc(100vw - 400px);
+        font-size: 28px;
     }
 }
 
-/* @media screen and (max-width: 855px) and (min-width: 200px) {
-    .iconlist li img {
-        width: calc((var(--content-width) - 18px)/2);
+@media screen and (max-width: 800px) {
+    :root {
+        --individual-icon-number: 8;
     }
-} */
+}
+
+@media screen and (max-width: 700px) {
+    :root {
+        --individual-icon-number: 7;
+        --header-height: 70px;
+    }
+    #logodesktop, #sitemenutext {
+        display: none;
+    }
+    #logomobile {
+        display: initial;
+        width: 50px;
+    }
+    #sitemenu {
+        width: 70px;
+    }
+    #pagename {
+        max-width: calc(100vw - 140px);
+        font-size: 28px;
+    }
+}
+
+@media screen and (max-width: 625px) {
+    :root {
+        --individual-icon-number: 6;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    :root {
+        --individual-icon-number: 5;
+    }
+}
+
+@media screen and (max-width: 475px) {
+    :root {
+        --individual-icon-number: 4;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    :root {
+        --individual-icon-number: 3;
+    }
+    #pagenamedesktop {
+        display: none;
+    }
+    #pagenamemobile {
+        display: initial;
+    }
+}
+
+@media screen and (max-width: 325px) {
+    :root {
+        --individual-icon-number: 2;
+    }
+}
+
+
 
 /* ------ */

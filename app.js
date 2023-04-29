@@ -40,14 +40,14 @@ extraCSS.textContent = `:root {
 
 // Header template
 header.innerHTML = `<div id="header">
-<div id="logo"><a href="/"><img alt="${siteTitle}" src="${baseDots}/logo.png"></a></div>
+<div id="logo"><a href="/"><img id="logodesktop" alt="${siteTitle}" src="${baseDots}/logo.png"><img id="logomobile" alt="${siteTitle} Logo" src="${baseDots}/logomini.png"></a></div>
 <a href="/${urlPage}">
     <h1 id="pagename">
         <span id="pagenamedesktop">${pageName}</span>
         <span id="pagenamemobile">${pageNameMobile}</span>
     </h1>
 </a>
-<div id="sitemenu">More Orders</div>
+<div id="sitemenu">+<span id="sitemenutext"> More Orders</span></div>
 </div>`;
 
 // Type selection template
@@ -368,6 +368,7 @@ for (let i=0; i<typeInputs.length; i++) {
 
 // Build nav bar
 const navBar = document.getElementById("navbar");
+const navBarContainer = document.getElementById("navbarcontainer");
 const entryList = document.getElementById("entrylist");
 let entryListItems;
 
@@ -411,7 +412,7 @@ function buildNavBar(selectedOrderInput) {
     }
 
     entryListItems = document.querySelectorAll("#entrylist li");
-    setTimeout(determineScrollGradient.bind(navBar),100);
+    if(!isIndividualEntryPage) { setTimeout(determineScrollGradient.bind(navBar),100); }
 }
 
 function sortEntries(orderDeterminer) { // Returns array
@@ -1507,8 +1508,9 @@ function removeEventListenersOnLogos() {
 // Some cleanup functions
 function reformatPageAsIndividualEntry(entryIndex) {
     isIndividualEntryPage = true;
+    body.className = "individual";
     entryListItems[entryIndex].click();
-    navBar.remove();
+    navBarContainer.remove();
     selectionBar.remove();
     entryLink.previousElementSibling.remove();
     entryLink.remove();
@@ -1562,6 +1564,7 @@ function identifyBaseOrEntryPage() {
         }
     }
     isIndividualEntryPage = false;
+    body.className = "standard";
     // setLeftRightBorder(main, navBar, selectionBar);
 
     for (let i=0; i<spoilerInputs.length; i++) {
