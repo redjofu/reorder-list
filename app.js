@@ -1355,6 +1355,15 @@ function replaceEntryTags() {
     const entryTags = document.querySelectorAll("entry");
     // const entryTagId = 'entryTagId';
     entryTagCount = 0;
+    let currentOrderParameter;
+
+    if (!isIndividualEntryPage) {
+        let orderParamData = window.location.search.split("order=");
+        if (orderParamData.length>1) { // If there's an order parameter
+            // orderParamData = orderParamData[1].split("&");
+            currentOrderParameter = orderParamData[1].split("&")[0];
+        }
+    }
 
     for (let i=0; i<entryTags.length; i++) {
         const entryCode = entryTags[i].attributes.code.textContent;
@@ -1378,8 +1387,8 @@ function replaceEntryTags() {
                     linkInfo = `<a href="/${urlPage}/${entryCode}">`;
                     endLinkInfo = '</a>';
                 } else {
-                    linkInfo = `<button id=${entryCode} class="entrytag entrytagnotself">`;
-                    endLinkInfo = '</button>';
+                    linkInfo = `<a name=${entryCode} class="entrytag entrytagnotself" href="/${urlPage}?${currentOrderParameter ? 'order=' + currentOrderParameter + '&' : ''}entry=${entryCode}">`;
+                    endLinkInfo = '</a>';
                 }
             } else {
                 entryName = entryCode;
@@ -1397,10 +1406,11 @@ function addEntryTagLinks() {
 
     if (entryTagsNeedingLinks) {
         for (let i=0; i<entryTagsNeedingLinks.length; i++) {
-            const entryCode = entryTagsNeedingLinks[i].getAttribute("id");
+            const entryCode = entryTagsNeedingLinks[i].getAttribute("name");
             const entryIndex = findEntryIndex(entryCode, "code", sortedEntries);
-            entryTagsNeedingLinks[i].addEventListener("click", function() {
+            entryTagsNeedingLinks[i].addEventListener("click", function(event) {
                 entryListItems[entryIndex].click();
+                event.preventDefault(); // Stops entry tag link from behaving like a link while still allowing it to have the correct href
             })
         }
     }
