@@ -19,6 +19,7 @@ const head = document.querySelector("head");
 const body = document.querySelector("body");
 const header = document.querySelector("header");
 const main = document.querySelector("main");
+main.id = "main";
 
 // Head template
 const headHTML = `<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,10 +91,11 @@ const alphabeticalInput = `<input type="radio" id="alphabetical" name="order" va
 <label for="alphabetical">Alphabetical Order</label>`;
 
 // Main template
-main.innerHTML = `<div id="navbarcontainer"><div id="navbar" class="scrollarea">
+main.innerHTML = `<div id="navbarcontainer"><button id="navbarbutton">></button><div id="navbar" class="scrollarea">
     <ol id="entrylist"></ol>
 </div></div>
 <div id="selectionbar">
+    <button id="selectionbarbutton"><</button>
     <div id="selectionexplanation"><p>Select an option below for a description to appear here.</p></div>
     <div id="selectioncontent">
         <div id="selectionscroll">
