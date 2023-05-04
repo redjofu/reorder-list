@@ -24,7 +24,8 @@ main.id = "main";
 // Head template
 const headHTML = `<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
-<style id="extracss"></style>`;
+<style id="extracss"></style>
+<style id="sidebarcss"></style>`;
 
 head.insertAdjacentHTML("afterbegin", headHTML);
 
@@ -37,6 +38,8 @@ const extraCSS = document.getElementById("extracss");
 extraCSS.textContent = `:root {
     --screen-height: ${window.innerHeight - 1}px;
 }`
+
+const sidebarCSS = document.getElementById("sidebarcss");
 
 
 // Header template
@@ -91,11 +94,11 @@ const alphabeticalInput = `<input type="radio" id="alphabetical" name="order" va
 <label for="alphabetical">Alphabetical Order</label>`;
 
 // Main template
-main.innerHTML = `<div id="navbarcontainer"><button id="navbarbutton">></button><div id="navbar" class="scrollarea">
+main.innerHTML = `<div id="navbarcontainer"><button id="navbarbutton"><img src="${baseDots}/order-arrows.svg"><img class="arrowbutton" src="${baseDots}/sidebar-arrow.svg"></button><div id="navbar" class="scrollarea">
     <ol id="entrylist"></ol>
 </div></div>
 <div id="selectionbar">
-    <button id="selectionbarbutton"><</button>
+    <button id="selectionbarbutton"><img class="arrowbutton" src="${baseDots}/sidebar-arrow.svg"><img src="${baseDots}/checkbox-icon.svg"></button>
     <div id="selectionexplanation"><p>Select an option below for a description to appear here.</p></div>
     <div id="selectioncontent">
         <div id="selectionscroll">
@@ -204,6 +207,7 @@ const contentContainer = document.getElementById("contentcontainer");
 // contentContainer
 
 const selectionBar = document.getElementById("selectionbar");
+const selectionBarButton = document.getElementById("selectionbarbutton");
 
 // Add the type inputs below the "Types Desired" H3.
 document.getElementById("types").appendChild(typeTemplate);
@@ -371,6 +375,7 @@ for (let i=0; i<typeInputs.length; i++) {
 // Build nav bar
 const navBar = document.getElementById("navbar");
 const navBarContainer = document.getElementById("navbarcontainer");
+const navBarButton = document.getElementById("navbarbutton");
 const entryList = document.getElementById("entrylist");
 let entryListItems;
 
@@ -1516,6 +1521,60 @@ function removeEventListenersOnLogos() {
         entryLogos[i].removeEventListener("click", populateContent);
     }
 }
+
+// Sidebar movement on mobile
+let isNavBarHidden = true;
+let isSelectionBarHidden = true;
+const navBarArrow = document.querySelector("#navbarbutton .arrowbutton");
+const selectionBarArrow = document.querySelector("#selectionbarbutton .arrowbutton");
+
+function shiftNavBar() {
+    if (isNavBarHidden) {
+        navBarContainer.style="margin-left:0;";
+        navBarArrow.style="transform: rotate(-90deg);";
+        isNavBarHidden = false;    
+        if (window.screen.width < 481 && !isSelectionBarHidden) {
+            selectionBarButton.click();
+        }
+    } else {
+        navBarContainer.style="";
+        navBarArrow.style="";
+        isNavBarHidden = true;
+    }
+    bothSideBarsShifted();
+}
+
+function shiftSelectionBar() {
+    if (isSelectionBarHidden) {
+        selectionBar.style="margin-right:0";
+        selectionBarArrow.style="transform: rotate(90deg);";
+        isSelectionBarHidden = false;
+        if (window.screen.width < 481 && !isNavBarHidden) {
+            navBarButton.click();
+        }  
+    } else {
+        selectionBar.style="";
+        selectionBarArrow.style="";
+        isSelectionBarHidden = true;
+    }
+    bothSideBarsShifted();
+}
+
+function bothSideBarsShifted() {
+    if (!isNavBarHidden && !isSelectionBarHidden) {
+        if (window.screen.width > 480) {
+            selectionBarButton.style="margin-top: var(--sidebar-button-size);";
+        }
+    } else {
+        selectionBarButton.style="";
+    }
+    if (window.screen.width < 481 && (!isNavBarHidden || !isSelectionBarHidden)) {
+        selectionBarButton.style="margin-top: var(--sidebar-button-size);";
+    }
+}
+
+navBarButton.addEventListener("click", shiftNavBar);
+selectionBarButton.addEventListener("click", shiftSelectionBar);
 
 // Some cleanup functions
 function reformatPageAsIndividualEntry(entryIndex) {
