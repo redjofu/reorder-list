@@ -1529,10 +1529,12 @@ const navBarArrow = document.querySelector("#navbarbutton .arrowbutton");
 const selectionBarArrow = document.querySelector("#selectionbarbutton .arrowbutton");
 
 function shiftNavBar() {
+    content.removeEventListener("click",dismissBothSidebars);
     if (isNavBarHidden) {
+        content.addEventListener("click",dismissBothSidebars, true); // True here helps stop click propagation
         navBarContainer.style="margin-left:0;";
         navBarArrow.style="transform: rotate(-90deg);";
-        isNavBarHidden = false;    
+        isNavBarHidden = false;  
         if (window.screen.width < 481 && !isSelectionBarHidden) {
             selectionBarButton.click();
         }
@@ -1545,13 +1547,16 @@ function shiftNavBar() {
 }
 
 function shiftSelectionBar() {
+    content.removeEventListener("click",dismissBothSidebars);
     if (isSelectionBarHidden) {
+        content.addEventListener("click",dismissBothSidebars, true); // True here helps stop click propagation
+        // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX problem with how this is working. Also need to make it work on sidebar clicks.
         selectionBar.style="margin-right:0";
         selectionBarArrow.style="transform: rotate(90deg);";
         isSelectionBarHidden = false;
         if (window.screen.width < 481 && !isNavBarHidden) {
             navBarButton.click();
-        }  
+        }
     } else {
         selectionBar.style="";
         selectionBarArrow.style="";
@@ -1571,6 +1576,15 @@ function bothSideBarsShifted() {
     if (window.screen.width < 481 && (!isNavBarHidden || !isSelectionBarHidden)) {
         selectionBarButton.style="margin-top: var(--sidebar-button-size);";
     }
+}
+
+function dismissBothSidebars(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    isNavBarHidden = false;
+    isSelectionBarHidden = false;
+    shiftNavBar();
+    shiftSelectionBar();
 }
 
 navBarButton.addEventListener("click", shiftNavBar);

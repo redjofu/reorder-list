@@ -21,13 +21,13 @@
     --button-radius: 8px;
     --button-border: 3px;
     --scrollbar-width: 15px;
-    --content-width: calc(100vw - (var(--sidebar-width) * 2) - 30px - var(--scrollbar-width));
+    --content-width: calc(100vw - (var(--sidebar-width) * 2) - 30px - var(--scrollbar-width) - (var(--sidebar-hidden) * 2));
     --icon-number: 9;
     --icon-width: calc((var(--content-width) - (6px * var(--icon-number) + (var(--icon-number) - 1) * 6px)) / var(--icon-number));
     --individual-content-width: calc(100vw - 30px - var(--scrollbar-width));
     --individual-icon-number: 9;
     --individual-icon-width: calc((var(--individual-content-width) - (6px * var(--individual-icon-number) + (var(--individual-icon-number) - 1) * 6px)) / var(--individual-icon-number));
-    --sidebar-hidden: -220px;
+    --sidebar-hidden: 0px;
 }
 
 body {
@@ -699,9 +699,11 @@ img.hiddenspoiler:active {
 @media screen and (max-width: 700px) {
     :root {
         --individual-icon-number: 7;
+        --icon-number: calc(var(--individual-icon-number) - 2);
         --header-height: 70px;
         --sidebar-button-size: 46px;
         --second-button-margin: 0;
+        --sidebar-hidden: -220px;
     }
     #logodesktop, #sitemenutext {
         display: none;
@@ -796,6 +798,7 @@ img.hiddenspoiler:active {
         --individual-icon-number: 4;
         --scrollbar-width: 5px;
         --sidebar-hidden: calc(-1 * var(--sidebar-width));
+        --icon-number: var(--individual-icon-number);
     }
 }
 
@@ -814,7 +817,6 @@ img.hiddenspoiler:active {
 @media screen and (max-width: 365px) {
     :root {
         --sidebar-width: 240px;
-        /* --sidebar-hidden: -230px; */
     }
 }
 
