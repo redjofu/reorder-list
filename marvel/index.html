@@ -20,12 +20,9 @@
                 if (urlPieces[urlPieces.length-1] == '') { urlPieces.pop(); }
                 let urlPage = '';
 
-                ////////////////////////
-                ////////////////////////
-                // TESTING PURPOSES ONLY
-                urlPieces = ["com", "marvel"];
-                ////////////////////////
-                ////////////////////////
+                if (urlPieces[0].slice(0,4) == "html") { // Test environment
+                    urlPieces = ["com", "marvel"];
+                }
                 
                 let baseDots = '';
                 let thisDots = '';

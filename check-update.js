@@ -30,7 +30,6 @@ function loadAppJS() {
         initialScript.append(appJS); 
     } else {
         timesTriedToLoadAppJS++;
-        // console.log(timesTriedToLoadAppJS);
         if (timesTriedToLoadAppJS < 900) { // 900 == 3 minutes
             setTimeout(() => {
                 loadAppJS();
