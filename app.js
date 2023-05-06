@@ -1529,9 +1529,9 @@ const navBarArrow = document.querySelector("#navbarbutton .arrowbutton");
 const selectionBarArrow = document.querySelector("#selectionbarbutton .arrowbutton");
 
 function shiftNavBar() {
-    content.removeEventListener("click",dismissBothSidebars);
+    content.removeEventListener("click", dismissBothSidebars, true);
     if (isNavBarHidden) {
-        content.addEventListener("click",dismissBothSidebars, true); // True here helps stop click propagation
+        content.addEventListener("click", dismissBothSidebars, true); // True here helps stop click propagation
         navBarContainer.style="margin-left:0;";
         navBarArrow.style="transform: rotate(-90deg);";
         isNavBarHidden = false;  
@@ -1547,7 +1547,7 @@ function shiftNavBar() {
 }
 
 function shiftSelectionBar() {
-    content.removeEventListener("click",dismissBothSidebars);
+    content.removeEventListener("click",dismissBothSidebars, true);
     if (isSelectionBarHidden) {
         content.addEventListener("click",dismissBothSidebars, true); // True here helps stop click propagation
         // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX problem with how this is working. Also need to make it work on sidebar clicks.
@@ -1585,6 +1585,7 @@ function dismissBothSidebars(event) {
     isSelectionBarHidden = false;
     shiftNavBar();
     shiftSelectionBar();
+    console.log("center section clicked");
 }
 
 navBarButton.addEventListener("click", shiftNavBar);
