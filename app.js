@@ -51,7 +51,10 @@ header.innerHTML = `<div id="header">
         <span id="pagenamemobile">${pageNameMobile}</span>
     </h1>
 </a>
-<div id="sitemenu">+<span id="sitemenutext"> More Orders</span></div>
+<div id="sitemenu">
+    <div id="sitemenubutton"><span id="sitemenuicon">+</span><span id="sitemenutext"> More Orders</span></div>
+    <ul id="sitemenuoptions"><li>Coming Soon</li></ul>
+</div>
 </div>`;
 
 // Type selection template
@@ -99,61 +102,60 @@ main.innerHTML = `<div id="navbarcontainer"><button id="navbarbutton"><img src="
 </div></div>
 <div id="selectionbar">
     <button id="selectionbarbutton"><img class="arrowbutton" src="${baseDots}/sidebar-arrow.svg"><img src="${baseDots}/checkbox-icon.svg"></button>
-    <div id="selectionexplanation"><p>Select an option below for a description to appear here.</p></div>
-    <div id="selectioncontent">
-        <div id="selectionscroll">
-            <div id="types">
-                ${typeOptions ? `<h3>Types Desired:</h3>` : ''}
-            </div>
-            <div id="order">
-                <h3>Select Order:</h3>
-                <div id="orderselection">
-                    ${orderOptions.release ? releaseInput : ''}
-                    ${orderOptions.chronological ? chronologicalInput : ''}
-                    ${orderOptions.narrative ? narrativeInput : ''}
-                    ${orderOptions.alphabetical ? alphabeticalInput : ''}
+    <div id="selectionbarcontainer">
+        <div id="selectionexplanation"><p>Select an option below for a description to appear here.</p></div>
+        <div id="selectioncontent">
+            <div id="selectionscroll">
+                <div id="types">
+                    ${typeOptions ? `<h3>Types Desired:</h3>` : ''}
                 </div>
-            </div>
-            <div id="spoilers">
-                <h3>Spoiler Level:</h3>
-                <div id="spoilerselection">
-                    <button id="allspoilers">Show All</button>
-                    <button id="hidespoilers">Hide All</button>
+                <div id="order">
+                    <h3>Select Order:</h3>
+                    <div id="orderselection">
+                        ${orderOptions.release ? releaseInput : ''}
+                        ${orderOptions.chronological ? chronologicalInput : ''}
+                        ${orderOptions.narrative ? narrativeInput : ''}
+                        ${orderOptions.alphabetical ? alphabeticalInput : ''}
+                    </div>
+                </div>
+                <div id="spoilers">
+                    <h3>Spoiler Level:</h3>
+                    <div id="spoilerselection">
+                        <button id="allspoilers">Show All</button>
+                        <button id="hidespoilers">Hide All</button>
 
-                    <input type="checkbox" id="premisestory" name="premisestory" value="premisestory">
-                    <label for="premisestory">Premise Story Level</label>
-                    <input type="checkbox" id="basicstory" name="basicstory" value="basicstory">
-                    <label for="basicstory">Basic Story Level</label>
-                    <input type="checkbox" id="fullstory" name="fullstory" value="fullstory">
-                    <label for="fullstory">Full Story Level</label>
-                    <hr>
+                        <input type="checkbox" id="premisestory" name="premisestory" value="premisestory">
+                        <label for="premisestory">Premise Story Level</label>
+                        <input type="checkbox" id="basicstory" name="basicstory" value="basicstory">
+                        <label for="basicstory">Basic Story Level</label>
+                        <input type="checkbox" id="fullstory" name="fullstory" value="fullstory">
+                        <label for="fullstory">Full Story Level</label>
+                        <hr>
 
-                    ${subseries ? `<input type="checkbox" id="premisesubseries" name="premisesubseries" value="premisesubseries">
-                    <label for="premisesubseries">Premise Subseries Level</label>
-                    <input type="checkbox" id="basicsubseries" name="basicsubseries" value="basicsubseries">
-                    <label for="basicsubseries">Basic Subseries Level</label>
-                    <input type="checkbox" id="fullsubseries" name="fullsubseries" value="fullsubseries">
-                    <label for="fullsubseries">Full Subseries Level</label>
-                    <hr>` : ''}
+                        ${subseries ? `<input type="checkbox" id="premisesubseries" name="premisesubseries" value="premisesubseries">
+                        <label for="premisesubseries">Premise Subseries Level</label>
+                        <input type="checkbox" id="basicsubseries" name="basicsubseries" value="basicsubseries">
+                        <label for="basicsubseries">Basic Subseries Level</label>
+                        <input type="checkbox" id="fullsubseries" name="fullsubseries" value="fullsubseries">
+                        <label for="fullsubseries">Full Subseries Level</label>
+                        <hr>` : ''}
 
-                    <input type="checkbox" id="premiseseries" name="premiseseries" value="premiseseries">
-                    <label for="premiseseries">Premise Series Level</label>
-                    <input type="checkbox" id="basicseries" name="basicseries" value="basicseries">
-                    <label for="basicseries">Basic Series Level</label>
-                    <input type="checkbox" id="fullseries" name="fullseries" value="fullseries">
-                    <label for="fullseries">Full Series Level</label>
-                    
-                    ${otherSeriesMentions ? `<hr>
-                    <input type="checkbox" id="premiseotherseries" name="premiseotherseries" value="premiseotherseries">
-                    <label for="premiseotherseries">Premise Other Series Level</label>
-                    <input type="checkbox" id="basicotherseries" name="basicotherseries" value="basicotherseries">
-                    <label for="basicotherseries">Basic Other Series Level</label>
-                    <input type="checkbox" id="fullotherseries" name="fullotherseries" value="fullotherseries">
-                    <label for="fullotherseries">Full Other Series Level</label>
-                    ` : ''}
-                    
-
-                    
+                        <input type="checkbox" id="premiseseries" name="premiseseries" value="premiseseries">
+                        <label for="premiseseries">Premise Series Level</label>
+                        <input type="checkbox" id="basicseries" name="basicseries" value="basicseries">
+                        <label for="basicseries">Basic Series Level</label>
+                        <input type="checkbox" id="fullseries" name="fullseries" value="fullseries">
+                        <label for="fullseries">Full Series Level</label>
+                        
+                        ${otherSeriesMentions ? `<hr>
+                        <input type="checkbox" id="premiseotherseries" name="premiseotherseries" value="premiseotherseries">
+                        <label for="premiseotherseries">Premise Other Series Level</label>
+                        <input type="checkbox" id="basicotherseries" name="basicotherseries" value="basicotherseries">
+                        <label for="basicotherseries">Basic Other Series Level</label>
+                        <input type="checkbox" id="fullotherseries" name="fullotherseries" value="fullotherseries">
+                        <label for="fullotherseries">Full Other Series Level</label>
+                        ` : ''}
+                    </div>
                 </div>
             </div>
         </div>
@@ -204,9 +206,9 @@ main.innerHTML = `<div id="navbarcontainer"><button id="navbarbutton"><img src="
 const content = document.getElementById("content");
 const preliminaryContent = document.getElementById("preliminarycontent");
 const contentContainer = document.getElementById("contentcontainer");
-// contentContainer
 
 const selectionBar = document.getElementById("selectionbar");
+const selectionBarContainer = document.getElementById("selectionbarcontainer");
 const selectionBarButton = document.getElementById("selectionbarbutton");
 
 // Add the type inputs below the "Types Desired" H3.
@@ -1528,10 +1530,14 @@ let isSelectionBarHidden = true;
 const navBarArrow = document.querySelector("#navbarbutton .arrowbutton");
 const selectionBarArrow = document.querySelector("#selectionbarbutton .arrowbutton");
 
-function shiftNavBar() {
+function shiftNavBar(event) {
+    event.preventDefault();
+    event.stopPropagation();
     content.removeEventListener("click", dismissBothSidebars, true);
     if (isNavBarHidden) {
         content.addEventListener("click", dismissBothSidebars, true); // True here helps stop click propagation
+        // navBarButton.addEventListener("click", shiftNavBar, true);
+        navBar.removeEventListener("click", shiftNavBar, true);
         navBarContainer.style="margin-left:0;";
         navBarArrow.style="transform: rotate(-90deg);";
         isNavBarHidden = false;  
@@ -1539,6 +1545,8 @@ function shiftNavBar() {
             selectionBarButton.click();
         }
     } else {
+        // navBarButton.removeEventListener("click", shiftNavBar, true);
+        navBar.addEventListener("click", shiftNavBar, true);
         navBarContainer.style="";
         navBarArrow.style="";
         isNavBarHidden = true;
@@ -1546,11 +1554,14 @@ function shiftNavBar() {
     bothSideBarsShifted();
 }
 
-function shiftSelectionBar() {
+function shiftSelectionBar(event) {
+    event.preventDefault();
+    event.stopPropagation();
     content.removeEventListener("click",dismissBothSidebars, true);
     if (isSelectionBarHidden) {
         content.addEventListener("click",dismissBothSidebars, true); // True here helps stop click propagation
-        // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX problem with how this is working. Also need to make it work on sidebar clicks.
+        // selectionBarButton.addEventListener("click", shiftSelectionBar, true);
+        selectionBarContainer.removeEventListener("click", shiftSelectionBar, true);
         selectionBar.style="margin-right:0";
         selectionBarArrow.style="transform: rotate(90deg);";
         isSelectionBarHidden = false;
@@ -1558,6 +1569,8 @@ function shiftSelectionBar() {
             navBarButton.click();
         }
     } else {
+        // selectionBarButton.removeEventListener("click", shiftSelectionBar,true);
+        selectionBarContainer.addEventListener("click", shiftSelectionBar, true);
         selectionBar.style="";
         selectionBarArrow.style="";
         isSelectionBarHidden = true;
@@ -1585,8 +1598,28 @@ function dismissBothSidebars(event) {
     isSelectionBarHidden = false;
     shiftNavBar();
     shiftSelectionBar();
-    console.log("center section clicked");
 }
+
+function adjustScreenSize() {
+    const screenWidth = window.screen.width;
+    if (screenWidth < 701) {
+        if (isNavBarHidden) {
+            navBar.addEventListener("click", shiftNavBar, true);
+        } else {
+            navBar.removeEventListener("click", shiftNavBar, true);
+        }
+        if (isSelectionBarHidden) {
+            selectionBarContainer.addEventListener("click", shiftSelectionBar, true);
+        } else {
+            selectionBarContainer.removeEventListener("click", shiftSelectionBar, true);
+        }
+    } else {
+        navBar.removeEventListener("click", shiftNavBar, true);
+        selectionBarContainer.removeEventListener("click", shiftSelectionBar, true);
+    }
+}
+
+window.addEventListener("resize", adjustScreenSize);
 
 navBarButton.addEventListener("click", shiftNavBar);
 selectionBarButton.addEventListener("click", shiftSelectionBar);
@@ -1690,5 +1723,6 @@ function identifyBaseOrEntryPage() {
     }
 
     if (useInitialContent) { populateInitialContent(); }
+    adjustScreenSize();
 }
 identifyBaseOrEntryPage();

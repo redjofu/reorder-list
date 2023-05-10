@@ -125,6 +125,31 @@ header a, header a:hover, header a:active, header a:focus {
     /* float: right; */
     width: 270px;
     text-align: center;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+#sitemenuicon {
+    font-size: 40px;
+}
+
+#sitemenuoptions {
+    display:none;
+    position: fixed;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0 -45px;
+    z-index: 2;
+    background-color: var(--color-2);
+}
+
+#sitemenuoptions li {
+    border: solid 1px var(--color-1);
+    padding: 3px;
+}
+
+#sitemenu:hover #sitemenuoptions {
+    display: initial;
 }
 
 main, #header {
@@ -725,7 +750,7 @@ img.hiddenspoiler:active {
     #selectionbar {
         margin-right: var(--sidebar-hidden);
     }
-    #content {
+    .standard #content {
         width: calc(100vw - ((var(--sidebar-width) + var(--sidebar-hidden)) * 2));
         position: absolute;
         left: calc(var(--sidebar-width) + var(--sidebar-hidden));
@@ -763,7 +788,7 @@ img.hiddenspoiler:active {
     #main #selectionbarbutton img.arrowbutton {
         transform: rotate(-90deg);
     }
-    #content #entrytitle {
+    .standard #content #entrytitle {
         margin-top: var(--sidebar-button-size);
     }
 }
