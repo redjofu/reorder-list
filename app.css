@@ -133,6 +133,11 @@ header a, header a:hover, header a:active, header a:focus {
     font-size: 40px;
 }
 
+#sitemenutext {
+    position: relative;
+    top: -5px;
+}
+
 #sitemenuoptions {
     display:none;
     position: fixed;
