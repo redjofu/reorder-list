@@ -53,7 +53,7 @@ header.innerHTML = `<div id="header">
 </a>
 <div id="sitemenu">
     <div id="sitemenubutton"><span id="sitemenuicon">+</span><span id="sitemenutext"> More Orders</span></div>
-    <ul id="sitemenuoptions"><li>Coming Soon</li></ul>
+    <ul id="sitemenuoptions"><li>Coming Soon!</li></ul>
 </div>
 </div>`;
 
