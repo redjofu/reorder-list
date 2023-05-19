@@ -1,5 +1,5 @@
 try {
-    if (pageLoads && entries) {}
+    if (pageLoads) {}
 } catch (error) {
     console.error(error);
     console.log("404 page");
@@ -13,6 +13,7 @@ const siteName = `<em>${siteTitle}</em>`;
 // Set variables to be ready on page load but which may be adjusted after initial page load
 let isInitialPageLoad = true;
 let isIndividualEntryPage = true;
+const isRootPage = urlPage == 'root' ? true : false;
 
 // Build out main template elements
 const head = document.querySelector("head");
@@ -41,6 +42,17 @@ extraCSS.textContent = `:root {
 
 const sidebarCSS = document.getElementById("sidebarcss");
 
+let seriesList = '';
+
+for (let i=0; i<seriesOptions.length; i++) {
+    if (seriesOptions[i][0] != pageName) {
+        seriesList += `<li><a href="/${seriesOptions[i][1]}">${seriesOptions[i][0]}</a></li>`;
+    }
+    if (seriesList == '') {
+        seriesList = "<li>Coming soon!</li>";
+    }
+}
+
 
 // Header template
 header.innerHTML = `<div id="header">
@@ -53,7 +65,7 @@ header.innerHTML = `<div id="header">
 </a>
 <div id="sitemenu">
     <div id="sitemenubutton"><span id="sitemenuicon">+</span><span id="sitemenutext"> More Orders</span></div>
-    <ul id="sitemenuoptions"><li>Coming Soon!</li></ul>
+    <ul id="sitemenuoptions">${seriesList}</ul>
 </div>
 </div>`;
 
@@ -212,7 +224,7 @@ const selectionBarContainer = document.getElementById("selectionbarcontainer");
 const selectionBarButton = document.getElementById("selectionbarbutton");
 
 // Add the type inputs below the "Types Desired" H3.
-document.getElementById("types").appendChild(typeTemplate);
+if (typeOptions) { document.getElementById("types").appendChild(typeTemplate); }
 
 // Recommended for first time?
 function firstTime(recommendation, feeling) {
@@ -508,8 +520,9 @@ for (let i=0; i<orderInputs.length; i++) {
     orderInputs[i].addEventListener("click", adjustOrder);
 }
 
-orderInputs[0].click();
-
+if (!isRootPage) {
+    orderInputs[0].click();
+}
 
 // Code for the scroll gradient
 const selectionContent = document.getElementById("selectioncontent");
@@ -1516,7 +1529,10 @@ function setEventListenersOnLogos() {
     }
 }
 
-setEventListenersOnLogos();
+if (!isRootPage) {
+    setEventListenersOnLogos();
+}
+
 
 function removeEventListenersOnLogos() {
     for (let i=0; i<entryLogos.length; i++) {
@@ -1725,4 +1741,19 @@ function identifyBaseOrEntryPage() {
     if (useInitialContent) { populateInitialContent(); }
     adjustScreenSize();
 }
-identifyBaseOrEntryPage();
+
+function loadRootPage() {
+    injectCanonical("/");
+
+    navBarContainer.remove();
+    selectionBar.remove();
+    contentContainer.remove();
+
+    preliminaryContent.innerHTML = `<p>Welcome to ${siteName}! Our mission is to make it possible to structure entries in various media series into muliple orders, allowing you to enjoy their content in whichever order you wish. The best way to begin is to check out one of the series we currently have orders available for:</p><ul>${seriesList}</ul>`;
+}
+
+if (isRootPage) {
+    loadRootPage();
+} else {
+    identifyBaseOrEntryPage();
+}

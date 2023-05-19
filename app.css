@@ -16,14 +16,24 @@
     --link-color-click: blue; */
 
     /* Color Scheme 2 */
-    --color-1: #070707;
+    /* --color-1: #070707;
     --color-2: #31b8c5;
     --color-3: #efefef;
     --color-4: #fda86b;
     --color-5: #fd9145;
     --link-color: #0070c4;
     --link-color-hover: #c41400;
-    --link-color-click: #004e89;
+    --link-color-click: #004e89; */
+
+    /* Color Scheme 3 */
+    --color-1: #222222;
+    --color-2: #89d5dd;
+    --color-3: #f9f9f9;
+    --color-4: #ffd9bd;
+    --color-5: #ffb179;
+    --link-color: #df813d;
+    --link-color-hover: #03b3c6;
+    --link-color-click: #944004;
 
 
     /* --color-clear: rgba(95,68,58,0); */
@@ -37,10 +47,10 @@
     --scrollbar-width: 15px;
     --content-width: calc(100vw - (var(--sidebar-width) * 2) - 30px - var(--scrollbar-width) - (var(--sidebar-hidden) * 2));
     --icon-number: 9;
-    --icon-width: calc((var(--content-width) - (6px * var(--icon-number) + (var(--icon-number) - 1) * 6px)) / var(--icon-number));
+    --icon-width: calc((var(--content-width) - (7px * var(--icon-number) + (var(--icon-number) - 1) * 7px)) / var(--icon-number));
     --individual-content-width: calc(100vw - 30px - var(--scrollbar-width));
     --individual-icon-number: 9;
-    --individual-icon-width: calc((var(--individual-content-width) - (6px * var(--individual-icon-number) + (var(--individual-icon-number) - 1) * 6px)) / var(--individual-icon-number));
+    --individual-icon-width: calc((var(--individual-content-width) - (7px * var(--individual-icon-number) + (var(--individual-icon-number) - 1) * 7px)) / var(--individual-icon-number));
     --sidebar-hidden: 0px;
 }
 
@@ -226,6 +236,10 @@ input, label, button, #entrylist img {
     cursor: pointer;
 }
 
+.iconlist li img {
+    border: solid 1px #d5d5d5;
+}
+
 #entrylist img, .iconlist li img {
     transition-duration: 0.2s;
 }
@@ -399,7 +413,7 @@ input, label, button, #entrylist img {
     /* width: calc(var(--sidebar-width) - var(--scrollbar-width)); */
     width: calc(100% - var(--scrollbar-width));
     height: 50px;
-    z-index: 1;
+    z-index: 2;
 }
 
 #selectionexplanation.scrollhidetop:before, #selectionexplanation.scrollhidebottom:after {
