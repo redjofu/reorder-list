@@ -35,8 +35,6 @@
     --link-color-hover: #03b3c6;
     --link-color-click: #944004;
 
-
-    /* --color-clear: rgba(95,68,58,0); */
     --sidebar-padding: 15px;
     --sidebar-width: 269px;
     --content-max-width: 900px;
@@ -113,7 +111,6 @@ header a, header a:hover, header a:active, header a:focus {
 }
 
 #logo {
-    /* float: left; */
     padding: 10px;
 }
 
@@ -125,20 +122,14 @@ header a, header a:hover, header a:active, header a:focus {
     display: none;
 }
 
-#pagename, #pagenamemobile {
-
-}
-
 #pagename {
     width: var(--content-max-width);
     max-width: calc(100vw - 540px);
-    /* height: var(--header-height); */
     margin: 0 auto;
     text-align: center;
     display:block;
     font-size: 45px;
     font-family: 'Fira Sans', sans-serif;
-    /* padding-top: 20px; */
 }
 
 #pagenamemobile {
@@ -146,7 +137,6 @@ header a, header a:hover, header a:active, header a:focus {
 }
 
 #sitemenu {
-    /* float: right; */
     width: 270px;
     text-align: center;
     cursor: pointer;
@@ -192,12 +182,10 @@ main, #header {
 }
 
 #navbar, #navbarcontainer, #selectionbar {
-    /* background-color: rgba(0, 0, 0, 0.2); */
     background-color: var(--color-4);
     width: var(--sidebar-width);
     position: relative;
     z-index: 1;
-    /* padding: var(--sidebar-padding); */
 }
 
 #navbar, #navbarcontainer {
