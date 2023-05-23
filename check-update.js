@@ -1,8 +1,8 @@
 const timestamp = {
-    base : '2023-04-04',
-    css: '2023-04-04',
-    root: '2023-05-17',
-    marvel : '2023-04-04',
+    base : '2023-05-20',
+    css: '2023-05-20',
+    root: '2023-05-20',
+    marvel : '2023-05-20',
 }
 
 const seriesOptions = [
@@ -22,15 +22,29 @@ if (isTest) {
 }
 
 function loadDataJS() {
-    document.querySelector("head").innerHTML = `<link href="${baseDots}/app.css?${timestamp.css}" rel="stylesheet" type="text/css">`;
+    if (!isDev) {
+        document.querySelector("head").innerHTML = `<link href="/app.css?${timestamp.css}" rel="stylesheet" type="text/css">`;
+    } else {
+        document.querySelector("head").innerHTML = `<link href="${baseDots}/app.css?${timestamp.css}" rel="stylesheet" type="text/css">`;
+    }
     
     if (urlPage != 'root') {
         const mainJS = document.createElement("script");
-        mainJS.setAttribute("src", `${thisDots}/${urlPage}.js?${timestamp[urlPage]}`);
+        if (!isDev) {
+            mainJS.setAttribute("src", `/${urlPage}/${urlPage}.js?${timestamp[urlPage]}`);
+        } else {
+            mainJS.setAttribute("src", `${thisDots}/${urlPage}.js?${timestamp[urlPage]}`);
+        }
+        
         initialScript.append(mainJS);
     
         const dataJS = document.createElement("script");
-        dataJS.setAttribute("src", `${thisDots}/data-${urlPage}.js?${timestamp[urlPage]}`);
+        if (!isDev) {
+            dataJS.setAttribute("src", `/${urlPage}/data-${urlPage}.js?${timestamp[urlPage]}`);
+        } else {
+            dataJS.setAttribute("src", `${thisDots}/data-${urlPage}.js?${timestamp[urlPage]}`);
+        }
+    
         initialScript.append(dataJS);
     } else {
         const rootJS = document.createElement("script");
@@ -52,7 +66,12 @@ let timesTriedToLoadAppJS = 0;
 function loadAppJS() {
     if (pageLoads && dataLoads) { 
         const appJS = document.createElement("script");
-        appJS.setAttribute("src", `${baseDots}/app.js?${timestamp.base}`); 
+        if (!isDev) {
+            appJS.setAttribute("src", `/app.js?${timestamp.base}`); 
+        } else {
+            appJS.setAttribute("src", `${baseDots}/app.js?${timestamp.base}`); 
+        }
+        
         initialScript.append(appJS); 
     } else {
         timesTriedToLoadAppJS++;

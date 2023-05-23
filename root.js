@@ -1,7 +1,7 @@
 const seriesName = "";
 const pageTitle = "Choose a Series";
-const pageName = "Order Compass";
-const pageNameMobile = "Order Compass";
+const pageName = "Diverse Orders";
+const pageNameMobile = "Diverse Orders";
 
 const typeOptions = false;
 const orderOptions = false;

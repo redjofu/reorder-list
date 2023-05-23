@@ -19,9 +19,11 @@
                 let urlPieces = window.document.URL.split(".")[window.document.URL.split(".").length-1].split("/");
                 if (urlPieces[urlPieces.length-1] == '') { urlPieces.pop(); }
                 let urlPage = '';
+                let isDev = false;
 
                 if (urlPieces[0].slice(0,4) == "html") { // Test environment
                     urlPieces = ["com", "marvel"];
+                    isDev = true;
                 }
                 
                 let baseDots = '';
@@ -31,8 +33,20 @@
                     if (i != 0) { thisDots +=  "."; }
                 }
 
+                if (!isDev) {
+                    baseDots = '';
+                }
+
+                let isHTMLTest = false;
+                // isHTMLTest = true;
+
                 const timestampScript = document.createElement("script");
-                timestampScript.setAttribute("src", `${baseDots}/check-update.js?${usersTime}`);
+                if (!isDev) {
+                    timestampScript.setAttribute("src", `/check-update.js?${usersTime}`);
+                } else {
+                    timestampScript.setAttribute("src", `${baseDots}/check-update.js?${usersTime}`);
+                }
+                
                 initialScript.append(timestampScript);
                 
                 if (urlPieces.length > 1) { // Anything other than root
@@ -41,6 +55,11 @@
                     urlPage = "root";
                     // What happens if it's in root
                 }
+
+                // if (!isDev) {
+                //     baseDots = '';
+                //     thisDots = urlPage == 'root' ? '' : urlPage;
+                // }
                 //]]>
             </script>
             <!-- <script src="./marvel.js"></script>

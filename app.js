@@ -7,7 +7,7 @@ try {
 } 
 
 // Sitewide constants
-const siteTitle = "Order Compass";
+const siteTitle = "Diverse Orders";
 const siteName = `<em>${siteTitle}</em>`;
 
 // Set variables to be ready on page load but which may be adjusted after initial page load
@@ -25,6 +25,15 @@ main.id = "main";
 // Head template
 const headHTML = `<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0127QYGB0H"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-0127QYGB0H');
+</script>
 <style id="extracss"></style>
 <style id="sidebarcss"></style>`;
 
@@ -36,8 +45,8 @@ title.innerText = `${pageTitle} | ${siteTitle}`;
 
 // Find and set correct screen height
 const extraCSS = document.getElementById("extracss");
-extraCSS.textContent = `:root {
-    --screen-height: ${window.innerHeight - 1}px;
+extraCSS.innerHTML = `:root {
+    --screen-height: ${window.innerHeight - 1}px !important;
 }`
 
 const sidebarCSS = document.getElementById("sidebarcss");
@@ -57,7 +66,7 @@ for (let i=0; i<seriesOptions.length; i++) {
 // Header template
 header.innerHTML = `<div id="header">
 <div id="logo"><a href="/"><img id="logodesktop" alt="${siteTitle}" src="${baseDots}/logo.png"><img id="logomobile" alt="${siteTitle} Logo" src="${baseDots}/logomini.png"></a></div>
-<a href="/${urlPage}">
+<a href="/${urlPage != 'root' ? urlPage : ''}">
     <h1 id="pagename">
         <span id="pagenamedesktop">${pageName}</span>
         <span id="pagenamemobile">${pageNameMobile}</span>
@@ -1689,8 +1698,10 @@ function getInfo(infoType) {
 /////////////////////////////////////////////////
 function identifyBaseOrEntryPage() {
     isInitialPageLoad = false;
-    urlPieces = ["com", "marvel", "iron-man-34"];
-
+    if (isDev) {
+        urlPieces = ["com", "marvel", "iron-man-34"];
+    }
+    
     if (urlPieces.length > 2) {
         const entryIndex = findEntryIndex(urlPieces[2], "code", sortedEntries);
         if (entryIndex > -1) { 
