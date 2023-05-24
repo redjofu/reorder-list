@@ -45,9 +45,10 @@ title.innerText = `${pageTitle} | ${siteTitle}`;
 
 // Find and set correct screen height
 const extraCSS = document.getElementById("extracss");
-extraCSS.innerHTML = `:root {
-    --screen-height: ${window.innerHeight - 1}px !important;
-}`
+// Note that since dvh is works regardless of mobile browser address/tab bar size, adding this extraCSS is no longer required.
+// extraCSS.innerHTML = `:root {
+//     --screen-height: ${window.innerHeight - 1}px !important;
+// }`
 
 const sidebarCSS = document.getElementById("sidebarcss");
 
@@ -118,11 +119,11 @@ const alphabeticalInput = `<input type="radio" id="alphabetical" name="order" va
 <label for="alphabetical">Alphabetical Order</label>`;
 
 // Main template
-main.innerHTML = `<div id="navbarcontainer"><button id="navbarbutton"><img src="${baseDots}/order-arrows.svg"><img class="arrowbutton" src="${baseDots}/sidebar-arrow.svg"></button><div id="navbar" class="scrollarea">
+main.innerHTML = `<div id="navbarcontainer"><button id="navbarbutton" ${getGlobalInfo("hasNavBarBeenClicked") ? '' : 'class="dancebutton"'}><img src="${baseDots}/order-arrows.svg"><img class="arrowbutton" src="${baseDots}/sidebar-arrow.svg"></button><div id="navbar" class="scrollarea">
     <ol id="entrylist"></ol>
 </div></div>
 <div id="selectionbar">
-    <button id="selectionbarbutton"><img class="arrowbutton" src="${baseDots}/sidebar-arrow.svg"><img src="${baseDots}/checkbox-icon.svg"></button>
+    <button id="selectionbarbutton" ${getGlobalInfo("hasSelectionBarBeenClicked") ? '' : 'class="dancebutton"'}><img class="arrowbutton" src="${baseDots}/sidebar-arrow.svg"><img src="${baseDots}/checkbox-icon.svg"></button>
     <div id="selectionbarcontainer">
         <div id="selectionexplanation"><p>Select an option below for a description to appear here.</p></div>
         <div id="selectioncontent">
@@ -1554,13 +1555,17 @@ let isNavBarHidden = true;
 let isSelectionBarHidden = true;
 const navBarArrow = document.querySelector("#navbarbutton .arrowbutton");
 const selectionBarArrow = document.querySelector("#selectionbarbutton .arrowbutton");
+let hasNavBarBeenClicked = getGlobalInfo("hasNavBarBeenClicked");
+let hasSelectionBarBeenClicked = getGlobalInfo("hasSelectionBarBeenClicked");
 
 function shiftNavBar(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    content.removeEventListener("click", dismissBothSidebars, true);
+    if (isSelectionBarHidden) {
+        content.removeEventListener("click", dismissBothSidebars, true);
+    }
     if (isNavBarHidden) {
         content.addEventListener("click", dismissBothSidebars, true); // True here helps stop click propagation
+        event.preventDefault();
+        event.stopPropagation();
         // navBarButton.addEventListener("click", shiftNavBar, true);
         navBar.removeEventListener("click", shiftNavBar, true);
         navBarContainer.style="margin-left:0;";
@@ -1577,14 +1582,20 @@ function shiftNavBar(event) {
         isNavBarHidden = true;
     }
     bothSideBarsShifted();
+    if (!hasNavBarBeenClicked) {
+        navBarButton.classList.remove("dancebutton");
+        saveGlobalInfo("hasNavBarBeenClicked",true);
+    }
 }
 
 function shiftSelectionBar(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    content.removeEventListener("click",dismissBothSidebars, true);
+    if (isNavBarHidden) {
+        content.removeEventListener("click",dismissBothSidebars, true);
+    }
     if (isSelectionBarHidden) {
         content.addEventListener("click",dismissBothSidebars, true); // True here helps stop click propagation
+        event.preventDefault();
+        event.stopPropagation();
         // selectionBarButton.addEventListener("click", shiftSelectionBar, true);
         selectionBarContainer.removeEventListener("click", shiftSelectionBar, true);
         selectionBar.style="margin-right:0";
@@ -1601,6 +1612,10 @@ function shiftSelectionBar(event) {
         isSelectionBarHidden = true;
     }
     bothSideBarsShifted();
+    if (!hasSelectionBarBeenClicked) {
+        navBarButton.classList.remove("dancebutton");
+        saveGlobalInfo("hasSelectionBarBeenClicked",true);
+    }
 }
 
 function bothSideBarsShifted() {
@@ -1690,6 +1705,14 @@ function saveInfo(infoType, infoData) {
 
 function getInfo(infoType) {
     return localStorage.getItem(`${urlPage}-${infoType}`);
+}
+
+function saveGlobalInfo (infoType, infoData) {
+    localStorage.setItem(`${infoType}`,infoData);
+}
+
+function getGlobalInfo(infoType) {
+    return localStorage.getItem(`${infoType}`);
 }
 
 

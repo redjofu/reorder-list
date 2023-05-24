@@ -2,7 +2,7 @@
 
 :root {
     --header-height: 100px;
-    --screen-height: 100vh; /*Overridden by JavaScript to use screen height in pixels, useful for mobile devices and calculations.*/
+    --screen-height: 100dvh; /*No longer overridden by JavaScript since dvh works on mobile.*/
     /* --screen-height-unit: 1vh; */
 
     /* Color Scheme 1 */
@@ -257,6 +257,11 @@ input, label, button, #entrylist img {
 }
 
 #selectionbar input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+
     position: relative;
     width: 1.15em;
     height: 1.15em;
@@ -265,15 +270,29 @@ input, label, button, #entrylist img {
     /* vertical-align: -2px; */
     /* Set here so that Windows' High-Contrast Mode can override */
     color: var(--color-1);
+    /* Trying to improve checkboxes on actual phones */
+    box-sizing: border-box;
+    margin: 3px;
+    padding: 0;
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 13px;
 }
 
 #selectionbar input[type="checkbox"]::before {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+
     content: "\2714";
     position: absolute;
-    font-size: 1.6em;
+    /* font-size: 1.6em; */
     right: -4px;
     top: -13px;
     visibility: hidden;
+    /* Trying to improve checkboxes on actual phones */
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 21px;
 }
 
 #selectionbar input[type="checkbox"]:checked::before {
@@ -635,6 +654,22 @@ img.hiddenspoiler:active {
 }
 /* ------ */
 
+/* Animation */
+.dancebutton img {
+    animation-name: dancingbutton;
+    animation-duration: 1.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+@keyframes dancingbutton {
+    0% {opacity: 25%;}
+    80% {opacity: 100%;}
+}
+
 
 /* Responsive Adjustments */
 @container (max-width: 545px) {
@@ -761,6 +796,9 @@ img.hiddenspoiler:active {
     #sitemenu {
         width: 70px;
     }
+    #sitemenuoptions {
+        right: 0;
+    }
     #pagename {
         max-width: calc(100vw - 140px);
         font-size: 28px;
@@ -809,7 +847,7 @@ img.hiddenspoiler:active {
     #main #selectionbarbutton img.arrowbutton {
         transform: rotate(-90deg);
     }
-    .standard #content #entrytitle {
+    .standard #content #entrytitle, .standard #preliminarycontent #initialtitle {
         margin-top: var(--sidebar-button-size);
     }
 }
