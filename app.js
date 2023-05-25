@@ -119,11 +119,11 @@ const alphabeticalInput = `<input type="radio" id="alphabetical" name="order" va
 <label for="alphabetical">Alphabetical Order</label>`;
 
 // Main template
-main.innerHTML = `<div id="navbarcontainer"><button id="navbarbutton" ${getGlobalInfo("hasNavBarBeenClicked") ? '' : 'class="dancebutton"'}><img src="${baseDots}/order-arrows.svg"><img class="arrowbutton" src="${baseDots}/sidebar-arrow.svg"></button><div id="navbar" class="scrollarea">
+main.innerHTML = `<div id="navbarcontainer"><button id="navbarbutton" ${getGlobalInfo("hasNavBarBeenClicked") ? '' : 'class="dancebutton"'} aria-label="Access List of Entries"><img src="${baseDots}/order-arrows.svg" alt=""><img class="arrowbutton" src="${baseDots}/sidebar-arrow.svg" alt=""></button><div id="navbar" class="scrollarea">
     <ol id="entrylist"></ol>
 </div></div>
 <div id="selectionbar">
-    <button id="selectionbarbutton" ${getGlobalInfo("hasSelectionBarBeenClicked") ? '' : 'class="dancebutton"'}><img class="arrowbutton" src="${baseDots}/sidebar-arrow.svg"><img src="${baseDots}/checkbox-icon.svg"></button>
+    <button id="selectionbarbutton" ${getGlobalInfo("hasSelectionBarBeenClicked") ? '' : 'class="dancebutton"'} aria-label="Access Order and Spoiler Options"><img class="arrowbutton" src="${baseDots}/sidebar-arrow.svg" alt=""><img src="${baseDots}/checkbox-icon.svg" alt=""></button>
     <div id="selectionbarcontainer">
         <div id="selectionexplanation"><p>Select an option below for a description to appear here.</p></div>
         <div id="selectioncontent">
@@ -186,10 +186,10 @@ main.innerHTML = `<div id="navbarcontainer"><button id="navbarbutton" ${getGloba
 
 <div id="content">
     <div id="preliminarycontent" class="scrollarea"></div>
-    <div id="contentcontainer" class="scrollarea hid">
+    <div id="contentcontainer" class="scrollarea hid" aria-hidden="true">
         <h2 id="entrytitle"></h2>
         <p id="jumplinks"></p>
-        <img id="entryimage" class="hid bst spoiler">
+        <img id="entryimage" class="hid bst spoiler" alt="">
 
         <div id="quickfacts"></div>
 
@@ -378,8 +378,10 @@ function hideEntriesOfUncheckedType(typeInput) {
     for (let i=0; i<entryLogos.length; i++) {
         if (entryLogos[i].classList.contains(typeInput.value) && typeInput.checked) {
             entryLogos[i].classList.remove("hid");
+            entryLogos[i].removeAttribute("aria-hidden");
         } else if (entryLogos[i].classList.contains(typeInput.value) && !typeInput.checked) {
             entryLogos[i].classList.add("hid");
+            entryLogos[i].setAttribute("aria-hidden",true);
         }
     }
 }
@@ -423,8 +425,10 @@ function buildNavBar(selectedOrderInput) {
         newLI.innerHTML = `<img src="logos/${orderedEntries[i].logo}" alt="${orderedEntries[i].name}">`
         if (document.querySelector(`#${orderedEntries[i].type}`).checked) {
             newLI.classList.remove("hid");
+            newLI.removeAttribute("aria-hidden");
         } else {
             newLI.classList.add("hid");
+            newLI.setAttribute("aria-hidden",true);
         }
         entryList.appendChild(newLI);
     }
@@ -859,10 +863,12 @@ function populateContent() {
 
     setTimeout(determineScrollGradient.bind(contentContainer),100);
     preliminaryContent.classList.add("hid");
+    preliminaryContent.setAttribute("aria-hidden",true);
     contentContainer.classList.remove("hid");
+    contentContainer.removeAttribute("aria-hidden");
     contentContainer.scrollTo(0,0);
 
-    setURLParameter("entry",entry.code);
+    if(!isIndividualEntryPage) { setURLParameter("entry",entry.code); }
 }
 
 function cleanUpPreviousContent() {
@@ -985,10 +991,12 @@ function addEntryImage(entry) {
             entryImage.classList.add(entry.imagespoiler);
         }
         entryImage.classList.remove("hid");
+        entryImage.removeAttribute("aria-hidden");
     } else {
         entryImage.src = "";
         entryImage.alt = "";
         entryImage.classList.add("hid");
+        entryImage.setAttribute("aria-hidden",true);
     }
     
 }
@@ -1524,9 +1532,11 @@ function hideEmptyElements() {
                 containerElements[i].remove();
             } else {
                 containerElements[i].classList.add("hid");
+                containerElements[i].setAttribute("aria-hidden",true);
             }
         } else {
             containerElements[i].classList.remove("hid");
+            containerElements[i].removeAttribute("aria-hidden");
         }
     }
     if (preliminaryContent) { preliminaryContent.remove(); };
@@ -1613,7 +1623,7 @@ function shiftSelectionBar(event) {
     }
     bothSideBarsShifted();
     if (!hasSelectionBarBeenClicked) {
-        navBarButton.classList.remove("dancebutton");
+        selectionBarButton.classList.remove("dancebutton");
         saveGlobalInfo("hasSelectionBarBeenClicked",true);
     }
 }

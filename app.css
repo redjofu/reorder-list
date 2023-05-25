@@ -31,9 +31,9 @@
     --color-3: #f9f9f9;
     --color-4: #ffd9bd;
     --color-5: #ffb179;
-    --link-color: #df813d;
+    --link-color: #AD4800;
     --link-color-hover: #03b3c6;
-    --link-color-click: #944004;
+    --link-color-click: #5c2600;
 
     --sidebar-padding: 15px;
     --sidebar-width: 269px;
@@ -253,46 +253,32 @@ input, label, button, #entrylist img {
     display: block;
     float: left;
     -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
     appearance: none;
 }
 
 #selectionbar input[type="checkbox"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -o-appearance: none;
-    appearance: none;
-
     position: relative;
-    width: 1.15em;
-    height: 1.15em;
+    width: 15px;
+    height: 15px;
     border: 2px solid var(--color-1);
+    border-radius: 0;
     /* Adjusts the position of the checkboxes on the text baseline */
     /* vertical-align: -2px; */
     /* Set here so that Windows' High-Contrast Mode can override */
     color: var(--color-1);
-    /* Trying to improve checkboxes on actual phones */
-    box-sizing: border-box;
-    margin: 3px;
-    padding: 0;
-    font-family: 'Fira Sans', sans-serif;
-    font-size: 13px;
 }
 
 #selectionbar input[type="checkbox"]::before {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -o-appearance: none;
-    appearance: none;
-
-    content: "\2714";
+    /* content: "\2714"; */
+    content: url("./checkmark-icon.png");
+    transform: scale(0.5);
     position: absolute;
     /* font-size: 1.6em; */
-    right: -4px;
-    top: -13px;
+    right: -12px;
+    top: -14px;
     visibility: hidden;
-    /* Trying to improve checkboxes on actual phones */
-    font-family: 'Fira Sans', sans-serif;
-    font-size: 21px;
 }
 
 #selectionbar input[type="checkbox"]:checked::before {
