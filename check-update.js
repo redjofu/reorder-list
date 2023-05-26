@@ -1,5 +1,5 @@
 const timestamp = {
-    base : '2023-05-23-d',
+    base : '2023-05-24-b',
     css: '2023-05-23-g',
     root: '2023-05-20',
     marvel : '2023-05-20',
@@ -22,11 +22,15 @@ if (isTest) {
 }
 
 function loadDataJS() {
+    let cssFile = '';
+    
     if (!isDev) {
-        document.querySelector("head").innerHTML = `<link href="/app.css?${timestamp.css}" rel="stylesheet" type="text/css">`;
+        cssFile = `<link href="/app.css?${timestamp.css}" rel="stylesheet" type="text/css">`;
     } else {
-        document.querySelector("head").innerHTML = `<link href="${baseDots}/app.css?${timestamp.css}" rel="stylesheet" type="text/css">`;
+        cssFile = `<link href="${baseDots}/app.css?${timestamp.css}" rel="stylesheet" type="text/css">`;
     }
+
+    document.querySelector("head").insertAdjacentHTML("afterbegin", cssFile);
     
     if (urlPage != 'root') {
         const mainJS = document.createElement("script");

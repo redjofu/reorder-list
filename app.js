@@ -25,15 +25,6 @@ main.id = "main";
 // Head template
 const headHTML = `<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0127QYGB0H"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-
-gtag('config', 'G-0127QYGB0H');
-</script>
 <style id="extracss"></style>
 <style id="sidebarcss"></style>`;
 
@@ -1053,6 +1044,8 @@ function parseLength(entry) {
         const hours = calcHours > 0 ? calcHours + "h" : '';
         const minutes = calcMinutes + "m";
         friendlyLength = `${hours}${hours != '' ? ' ' : ''}${minutes}`
+    } else if (entry.lengthtype == "episodes") {
+        friendlyLength = `${entry.length} episodes`
     }
 
     return friendlyLength;
