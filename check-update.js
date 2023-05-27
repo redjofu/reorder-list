@@ -1,8 +1,8 @@
 const timestamp = {
-    base : '2023-05-24-b',
-    css: '2023-05-23-g',
+    base : '2023-05-25',
+    css: '2023-05-25',
     root: '2023-05-20',
-    marvel : '2023-05-20',
+    marvel : '2023-05-25',
 }
 
 const seriesOptions = [
