@@ -1,13 +1,13 @@
-const seriesName = "the Marvel Cinematic Universe";
+const seriesName = "Star Wars";
 const pageTitle = `Best Order to Watch ${seriesName}`;
-const pageName = "Marvel Cinematic Universe";
-const pageNameMobile = "Marvel";
+const pageName = "Star Wars";
+const pageNameMobile = "Star Wars";
 
 // How to describe the people who consume the media in question (e.g. "viewers," "readers," "gamers")
 const userType = "viewers";
 const progressiveVerb = "watching";
 const infinitiveVerb = "watch";
-const greetingsName = "Superhero"
+const greetingsName = "Jedi"
 
 // How to describe how someone might view the media in "tailer" or "blurb" form
 const blurbVerb = "watching a trailer";
@@ -16,7 +16,7 @@ const blurbVerb = "watching a trailer";
 const mediaCreators = "filmmakers";
 
 // Example of a subseries
-const subseriesExample = "Thor";
+const subseriesExample = "Clone Wars";
 
 // Type of image being used
 const imageType = "poster";
