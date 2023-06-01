@@ -83,14 +83,14 @@ const orderRec = {
 // Series-specific details
 const officialSite = {
     url: "https://www.starwars.com/",
-    icon: "marvel.png",
+    icon: "starwars.png",
     description: "Official Star Wars Website"
 }
 
 const wiki = {
-    url: "https://marvelcinematicuniverse.fandom.com/wiki/",
+    url: "https://starwars.fandom.com/wiki/",
     icon: "fandom.png",
-    description: "Marvel Cinimatic Universe Wiki"
+    description: "Wookieepedia"
 }
 
 pageLoads = true; // This is used by the check-update file trying to find this JS file, and it should always be true.
