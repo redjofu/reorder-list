@@ -93,4 +93,6 @@ const wiki = {
     description: "Wookieepedia"
 }
 
+const cloneWarsChronLink = `The official chronological order for <em>the Clone Wars</em> <a href="https://www.starwars.com/news/star-wars-the-clone-wars-chronological-episodeorder">can be found at StarWars.com</a>.`;
+
 pageLoads = true; // This is used by the check-update file trying to find this JS file, and it should always be true.
