@@ -33,8 +33,11 @@ const orderOptions = {
     release: true,
     chronological: true,
     narrative: true,
-    alphabetical: true
+    alphabetical: true,
+    special: true
 };
+
+const specialOrderName = "machete";
 
 // Are different elements present?
 // const lengthExists = true;
