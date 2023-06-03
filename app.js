@@ -776,9 +776,6 @@ function populateInitialContent() {
 // Set entry logos to be clickable elements to populate content area
 const entryTitle = document.getElementById("entrytitle");
 const entryImage = document.getElementById("entryimage");
-// const releaseDate = document.getElementById("releasedate");
-// const classification = document.getElementById("classification");
-// const phaseNum = phasesExist ? document.getElementById("phasenum") : null;
 const whereToFindHeading = document.getElementById("wheretofindheading");
 const whereToFind = document.getElementById("wheretofind");
 const additionalInfoHeading = document.getElementById("additionalinfoheading");
@@ -935,28 +932,6 @@ function populateQuickFacts(entry) {
     ${entry.subseries.secondary && subseries ? '<p><strong>Related subseries:</strong> ' + populateRelatedSubseries(entry) + '</p>' : ''}`;
     
     quickFacts.innerHTML = quickFactInfo;
-    // releaseDate.textContent = parseDate(entry.release);
-    // classification.textContent = entry.classification;
-
-    // if (lengthExists) { document.getElementById("entrylength").textContent = entry.length ? parseLength(entry) : "?" }
-
-    // if (phasesExist) { document.getElementById("phasenum").textContent = entry.phase ? entry.phase : "?" }
-    // if (sagaNames) { document.getElementById("saganame").textContent = entry.phase ? sagaNames[entry.phase] : "?" }
-    // if (subseries) { 
-    //     const subseriesName = document.getElementById("subseriesname");
-    //     let relatedSubseriesName = document.getElementById("relatedsubseriesname") ? document.getElementById("relatedsubseriesname") : false;
-    //     subseriesName.innerHTML = entry.subseries && entry.subseries.primary ? "<psu>" + entry.subseries.primary[0] + "</psu>" + (entry.subseries.primary.length>1 ? " (<bsu>" + entry.subseries.primary[1] + "</bsu>)" : "") : "?";
-
-    //     if (entry.subseries && entry.subseries.secondary) {
-    //         if (!relatedSubseriesName) {
-    //             subseriesName.parentElement.insertAdjacentHTML("afterend", `<p><strong>Related subseries:</strong> <span id="relatedsubseriesname"></span></p>`);
-    //             relatedSubseriesName = document.getElementById("relatedsubseriesname");
-    //         }
-    //         relatedSubseriesName.innerHTML = populateRelatedSubseries(entry);
-    //     } else if (relatedSubseriesName) {
-    //         relatedSubseriesName.parentElement.remove();
-    //     }
-    // }
 
     function populateRelatedSubseries(entry) {
         let relatedSubList = '';

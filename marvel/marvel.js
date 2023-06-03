@@ -37,9 +37,6 @@ const orderOptions = {
 };
 
 // Are different elements present?
-// const lengthExists = true;
-// const subseriesExist = true;
-// const phasesExist = true;
 const creditScenesExist = true;
 const otherSeriesMentions = true;
 
