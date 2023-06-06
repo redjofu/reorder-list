@@ -1,13 +1,14 @@
 const timestamp = {
-    base : '2023-05-25',
-    css: '2023-05-25',
-    root: '2023-05-20',
-    marvel : '2023-05-25',
+    base: '2023-06-03',
+    css: '2023-06-03',
+    root: '2023-06-03',
+    marvel: '2023-06-03',
+    starwars: '2023-06-03',
 }
 
 const seriesOptions = [
     ['Marvel Cinematic Universe', 'marvel'],
-    // ['Star Wars', 'starwars']
+    ['Star Wars', 'starwars']
 ]
 
 let pageLoads = false;
@@ -37,7 +38,7 @@ function loadDataJS() {
         if (!isDev) {
             mainJS.setAttribute("src", `/${urlPage}/${urlPage}.js?${timestamp[urlPage]}`);
         } else {
-            mainJS.setAttribute("src", `${thisDots}/${urlPage}.js?${timestamp[urlPage]}`);
+            mainJS.setAttribute("src", `${baseDots}/${urlPage}/${urlPage}.js?${timestamp[urlPage]}`);
         }
         
         initialScript.append(mainJS);
@@ -46,7 +47,7 @@ function loadDataJS() {
         if (!isDev) {
             dataJS.setAttribute("src", `/${urlPage}/data-${urlPage}.js?${timestamp[urlPage]}`);
         } else {
-            dataJS.setAttribute("src", `${thisDots}/data-${urlPage}.js?${timestamp[urlPage]}`);
+            dataJS.setAttribute("src", `${baseDots}/${urlPage}/data-${urlPage}.js?${timestamp[urlPage]}`);
         }
     
         initialScript.append(dataJS);

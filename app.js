@@ -49,10 +49,10 @@ for (let i=0; i<seriesOptions.length; i++) {
     if (seriesOptions[i][0] != pageName) {
         seriesList += `<li><a href="/${seriesOptions[i][1]}">${seriesOptions[i][0]}</a></li>`;
     }
-    if (seriesList == '') {
-        seriesList = "<li>Coming soon!</li>";
-    }
 }
+// if (seriesList == '') {
+//     seriesList = "<li>Coming soon!</li>";
+// }
 
 
 // Header template
@@ -106,6 +106,8 @@ const chronologicalInput = `<input type="radio" id="chronological" name="order" 
 <label for="chronological">Chronological Order</label>`;
 const narrativeInput = `<input type="radio" id="narrative" name="order" value="narrative">
 <label for="narrative">Narrative Order</label>`;
+const specialInput = `${orderOptions.special ? `<input type="radio" id="special" name="order" value="special">
+<label for="special">${capitalizeFirstLetter(specialOrderName)} Order</label>` : ''}`;
 const alphabeticalInput = `<input type="radio" id="alphabetical" name="order" value="name">
 <label for="alphabetical">Alphabetical Order</label>`;
 
@@ -128,6 +130,7 @@ main.innerHTML = `<div id="navbarcontainer"><button id="navbarbutton" ${getGloba
                         ${orderOptions.release ? releaseInput : ''}
                         ${orderOptions.chronological ? chronologicalInput : ''}
                         ${orderOptions.narrative ? narrativeInput : ''}
+                        ${orderOptions.special ? specialInput : ''}
                         ${orderOptions.alphabetical ? alphabeticalInput : ''}
                     </div>
                 </div>
@@ -266,9 +269,20 @@ if (!selectionOptionDescription.chooseNarrative) {
     selectionOptionDescription.chooseNarrative = `Choose this option to experience the events of ${seriesName} in a sequence specially crafted to enhance the overall narrative.`
 }
 if (!selectionOptionDescription.recommendNarrative) {
-    selectionOptionDescription.recommendNarrative = orderRec.narrativeRec != undefined && orderRec.narrativeFeeling ? firstTime(orderRec.narrativeRec, orderRec.releaseFeeling) : '';
+    selectionOptionDescription.recommendNarrative = orderRec.narrativeRec != undefined && orderRec.narrativeFeeling ? firstTime(orderRec.narrativeRec, orderRec.narrativeFeeling) : '';
 }
 selectionOptionDescription.narrative += " " + selectionOptionDescription.chooseNarrative + " " + selectionOptionDescription.recommendNarrative;
+
+if (!selectionOptionDescription.special) {
+    selectionOptionDescription.special = `A special "${orderOptions.special ? specialOrderName : ''}" order.`
+}
+if (!selectionOptionDescription.chooseSpecial) {
+    selectionOptionDescription.chooseSpecial = `Choose this option to experience the events in a sequence specially crafted according to the ${orderOptions.special ? specialOrderName : ''} order.`
+}
+if (!selectionOptionDescription.recommendSpecial) {
+    selectionOptionDescription.recommendSpecial = orderRec.specialRec != undefined && orderRec.specialFeeling ? firstTime(orderRec.specialRec, orderRec.specialFeeling) : '';
+}
+selectionOptionDescription.special += " " + selectionOptionDescription.chooseSpecial + " " + selectionOptionDescription.recommendSpecial;
 
 if (!selectionOptionDescription.name) {
     selectionOptionDescription.name = `Alphabetical order, intended to more easily find a specific entry but <em>not</em> intended as an order for ${progressiveVerb}.`
@@ -730,6 +744,7 @@ function populateInitialContent() {
     const orderExplanations = `${orderOptions.release ? '<p><strong>Release Order:</strong> ' + selectionOptionDescription.release + '</p>' : ''}
     ${orderOptions.chronological ? '<p><strong>Chronological Order:</strong> ' + selectionOptionDescription.chronological + '</p>' : ''}
     ${orderOptions.narrative ? '<p><strong>Narrative Order:</strong> ' + selectionOptionDescription.narrative + '</p>' : ''}
+    ${orderOptions.special ? '<p><strong>' + capitalizeFirstLetter(specialOrderName) + ' Order:</strong> ' + selectionOptionDescription.special + '</p>' : ''}
     ${orderOptions.alphabetical ? '<p><strong>Alphabetical Order:</strong> ' + selectionOptionDescription.name + '</p>' : ''}`;
 
     // "Spoiler Settings" section
@@ -1296,24 +1311,25 @@ function populateWhyContent(entry) {
     // let whyPlacementContent = noInfo;
     let whyPlacementContent = '';
     let whyPlacementType = '';
+    const invidualEntryPageInfo = `<p>You are on the individual page for <entry code="self"></entry>. See the <a href="/${urlPage}?entry=${entry.code}">primary page for ${seriesName}</a> for the full ordering functionality of ${siteName}.</p>`;
 
     function aggregateWhyContent(entry, orderType, entryContent) {
-        if (orderType.checked || isIndividualEntryPage) {
+        if (entry[entryContent] && (orderType.checked || isIndividualEntryPage)) {
             whyPlacementContent += `${isIndividualEntryPage ? '<h4>' + capitalizeFirstLetter(orderType.value) + '</h4>' : ''}
-            <p>${entry[entryContent] ? entry[entryContent] : ''}</p>`;
+            ${entry[entryContent] ? '<p>' + entry[entryContent] + '</p>' : ''}`;
         }
-        if (orderType.checked) {
+        if (entry[entryContent] && orderType.checked) {
             whyPlacementType = capitalizeFirstLetter(orderType.value);
         }
     }
 
     if ((!release.checked && !alphabetical.checked) || isIndividualEntryPage) {
-        if (isIndividualEntryPage) { whyPlacementContent += `<p>You are on the <entry code="self"></entry> individual page. See the <a href="/${urlPage}">primary page for ${seriesName}</a> for the full ordering functionality of ${siteName}.</p>` }
+        if (isIndividualEntryPage) { whyPlacementContent += invidualEntryPageInfo }
         if (chronological) { aggregateWhyContent(entry, chronological, "whychron"); }
         if (narrative) { aggregateWhyContent(entry, narrative, "whynar"); }
     }
 
-    if (whyPlacementContent == '') {
+    if (whyPlacementContent == '' || whyPlacementContent == invidualEntryPageInfo) {
         whyPlacementHeading.textContent = '';
         whyPlacement.innerHTML = '';
     } else {
@@ -1700,7 +1716,7 @@ function getGlobalInfo(infoType) {
 function identifyBaseOrEntryPage() {
     isInitialPageLoad = false;
     if (isDev) {
-        urlPieces = ["com", "marvel", "iron-man-34"];
+        urlPieces = ["com", "starwars", "phantom-menace-4"];
     }
     
     if (urlPieces.length > 2) {

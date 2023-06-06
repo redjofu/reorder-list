@@ -35,6 +35,20 @@
     --link-color-hover: #03b3c6;
     --link-color-click: #5c2600;
 
+    /* Color Scheme 4 */
+    --color-1: #222222;
+    --color-2: #cc0000;
+    --color-3: #f9f9f9;
+    --color-4: #e4e4e4;
+    --color-5: #adadad;
+    --link-color: #cc0000;
+    --link-color-hover: #990000;
+    --link-color-click: #820000;
+
+
+    --header-text-color: white;
+    --header-graphic-filter: invert(100%);
+
     --sidebar-padding: 15px;
     --sidebar-width: 269px;
     --content-max-width: 900px;
@@ -95,14 +109,19 @@ hr {
 }
 
 header {
+    color: var(--header-text-color);
     background-color: var(--color-2);
     width: 100%;
     height: var(--header-height);
 }
 
 header a, header a:hover, header a:active, header a:focus {
-    color: var(--color-1);
+    color: var(--header-text-color);
     text-decoration: none;
+}
+
+header img {
+    filter: var(--header-graphic-filter);
 }
 
 #header {
@@ -235,6 +254,7 @@ input, label, button, #entrylist img {
 #entrylist img:hover, #entrylist img:active {
     /* filter: brightness(120%) saturate(120%); */
     transform: scale(1.05);
+    background-image: radial-gradient(farthest-side, rgba(0,0,0,.1) 50%, rgba(0,0,0,0) 100%);
 }
 
 .iconlist li img:hover, .iconlist li img:active {
