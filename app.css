@@ -26,14 +26,14 @@
     --link-color-click: #004e89; */
 
     /* Color Scheme 3 */
-    --color-1: #222222;
+    /* --color-1: #222222;
     --color-2: #89d5dd;
     --color-3: #f9f9f9;
     --color-4: #ffd9bd;
     --color-5: #ffb179;
     --link-color: #AD4800;
     --link-color-hover: #03b3c6;
-    --link-color-click: #5c2600;
+    --link-color-click: #5c2600; */
 
     /* Color Scheme 4 */
     --color-1: #222222;
@@ -235,7 +235,6 @@ main, #header {
     margin: 0;
     padding: var(--explanation-padding);
     height: var(--explanation-height);
-    /* background-color: rgba(255, 255, 255, 0.5); */
     background-color: var(--color-5);
 }
 
