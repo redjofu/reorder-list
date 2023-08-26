@@ -729,7 +729,8 @@ function populateInitialContent() {
 
     // Opening paragraph
     const initialOpening = `<h2 id="initialtitle">Welcome, ${greetingsName ? greetingsName : 'Friend'}!</h2>
-    <p>If you're looking for the best order to ${infinitiveVerb} ${seriesName}, ${siteName} has you covered! The selection bar on the right allows you to customize what you want to see. The navigation bar on the left restructures itself as you pick your preferred order, and you can select individual entries for more details.</p>`;
+    <p>If you're looking for the best order to ${infinitiveVerb} ${seriesName}, ${siteName} has you covered! The selection bar on the right allows you to customize what you want to see. The navigation bar on the left restructures itself as you pick your preferred order, and you can select individual entries for more details.</p>
+    <p>${pageName} data on ${siteName} last updated: ${timestamp[urlPage]}</p>`;
 
     // "Types of Entires" section
     let typeExplanations = '';

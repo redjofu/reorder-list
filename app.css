@@ -283,8 +283,6 @@ input, label, button, #entrylist img {
     height: 15px;
     border: 2px solid var(--color-1);
     border-radius: 0;
-    /* Adjusts the position of the checkboxes on the text baseline */
-    /* vertical-align: -2px; */
     /* Set here so that Windows' High-Contrast Mode can override */
     color: var(--color-1);
 }
