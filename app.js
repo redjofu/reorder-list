@@ -1004,7 +1004,8 @@ function parseDate(dateString) {
         const dateArray = dateString.split("-");
         
         let formattedMonth;
-        if (dateArray[1] == "01") { formattedMonth = "Jan" }
+        if (dateArray[1]) {
+            if (dateArray[1] == "01") { formattedMonth = "Jan" }
             else if (dateArray[1] == "02") { formattedMonth = "Feb" }
             else if (dateArray[1] == "03") { formattedMonth = "Mar" }
             else if (dateArray[1] == "04") { formattedMonth = "Apr" }
@@ -1017,8 +1018,16 @@ function parseDate(dateString) {
             else if (dateArray[1] == "11") { formattedMonth = "Nov" }
             else if (dateArray[1] == "12") { formattedMonth = "Dec" }
             else { throw new Error("Couldn't identify entry month") }
-        
-        formattedDate = formattedMonth + " " + dateArray[0];
+        }
+    
+        if (dateArray[2] && formattedMonth) { // If there's also a month and day
+            formattedDate = formattedMonth + " " + dateArray[2] + ", " + dateArray[0];
+        } else if (formattedMonth) { // If there's a month but no day
+            formattedDate = formattedMonth + " " + dateArray[0];
+        } else {
+            formattedDate = dateArray[0]; // Set date as year.
+        }
+
     } catch (error) {
         console.error(error);
     } finally {
