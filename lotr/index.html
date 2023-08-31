@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" ontouchmove> <!-- ontouchmove helps iPhone Safari respond to :hover CSS -->
+    <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0127QYGB0H"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-0127QYGB0H');
+    </script>
+    </head>
+    <body>
+        <header>
+        </header>
+        <main>
+        </main>
+        <footer>
+            <script type="text/javascript" id="initialscript">
+                //<![CDATA[
+                const initialScript = document.getElementById("initialscript");
+
+                const usersDate = new Date();
+                const usersTime = usersDate.getYear().toString() + usersDate.getMonth().toString() + usersDate.getDate().toString();
+
+                // Array of all text in URL after final period, split by slashes
+                let urlPieces = window.document.URL.split(".")[window.document.URL.split(".").length-1].split("/");
+                if (urlPieces[urlPieces.length-1] == '') { urlPieces.pop(); }
+                let urlPage = '';
+                let isDev = false;
+
+                if (urlPieces[0].slice(0,4) == "html") { // Test environment
+                    urlPieces = ["com", "marvel"];
+                    isDev = true;
+                }
+                
+                let baseDots = '';
+                let thisDots = '';
+                for (let i = 0; i < urlPieces.length; i++) { 
+                    baseDots += ".";
+                    if (i != 0) { thisDots +=  "."; }
+                }
+
+                if (!isDev) {
+                    baseDots = '';
+                }
+
+                let isHTMLTest = false;
+                // isHTMLTest = true;
+
+                const timestampScript = document.createElement("script");
+                if (!isDev) {
+                    timestampScript.setAttribute("src", `/check-update.js?${usersTime}`);
+                } else {
+                    timestampScript.setAttribute("src", `${baseDots}/check-update.js?${usersTime}`);
+                }
+                
+                initialScript.append(timestampScript);
+                
+                if (urlPieces.length > 1) { // Anything other than root
+                    urlPage = urlPieces[1];
+                } else { // What happens if it's in root
+                    urlPage = "root";
+                }
+                //]]>
+            </script>
+        </footer>
+    </body>
+</html>
