@@ -4,6 +4,7 @@ const timestamp = {
     root: '2023-06-03',
     marvel: '2023-06-03',
     starwars: '2023-06-03',
+    lotr: '2023-08-31',
 }
 
 const seriesOptions = [

@@ -94,9 +94,9 @@ const officialSite = {
 }
 
 const wiki = {
-    url: "https://starwars.fandom.com/wiki/",
+    url: "https://lotr.fandom.com/wiki/",
     icon: "fandom.png",
-    description: "Wookieepedia"
+    description: "One Wiki to Rule Them All"
 }
 
 const cloneWarsChronLink = `The official chronological order for <em>the Clone Wars</em> <a href="https://www.starwars.com/news/star-wars-the-clone-wars-chronological-episodeorder">can be found at StarWars.com</a>.`;
