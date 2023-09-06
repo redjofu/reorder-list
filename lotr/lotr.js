@@ -88,9 +88,9 @@ const orderRec = {
 
 // Series-specific details
 const officialSite = {
-    url: "https://www.starwars.com/",
-    icon: "starwars.png",
-    description: "Official Star Wars Website"
+    url: "",
+    icon: "official.png",
+    description: "Official Website"
 }
 
 const wiki = {

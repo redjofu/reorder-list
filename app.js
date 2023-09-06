@@ -1055,7 +1055,8 @@ function parseLength(entry) {
 const iconFilePath = `${baseDots}/icons/`;
 const disneyPlusIcon = "disneyplus.png";
 const netflixIcon = "netflix.jpeg";
-const hboMaxIcon = "hbomax.jpeg";
+const hboMaxIcon = "max.jpg";
+const huluIcon = "hulu.jpg";
 const starzIcon = "starz.webp";
 const primeVideoIcon = "primevideo.jpeg";
 const vuduIcon = "vudu.jpeg";
@@ -1075,7 +1076,8 @@ function populateWhereToFind(entry) {
     <ul class="iconlist">
     ${entry.disneyplus ? '<li><a href="https://www.disneyplus.com/' + entry.disneyplus + '"><img src="' + iconFilePath + disneyPlusIcon + '" alt="Disney+"></a></li>' : ''}
     ${entry.netflixstream ? '<li><a href="https://www.netflix.com/title/' + entry.netflix + '"><img src="' + iconFilePath + netflixIcon + '" alt="Netflix"></a></li>' : ''}
-    ${entry.hbomax ? '<li><a href="https://www.max.com/' + entry.hbomax + '"><img src="' + iconFilePath + hboMaxIcon + '" alt="HBO Max"></a></li>' : ''}
+    ${entry.hbomax ? '<li><a href="https://www.max.com/' + entry.hbomax + '"><img src="' + iconFilePath + hboMaxIcon + '" alt="Max"></a></li>' : ''}
+    ${entry.hulu ? '<li><a href="https://www.hulu.com/' + entry.hulu + '"><img src="' + iconFilePath + huluIcon + '" alt="Hulu"></a></li>' : ''}
     ${entry.starz ? '<li><a href="https://www.starz.com/' + entry.starz + '"><img src="' + iconFilePath + starzIcon + '" alt="Starz"></a></li>' : ''}
     ${entry.primevideo ? '<li><a href="https://www.amazon.com/gp/video/detail/' + entry.primevideo + '"><img src="' + iconFilePath + primeVideoIcon + '" alt="Prime Video"></a></li>' : ''}
     ${entry.vudu ? '<li><a href="https://www.vudu.com/content/movies/details/' + entry.code + '/' + entry.vudu + '"><img src="' + iconFilePath + vuduIcon + '" alt="Vudu Fandango"></a></li>' : ''}
