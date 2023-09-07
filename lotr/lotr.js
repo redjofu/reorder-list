@@ -1,7 +1,7 @@
-const seriesName = "Star Wars";
+const seriesName = "the Lord of the Rings";
 const pageTitle = `Best Order to Watch ${seriesName}`;
-const pageName = "Star Wars";
-const pageNameMobile = "Star Wars";
+const pageName = "Lord of the Rings";
+const pageNameMobile = "LotR";
 
 // How to describe the people who consume the media in question (e.g. "viewers," "readers," "gamers")
 const userType = "viewers";
