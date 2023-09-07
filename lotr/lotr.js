@@ -7,7 +7,7 @@ const pageNameMobile = "LotR";
 const userType = "viewers";
 const progressiveVerb = "watching";
 const infinitiveVerb = "watch";
-const greetingsName = "Jedi"
+const greetingsName = "Elf"
 
 // How to describe how someone might view the media in "tailer" or "blurb" form
 const blurbVerb = "watching a trailer";
@@ -16,17 +16,14 @@ const blurbVerb = "watching a trailer";
 const mediaCreators = "filmmakers";
 
 // Example of a subseries
-const subseriesExample = "New Republic";
+const subseriesExample = "The Hobbit";
 
 // Type of image being used
 const imageType = "poster";
 
 const typeOptions = [
     ["Films", "films"],
-    ["TV Series", "tvseries"],
-    ["Animation", "animation"],
-    ["Jr. Animation", "jranimation"],
-    ["Shorts", "shorts"]
+    ["TV Series", "tvseries"]
 ]
 
 const orderOptions = {
