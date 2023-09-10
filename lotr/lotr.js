@@ -42,8 +42,8 @@ const sagaNames = false;
 // Text that appears when a selection input is clicked
 const selectionOptionDescription = {
     // Type inputs
-    films: `Theatrical films, including the Skywalker Saga ("episodes") and anthology films.`,
-    tvseries: `Live-action series produced for Disney+, such as <em>The Mandalorian</em>.`,
+    films: `Theatrical films, the <em>Hobbit</em> and <em>Lord of the Rings</em> trilogies.`,
+    tvseries: `Live-action series, specifically <em>The Rings of Power</em>.`,
 
 
 
