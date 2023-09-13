@@ -48,8 +48,8 @@ const selectionOptionDescription = {
 
 
     // Order inputs
-    chronological: `The order according to when the core events for each entry occur within the overarching story of the Star Wars galaxy. For times when there is uncertainty within the narratives themselves, statements from filmmakers and obscure details help clarify this order. (Thanks to <a href="https://starwars.fandom.com/wiki/Main_Page">Wookieepedia</a>!) Note that non-canon entries like <em>Star Wars Visions</em> are not included.`,
-    recommendChronological: `Since Star Wars is a series that constantly builds upon previous entries through prequel stories, watching in chronological order <strong><em>is not</em></strong> recommended for first-time viewers as doing so <strong><em>will</em></strong> spoil significant plot twists. However, chronological order can be an acceptable first-time viewing order if there is a compelling reason to do so; it's just not recommended for most.`,
+    chronological: `The order according to when the core events for each entry occur within the history of Middle-earth.`,
+    recommendChronological: `The release order for the live-action screen adapations is different than the book publishing order. Because of this, watching <em>The Lord of the Rings</em> films before <em>The Hobbit</em> films is the preferred narrative order, though beginning with <em>The Hobbit</em> since it is chronologically earlier is also acceptable. However, watching <em>The Rings of Power</em> first will not be as meaningful even though it takes place first chronologically.`,
     narrative: `An order I think offers good narrative structure for viewers (including those watching for the first time), primarily built around continuing related plot threads.`,
 
     // Spoiler inputs
@@ -58,8 +58,8 @@ const selectionOptionDescription = {
 const orderRec = {
     releaseRec: true,
     releaseFeeling: "good",
-    // chronologicalRec: false,
-    // chronologicalFeeling: "not recommended",
+    chronologicalRec: false,
+    chronologicalFeeling: "not recommended",
     // narrativeRec: true,
     // narrativeFeeling: "excellent"
 }
