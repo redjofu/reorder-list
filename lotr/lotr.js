@@ -60,8 +60,8 @@ const orderRec = {
     releaseFeeling: "good",
     chronologicalRec: false,
     chronologicalFeeling: "not recommended",
-    // narrativeRec: true,
-    // narrativeFeeling: "excellent"
+    narrativeRec: true,
+    narrativeFeeling: "good"
 }
 
 
