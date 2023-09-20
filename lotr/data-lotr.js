@@ -1,5 +1,5 @@
 const characters = {
-    lukeskywalker:{name:"Luke Skywalker",fullname:"",alias:"",gender:"m",nationality:"Tatooine",species:"human",race:"white",profession:"Jedi",},
+    frodo:{name:"Frodo",fullname:"Frodo Baggins",alias:"",gender:"m",nationality:"Shirefolk",species:"hobbit",race:"",profession:"",},
 }
 
 const subseries = {
