@@ -3,7 +3,9 @@ const characters = {
 }
 
 const subseries = {
-    dawnjedi:{name:`Dawn of the Jedi`,},
+    lotr:{name:`The Lord of the Rings`,},
+    hobbit:{name:`The Hobbit`,},
+    ringspower:{name:`The Rings of Power`,},
 }
 
 const entries = [
