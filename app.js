@@ -1084,7 +1084,6 @@ function populateWhereToFind(entry) {
     ${entry.appletv ? '<li><a href="https://tv.apple.com/' + entry.appletv + '"><img src="' + iconFilePath + appleTVIcon + '" alt="Apple TV"></a></li>' : ''}
     ${entry.googleplay ? '<li><a href="https://play.google.com/store/' + entry.googleplay + '"><img src="' + iconFilePath + googlePlayIcon + '" alt="Google Play"></a></li>' : ''}
     ${entry.redbox ? '<li><a href="https://www.redbox.com/movies/' + entry.redbox + '"><img src="' + iconFilePath + redboxIcon + '" alt="Redbox"></a></li>' : ''}
-    ${entry.netflixdvd ? '<li><a href="https://dvd.netflix.com/Movie/' + entry.netflix + '"><img src="' + iconFilePath + netflixDVDIcon + '" alt="DVD.com &ndash; a Netflix Company"></a></li>' : ''}
     ${entry.disc ? '<li><a href="https://www.amazon.com/s?k=' + prepForURL(entry.name) + '&i=movies-tv&rh=n%3A2625373011%2Cp_n_format_browse-bin%3A2650304011%7C2650305011%7C9397930011"><img src="' + iconFilePath + amazonIcon + '" alt="Search Amazon"></a></li>' : ''}
     ${entry.disc ? '<li><a href="https://www.walmart.com/search?q=' + prepForURL(entry.name) + '+blu-ray&catId=4096"><img src="' + iconFilePath + walmartIcon + '" alt="Search Walmart"></a></li>' : ''}
     ${entry.disc ? '<li><a href="https://www.target.com/s?searchTerm=' + prepForURL(entry.name) + '&category=5xsxe&facetedValue=cz41e"><img src="' + iconFilePath + targetIcon + '" alt="Search Target"></a></li>' : ''}
