@@ -1,10 +1,10 @@
 const timestamp = {
-    base: '2023-08-26',
+    base: '2023-10-02', // app.js
     css: '2023-06-03',
     root: '2023-06-03',
     marvel: '2023-06-03',
     starwars: '2023-06-03',
-    lotr: '2023-08-31',
+    lotr: '2023-09-28',
 }
 
 const seriesOptions = [
