@@ -3,7 +3,7 @@ const timestamp = {
     css: '2023-06-03',
     root: '2023-06-03',
     marvel: '2023-10-04',
-    starwars: '2023-10-04',
+    starwars: '2023-10-11',
     lotr: '2023-09-28',
 }
 
