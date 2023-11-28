@@ -2,7 +2,7 @@ const timestamp = {
     base: '2023-11-14', // app.js
     css: '2023-06-03',
     root: '2023-06-03',
-    marvel: '2023-10-04',
+    marvel: '2023-11-27',
     starwars: '2023-10-11',
     lotr: '2023-09-28',
 }
