@@ -1,4 +1,5 @@
 RewriteEngine on
 RewriteCond %{HTTPS} off
-RewriteRule (.*) https://diverseorders.com/$1 [R,L]
+#RewriteRule (.*) https://diverseorders.com/$1 [R,L]
+RewriteRule (.*) https://diverseorders.pages.dev/$1 [R,L]
 RewriteRule ^[^.]*$ index.html
